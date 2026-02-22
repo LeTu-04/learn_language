@@ -1,0 +1,153 @@
+.layout {
+    display: grid;
+    height: 100vh;
+    transition: all 0.3s ease;
+}
+
+.layout.sidebaropen {
+    grid-template-columns: 250px 1fr 320px;
+}
+
+.layout.sidebarclose {
+    grid-template-columns: 1fr 320px;
+}
+
+.sidebar {
+    background: #f0f4ff;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+}
+
+.main {
+  padding: 30px;
+  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 20px;
+}
+
+.addwordpanel {
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 20px;
+  border-left: 1px solid #ddd;
+}
+
+.formsubmit {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #333;
+}
+
+.form-group input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #4a90e2;
+}
+
+.buttonSubmit {
+  padding: 12px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+.buttonSubmit:hover {
+  background-color: #357abd;
+}
+.buttonToogleSidebar {
+  max-width: 30px;
+  border-radius: 5px;
+  background-color: rgb(73, 125, 209);
+  cursor: pointer;
+  border: none;
+  box-shadow: 2px 2px black;
+}
+
+.buttonToogleSidebar:hover {
+  transform: scale(1.2);
+  background-color: rgb(81, 151, 212);
+}
+
+.card {
+  overflow-wrap: break-word;
+  word-break: break-all;
+
+  height: auto;
+  padding: 5px;
+  background: white;
+  color: black;
+  max-width: 100%;
+  width: 70%;
+  height: auto;
+  text-align: left;
+  align-self: flex-start;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  box-shadow: 5px 5px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 8px;
+}
+
+.word {
+  border-bottom: 1px solid black;
+  margin-top: 12px;
+  padding-bottom: 8px;
+}
+
+.meaning {
+  border-bottom: 0.5px solid black;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+}
+
+.card h3, 
+.card p {
+  margin: 0; 
+}
+
+.example {
+  color : rgb(47, 130, 207)
+}
+.buttonSidebar {
+  background-color: rgba(106, 167, 239);
+  height: 30px;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 2px 2px rgb(49, 67, 184);
+  cursor: pointer;
+  font-weight: bold;
+  font-family: system-ui;
+  color: white;
+}
+
+.buttonSidebar:hover {
+  background-color: rgb(140, 187, 240);
+  box-shadow: 2px 2px white;
+}
