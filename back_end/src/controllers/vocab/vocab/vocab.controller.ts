@@ -11,7 +11,7 @@ export class VocabController {
     constructor(readonly vocab : VocabService){}
     @Post()
     async create(
-        @Body() data : vocab.Vocabulary[]
+        @Body() data : vocab.CreateVocabularyDto
     ) {
         await this.vocab.create(data);
         return {

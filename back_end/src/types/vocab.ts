@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString } from "class-validator"
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator"
 
 export class CreateCategoryDto {
     @IsNotEmpty()
@@ -13,5 +13,15 @@ export class CreateVocabularyDto {
     @IsNotEmpty()
     mean! : string
     @IsOptional()
-    exaple! : string
+    example! : string
+    @IsNotEmpty()
+    @IsNumber()
+    categoryId!: number 
+}
+
+export class updateCategory {
+    @IsOptional()
+    @IsString()
+    @IsNotEmpty()
+    name? : string
 }

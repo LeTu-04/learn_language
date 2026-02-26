@@ -6,10 +6,10 @@ import { CreateVocabularyDto } from '../../../types/vocab';
 export class VocabService {
     constructor(private readonly prisma : PrismaService){}
 
-    async create(data : CreateVocabularyDto[]) {
+    async create(data : CreateVocabularyDto) {
         try {
-            const vocabulary = await this.prisma.vocabulary.createMany({
-                data : data
+            const vocabulary = await this.prisma.vocabulary.create({
+                data
             });
             return vocabulary;
         } catch (error) {

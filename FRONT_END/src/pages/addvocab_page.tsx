@@ -154,15 +154,14 @@ export default function AddVocabPage () {
         console.log(isSidebarOpen);
     }
 
-    const handleAdd = () => {
-
-    }
+  
     return (
 
         <div className={`layout ${isSidebarOpen ? "sidebaropen" : "sidebarclose"}`} >
-            {isSidebarOpen && <SideBar/>}
+            {/* {isSidebarOpen && <SideBar/>} */}
+            <SideBar/>
             <MainContent toogleSidebar={handleToogleSideBar}></MainContent>
-            <Panel onAdd={handleAdd}/>
+            <Panel/>
         </div>
     )
 }
