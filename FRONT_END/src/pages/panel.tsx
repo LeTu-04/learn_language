@@ -1,9 +1,12 @@
 import type React from "react"
 import { useState } from "react";
 import { logger } from "../../utils/logger";
+import { useAppSelector } from "../hooks/hook";
 
 
 export default function Panel () {
+
+    const selectedCategory =  useAppSelector((state) => state.Category.selectedCategory);
     const [formData, setFormData] = useState({
         word : '',
         mean : '',

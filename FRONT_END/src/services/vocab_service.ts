@@ -3,6 +3,8 @@
 // import axios, { type AxiosInstance } from 'axios'
 
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import type { PostVocabularyArg, VocabularyPostToSever, VocabularyResponse,} from "../types/vocabulary";
+import axios from "axios";
 
 // export class VocabService {
 //     private apiClient : AxiosInstance;
@@ -30,6 +32,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 // export const vocabService = new VocabService();
 
+export const apiClient = axios.create({
+    baseURL : 'http://localhost:3000',
+    timeout : 10000,
+    headers : {
+        'Content-Type' : 'application/json'
+    }
+})
 
 export const fetchVocabularyByCategory = createAsyncThunk('Vocabulary/fetchVocabularyByCategory',
     async() => {
@@ -37,8 +46,9 @@ export const fetchVocabularyByCategory = createAsyncThunk('Vocabulary/fetchVocab
     }
 );
 
-export const postVocabularyByCategory = createAsyncThunk('Vocabulary/postVocabularyByCategory',
-    async({}) => {
-
+export const postVocabularyByCategory = createAsyncThunk<VocabularyResponse,PostVocabularyArg>('Vocabulary/postVocabularyByCategory',
+    async({id, data}) => {
+        const response = await apiClient.post(`Category/${id}/vocabularies`,data);
+        return response.data.data ;
     }
 )
