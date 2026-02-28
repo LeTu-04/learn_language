@@ -15,6 +15,10 @@
     word-break: break-word; */
 }
 
+.Category.currentCategory {
+    background-color: blue;
+}
+
 .Category h3 {
     flex: 1;
     min-width: 0;

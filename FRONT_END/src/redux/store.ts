@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import categoryReucer from "../components/Category/categorySlice";
+import { vocabularyReducer } from '../components/vocabulary/vocabularySlice';
 
 export const store = configureStore({
     reducer : {
-        Category : categoryReucer
+        Category : categoryReucer,
+        Vocabulary : vocabularyReducer
     }
 })
 

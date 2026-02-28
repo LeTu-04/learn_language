@@ -3,7 +3,7 @@
 // import axios, { type AxiosInstance } from 'axios'
 
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import type { PostVocabularyArg, VocabularyPostToSever, VocabularyResponse,} from "../types/vocabulary";
+import type { PostVocabularyArg, VocabularyFetch, VocabularyResponse,} from "../types/vocabulary";
 import axios from "axios";
 
 // export class VocabService {
@@ -37,18 +37,31 @@ export const apiClient = axios.create({
     timeout : 10000,
     headers : {
         'Content-Type' : 'application/json'
-    }
+    },
+    
+    
 })
 
-export const fetchVocabularyByCategory = createAsyncThunk('Vocabulary/fetchVocabularyByCategory',
-    async() => {
-        
+export const fetchVocabularyByCategory = createAsyncThunk<VocabularyResponse[], number>('Vocabulary/fetchVocabularyByCategory',
+    async(id : number) => {
+        const response = await apiClient.get<VocabularyFetch>(`Category/${id}/vocabularies`);
+        return response.data.data.vocabulary ;
     }
 );
 
-export const postVocabularyByCategory = createAsyncThunk<VocabularyResponse,PostVocabularyArg>('Vocabulary/postVocabularyByCategory',
+export const postVocabularyByCategory = createAsyncThunk<{vocabulary : VocabularyResponse, countVocabulary : number},PostVocabularyArg>('Vocabulary/postVocabularyByCategory',
     async({id, data}) => {
-        const response = await apiClient.post(`Category/${id}/vocabularies`,data);
+        const response = await apiClient.post(`Category/${id}/vocabularies`,data,);
         return response.data.data ;
+    }
+)
+
+export const deleteVocabularyByCategory = createAsyncThunk<{categoryId : number, vocabularyId : number}, {categoryId : number, vocabularyId : number}>('Vocabulary/deleteVocabularyByCategory',
+    async({categoryId, vocabularyId}) => {
+        await apiClient.delete(`Category/${categoryId}/vocabularies/${vocabularyId}`);
+        return {
+            categoryId,
+            vocabularyId
+        }
     }
 )

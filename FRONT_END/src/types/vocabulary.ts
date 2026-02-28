@@ -1,5 +1,8 @@
+
+
 export interface VocabularyState {
-    Vocabulary : VocabularyUI[],
+    items : VocabularyItem[],
+    count : number,
     loading : boolean,
     error : string | null
 }
@@ -20,10 +23,25 @@ export interface VocabularyResponse {
     word : string,
     mean : string,
     example? : string,
-    categoryId : number
+    categoryId : number,
+    createdAt? : string ,
+    deletedAt? : string | null 
+
 }
 
-export interface VocabularyUI extends VocabularyResponse {
-    requestId? : string,
-    isOptimistic? : boolean
+export interface VocabularyItem extends VocabularyResponse {
+    isLoading? : boolean,
+    requestId? : string
+}
+
+
+
+export interface VocabularyFromServer {
+    vocabulary : VocabularyResponse[]
+}
+
+export interface VocabularyFetch {
+    message : string,
+    data : VocabularyFromServer,
+    STATUS_CODES : number
 }

@@ -8,5 +8,5 @@ export class CreateVocabularyDto {
     @IsNotEmpty()
     mean! : string
     @IsOptional()
-    example! : string
+    example? : string
 }

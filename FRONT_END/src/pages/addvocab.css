@@ -1,6 +1,6 @@
 .layout {
   display: grid;
-  height: 100vh;
+  height: 95vh;
   transition: grid-template-columns 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -16,7 +16,7 @@
   background-color: whitesmoke;
   overflow: hidden;
   padding: 20px;
-
+  border-radius: 12px;
 
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
               opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -31,9 +31,9 @@
 
 .main {
   padding: 30px;
-  overflow-y: auto;
-
-  /* display: flex; */
+  overflow: hidden;
+  display: flex; 
+  /* height: 95vh; */
   flex-direction: column;
   align-items: stretch;
   gap: 20px;

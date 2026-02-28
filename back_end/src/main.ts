@@ -6,8 +6,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
     origin : 'http://localhost:5173',
-    credential : true,
-    methods : 'GET,HEAD,PUT,PATCH,POST,DELETE'
+   // credentials : true,
+    methods : 'GET,HEAD,PUT,PATCH,POST,DELETE',
+   // allowedHeaders: ['Content-Type', 'Authorization'],
   });
   app.useGlobalPipes(new ValidationPipe({
     transform: true,            // Tự động chuyển đổi dữ liệu sang kiểu trong DTO (vd: string "1" -> number 1)

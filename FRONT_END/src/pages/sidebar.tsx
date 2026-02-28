@@ -84,10 +84,10 @@ export default function SideBar () {
         <button className="buttonSidebar" onClick={handleClickAddCategory}>+ New Category</button>
         {
             category.map((cat) => 
-            {
+            {   const currentTarget = selectedCategoryId === cat.id ;
                 const categoryId = inputUpdateId === cat.id;
                 return (
-                    <div key={cat.id} className="Category" onClick={() => handleClickChooseCategory(cat)}>
+                    <div key={cat.id} className={`Category ${currentTarget ? "currentCategory" : ""} `} onClick={() => handleClickChooseCategory(cat)}>
                     {categoryId ? <input type="text" className="category-edit-input"
                     defaultValue={cat.name} 
                     autoFocus
