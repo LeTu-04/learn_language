@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 import { fetchCategory, postCategory } from "../../services/category"
-import type { CategoryState } from "../../types/category"
+import type { CategoryState } from "./category.type"
 
 
 
@@ -50,7 +50,7 @@ const CategorySlice = createSlice({
             state.loading = true
         }).addCase(postCategory.fulfilled, (state, action) => {
             state.loading = false,
-            state.Category.push(action.payload)
+            state.Category.unshift(action.payload)
             console.log(action.payload)
         }).addCase(postCategory.rejected, (state, action) => {
             state.loading = false;

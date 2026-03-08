@@ -130,10 +130,35 @@
   gap: 8px;
 }
 
+.vocab_and_voice {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px ;
+}
+
+.buttonVoice {
+  background: none;
+  color: rgb(104, 141, 200);
+  border : none;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: none;
+  border-radius: 50px;
+}
+
+.buttonVoice:hover{
+  background-color: whitesmoke;
+}
+
+
 .word {
   border-bottom: 1px solid black;
   margin-top: 12px;
   padding-bottom: 8px;
+  flex: 1;
+  min-width: 0;
 }
 
 .meaning {

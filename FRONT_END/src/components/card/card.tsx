@@ -1,23 +1,33 @@
 import { useState } from "react";
 import type { VocabularyItem } from "../../types/vocabulary";
 import { Trash2 } from "lucide-react";
+import {Volume2Icon} from "lucide-react"
 
 interface vocabProps {
     vocab : VocabularyItem,
-    onDelete : (id : number) => void
+    onDelete : (id : number) => void,
+    speak : (text : string) => void,
+    ready : boolean
 }
 
-export default function Card ({vocab, onDelete} : vocabProps) {
+export default function Card ({vocab, onDelete, speak, ready} : vocabProps) {
 
+    
     const [isExpanded, setExpanded] = useState<boolean>(false);
     const handleToogleExpande = ()=> {
         setExpanded(prev => !prev);
     }
     return (
         <div className="card">
-            <h3 className="word">
-                {vocab.word}
-            </h3>
+            <div className="vocab_and_voice">
+                <h3 className="word">
+                    {vocab.word}
+                </h3>
+                <button className="buttonVoice" 
+                disabled={!ready} onClick={()=> speak(vocab.word)}>
+                    <Volume2Icon />
+                </button>
+            </div>
             <p className="meaning">
                 {vocab.mean}
             </p>

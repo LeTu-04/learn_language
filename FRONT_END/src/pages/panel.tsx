@@ -30,23 +30,23 @@ export default function Panel () {
 
 
     // chỗ này để test api giọng đọc
-    const speak = (text : string) => {
-        const utterance = new SpeechSynthesisUtterance(text);
+//     const speak = (text : string) => {
+//         const utterance = new SpeechSynthesisUtterance(text);
 
-        const voices = speechSynthesis.getVoices();
-        const englishVoice = voices.find(v =>
-            v.lang === "en-US" && v.name.includes("Google")
-        );
+//         const voices = speechSynthesis.getVoices();
+//         const englishVoice = voices.find(v =>
+//             v.lang === "en-US" && v.name.includes("Google")
+//         );
 
-        if (englishVoice) {
-            utterance.voice = englishVoice;
-        }
+//         if (englishVoice) {
+//             utterance.voice = englishVoice;
+//         }
 
-        utterance.rate = 0.9;
-        utterance.pitch = 1;
+//         utterance.rate = 0.9;
+//         utterance.pitch = 1;
 
-        speechSynthesis.speak(utterance);
-};
+//         speechSynthesis.speak(utterance);
+// };
 
 
 
@@ -54,7 +54,7 @@ export default function Panel () {
     const handleSubmit = (e : React.FormEvent) => {
         e.preventDefault();
 
-        speak('dispose of')
+        // speak('apple')
 
         if(selectedCategory === null) {
             toast.error('Không có category nào được chọn')

@@ -14,6 +14,38 @@ datasource db {
   provider = "postgres"
 }
 
+
+model User {
+  id  String @id @default(uuid())
+  name  String
+  email String?
+  password String?
+  avatarUrl String
+  createdAt DateTime @default(now())
+  deletedAt DateTime?
+  category Category[] 
+  isActive Boolean @default(true)
+  provider Provider[]
+  refreshTokens RefreshToken[]
+  @@index([id])
+}
+
+enum NameProvider {
+  GOOGLE
+  LOCAL
+}
+
+model Provider {
+  id  String @id   @default(uuid())
+  provider NameProvider
+  providerId String 
+  userId String
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([provider, providerId])
+  @@index([userId])
+}
+
 model Category {
   id  Int @id @default(autoincrement())
   name String
@@ -21,6 +53,9 @@ model Category {
   deletedAt DateTime? 
   isDeleted Boolean @default(false)
   vocabulary Vocabulary[]
+
+  userId String
+  user User @relation(fields: [userId], references: [id])
 }
 
 model Vocabulary {
@@ -32,4 +67,16 @@ model Vocabulary {
   example String? 
   createdAt DateTime @default(now())
   deletedAt DateTime?
+
+  @@index([id, categoryId])
+}
+
+model RefreshToken {
+  id String @id @default(uuid())
+  jti String @unique
+  revoked Boolean @default(false)
+  refreshToken String
+  expireAt DateTime
+  userId String
+  user User @relation(fields: [userId], references: [id])
 }

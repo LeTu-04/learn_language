@@ -1,6 +1,6 @@
 
 import { createSlice } from "@reduxjs/toolkit";
-import type { VocabularyState } from "../../types/vocabulary";
+import type { VocabularyState } from "./vocabulary.type";
 import { deleteVocabularyByCategory, fetchVocabularyByCategory, postVocabularyByCategory } from "../../services/vocab_service";
 
 const defaultStateVocabulary : VocabularyState = {

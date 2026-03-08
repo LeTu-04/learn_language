@@ -450,10 +450,6 @@ export type VocabularyUncheckedUpdateManyWithoutCategoryNestedInput = {
   deleteMany?: Prisma.VocabularyScalarWhereInput | Prisma.VocabularyScalarWhereInput[]
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type VocabularyCreateWithoutCategoryInput = {
   word: string
   mean: string

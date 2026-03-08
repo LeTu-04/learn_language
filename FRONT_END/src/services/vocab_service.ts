@@ -3,7 +3,7 @@
 // import axios, { type AxiosInstance } from 'axios'
 
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import type { PostVocabularyArg, VocabularyFetch, VocabularyResponse,} from "../types/vocabulary";
+import type { PostVocabularyArg, VocabularyFetch, VocabularyResponse,} from "../features/vocabulary/vocabulary.type";
 import axios from "axios";
 
 // export class VocabService {

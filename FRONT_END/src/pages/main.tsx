@@ -4,12 +4,14 @@ import { deleteVocabularyByCategory, fetchVocabularyByCategory } from "../servic
 import toast from "react-hot-toast";
 import './main.css'
 import Card from "../components/card/card";
+import { useSpeech } from "../components/voices/voice";
 
 interface MainContentProps {
     toogleSidebar : () => void
 }
 
 export default function MainContent ({toogleSidebar} : MainContentProps) {
+    const {speak, ready} =  useSpeech();
 
     const dispatch = useAppDispatch();
     const Vocabulary = useAppSelector((state) => state.Vocabulary.items);
@@ -17,8 +19,8 @@ export default function MainContent ({toogleSidebar} : MainContentProps) {
     const selectedCategory = useAppSelector((state) => state.Category.selectedCategory);
     const category = useAppSelector((state) => state.Category.Category);
     
-    const getCategoryName = (categoryId : number) => {
-        return category.find((c) => c.id === categoryId)?.name ;
+    const getCategoryName = () => {
+        return category.find((c) => c.id === selectedCategory)?.name;
     }
     useEffect(() => {
         if(!selectedCategory) {
@@ -44,14 +46,19 @@ export default function MainContent ({toogleSidebar} : MainContentProps) {
         <div className="main">
             <div className="headerofcard">
                 <button className="buttonToogleSidebar" onClick={toogleSidebar}>≡</button>
-                <h2 className="CategoryVocabName">Category : {getCategoryName(Vocabulary[0]?.categoryId)}</h2>
-                <p>{`You have ${totalVocabulary} word 💫`}</p>
+                <h2 className="CategoryVocabName">Category : {getCategoryName()}</h2>
+                <p>{`You have ${totalVocabulary} word `}</p>
             </div>
            <div className="vocabulary-list">
                  {
                 Vocabulary.map((v) => {
                     return (
-                        <Card key={v.id} onDelete={() => handleClickRemoveVocabulary(v.categoryId, v.id)} vocab={v}/>
+                        <Card key={v.id} 
+                        onDelete={() => handleClickRemoveVocabulary(v.categoryId, v.id)} 
+                        vocab={v}
+                        speak={speak}
+                        ready={ready}
+                        />
                     )
                 })
             }

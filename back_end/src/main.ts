@@ -1,15 +1,19 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module.js';
 import { ValidationPipe } from '@nestjs/common';
+import cookieParser from 'cookie-parser';
+
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+ 
   app.enableCors({
     origin : 'http://localhost:5173',
-   // credentials : true,
+    credentials : true,
     methods : 'GET,HEAD,PUT,PATCH,POST,DELETE',
    // allowedHeaders: ['Content-Type', 'Authorization'],
   });
+   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe({
     transform: true,            // Tự động chuyển đổi dữ liệu sang kiểu trong DTO (vd: string "1" -> number 1)
     whitelist: true,            // Tự động loại bỏ các field không có trong DTO (Bảo mật)

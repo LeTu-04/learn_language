@@ -4,7 +4,7 @@ import { Pencil, Trash } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../hooks/hook";
 import { editCategory, fetchCategory, softDeleteCategory } from "../services/category";
 import './sidebar.css'
-import { editCategoryLocal, removeCategoryLocal, restoreCategory, setSelectedCategory, } from "../components/Category/categorySlice";
+import { editCategoryLocal, removeCategoryLocal, restoreCategory, setSelectedCategory, } from "../features/Category/categorySlice.ts";
 import type { getCat } from "../types/category";
 import {logger} from '../../utils/logger.ts'
 

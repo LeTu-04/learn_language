@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import type { CategoryPostResponse, CategoryResponse, getCat, postCat } from "../types/category";
+import type { CategoryPostResponse, CategoryResponse, getCat, postCat } from "../features/Category/category.type";
 
 export const baseUrl = 'http://localhost:3000';
 const apiClient = axios.create({
