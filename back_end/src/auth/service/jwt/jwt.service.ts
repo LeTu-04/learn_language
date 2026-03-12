@@ -6,8 +6,9 @@ import { PrismaService } from '../../../Prisma/prisma.service';
 import * as argon2 from "argon2";
 import { Token } from '../../token/token';
 
+
 interface payloadProps {
-    id : string
+    sub : string
     jti : string
 }
 
@@ -40,7 +41,7 @@ export class JwtService {
         if(!storedToken || storedToken.revoked) {
            if(storedToken) {
              await this.prisma.refreshToken.updateMany({
-                where : {userId : payload.id},
+                where : {userId : payload.sub},
                 data : {revoked : true}
             })
            }
@@ -52,7 +53,7 @@ export class JwtService {
         if (!isValid) {
             
             await this.prisma.refreshToken.updateMany({
-                where : {userId : payload.id, revoked : false},
+                where : {userId : payload.sub, revoked : false},
                 data : {revoked : true}
             })
             throw new UnauthorizedException('Token không khớp');
@@ -63,7 +64,7 @@ export class JwtService {
             data : {revoked : true}
         });
 
-        return this.token.issueToken(payload.id);
+        return this.token.issueToken(payload.sub);
     }
 
 }

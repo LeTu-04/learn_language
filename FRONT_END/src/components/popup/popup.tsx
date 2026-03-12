@@ -1,7 +1,7 @@
 import { createPortal } from "react-dom";
 import "./popup.css";
 import React, { useEffect, useRef, useState } from "react";
-import { useAppDispatch } from "..//../hooks/hook";
+import { useAppDispatch, useAppSelector } from "..//../hooks/hook";
 import { postCategory } from "../../services/category";
 
 type popUpProps = {
@@ -14,9 +14,10 @@ type popUpProps = {
 
 export default function Popup ({pop, setpopUp} : popUpProps) {
     const [newcategory, setNewCategory] = useState<string>('');
-
+    
     const inputRef = useRef<HTMLInputElement>(null);
     
+
     useEffect(() => {
         if(pop && inputRef.current) {
             inputRef.current.focus();
@@ -36,6 +37,7 @@ export default function Popup ({pop, setpopUp} : popUpProps) {
             if(newcategory.trim().length === 0){
                 alert('Không được để category trống!'   )
             }else {
+               
                await dispatch(postCategory({name : newcategory})).unwrap();
                 console.log('Success upload new Category');
                 setNewCategory('');

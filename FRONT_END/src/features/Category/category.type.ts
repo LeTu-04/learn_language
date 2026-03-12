@@ -5,7 +5,8 @@ export interface getCat {
 }
 
 export interface postCat {
-    name : string
+    name : string, 
+
 }
 
 

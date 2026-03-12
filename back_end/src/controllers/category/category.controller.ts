@@ -1,16 +1,17 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, ParseIntPipe, Patch, Post, Req } from '@nestjs/common';
 import { CreateCategoryDto, updateCategory } from '../../types/categories';
 import { CategoryService } from '../../services/category/category.service';
-
+import type { Request } from "express";
 
 @Controller('Category')
 export class CategoryController {
     constructor(private readonly category : CategoryService) {}
     @Post()
     async create(
-        @Body() body : CreateCategoryDto
+        @Body() body : CreateCategoryDto,
+        @Req()req : Request
     ) {
-        const data = await this.category.createCategory(body);
+        const data = await this.category.createCategory(body, req.user?.sub!);
         return {
             message : 'Tạo mới Category thành công!',
             data : data,
@@ -20,8 +21,10 @@ export class CategoryController {
     }
 
     @Get()
-    async fetch () {
-        const data  = await this.category.fetchCategory();
+    async fetch (
+        @Req()req : Request
+    ) {
+        const data  = await this.category.fetchCategory(req.user?.sub!);
         return {
             message : 'Lấy dữ liệu thành công!',
             data : data,
@@ -31,9 +34,10 @@ export class CategoryController {
     @HttpCode(204)
     @Delete(':id')
     async softDeleteCategory(
-        @Param('id') id : number
+        @Param('id') id : number,
+        @Body () body : string
     ) {
-        await this.category.softRemoveCategory(id);
+        await this.category.softRemoveCategory(id, body);
     }
 
     @Patch(':id')

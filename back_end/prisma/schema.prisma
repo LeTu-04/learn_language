@@ -17,10 +17,10 @@ datasource db {
 
 model User {
   id  String @id @default(uuid())
-  name  String
-  email String?
+  name  String?
+  email String? @unique
   password String?
-  avatarUrl String
+  avatarUrl String?
   createdAt DateTime @default(now())
   deletedAt DateTime?
   category Category[] 
@@ -53,7 +53,6 @@ model Category {
   deletedAt DateTime? 
   isDeleted Boolean @default(false)
   vocabulary Vocabulary[]
-
   userId String
   user User @relation(fields: [userId], references: [id])
 }

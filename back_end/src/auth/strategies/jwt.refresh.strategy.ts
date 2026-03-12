@@ -8,7 +8,7 @@ import { Request } from "express";
 
 
 interface payloadProps {
-    id : string,
+    sub : string,
     jti : string
 }
 
@@ -31,7 +31,8 @@ export class JwtRefreshStrategy extends PassportStrategy (Strategy, 'jwt-refresh
     validate(payload  : payloadProps) {
         return {
             ...payload,
-            sub : payload.id
+            userId : payload.sub,
+            jti : payload.jti
         }
     }
 }

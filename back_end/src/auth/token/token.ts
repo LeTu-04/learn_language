@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import * as argon2 from 'argon2'
 import { PrismaService } from "../../Prisma/prisma.service";
 import ms from "ms";
+import { PrismaClient } from "@prisma/client/extension";
 
 @Injectable()
 export class Token {
@@ -17,7 +18,8 @@ export class Token {
     ) {
 
     }
-    async issueToken (userId : string) {
+    async issueToken (userId : string, prisma?: Omit<PrismaClient, '$connect' | '$disconnect' | '$on' | '$transaction' | '$use' | '$extends'>) {
+        const db = prisma ?? this.prisma;
         const payload = {
             sub : userId
         }
@@ -44,7 +46,7 @@ export class Token {
         const refreshTokenEncode = await argon2.hash(refreshToken);
         const expiresIn = this.jwtConfiguration.jwt_refresh_expire ;
         const expiresAt = new Date(Date.now() + expiresIn)
-        await this.prisma.refreshToken.create({
+        await db.refreshToken.create({
             data : {
                 jti : jti,
                 refreshToken : refreshTokenEncode,

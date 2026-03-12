@@ -7,11 +7,28 @@ import AddVocabPage from './pages/addvocab_page'
 import { Toaster } from 'react-hot-toast'
 import LoginPage from './pages/login'
 import ProtectedRoute from './protect/protectedRoute'
+import { useDispatch, } from 'react-redux'
+import type { AppDispatch } from './redux/store'
+import { useEffect, useRef, } from 'react'
+import { refresh } from './services/auth_service'
 
 
 
 
 function App() {
+    const dispatch = useDispatch<AppDispatch>();
+    //const token = useSelector((state : RootState) => state.Auth.token);
+    const refreshCalled = useRef(false);
+
+    useEffect(() => {
+      if(refreshCalled.current) return ;
+      refreshCalled.current = true
+
+      dispatch(refresh());
+    },[])
+
+    //  if (authLoading && !token) return null;
+
     return (
       <BrowserRouter>
       <Toaster position="top-right" />

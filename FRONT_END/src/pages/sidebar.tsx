@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/hook";
 import { editCategory, fetchCategory, softDeleteCategory } from "../services/category";
 import './sidebar.css'
 import { editCategoryLocal, removeCategoryLocal, restoreCategory, setSelectedCategory, } from "../features/Category/categorySlice.ts";
-import type { getCat } from "../types/category";
+import type { getCat } from "../features/Category/category.type.ts";
 import {logger} from '../../utils/logger.ts'
 
 export default function SideBar () {
@@ -16,7 +16,7 @@ export default function SideBar () {
     const [inputUpdateId, setInputUpdateId] = useState<number|null>(null);
 
    
-
+    const token = useAppSelector((state) => state.Auth.token)
     const handleClickAddCategory  = () => {
         setpopUp(!popUp);
         
@@ -67,8 +67,9 @@ export default function SideBar () {
     }
 
     useEffect(() => {
+        if(!token ) return
         dispatch(fetchCategory());
-    },[dispatch])
+    },[dispatch, token])
 
      useEffect(()=> {
         if(category.length > 0 && selectedCategoryId === null) {

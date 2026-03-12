@@ -1,6 +1,4 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from "axios";
-import { store } from "../../redux/store";
-import { refreshToken } from "../../services/auth_service";
 
 export const clientAPI = axios.create({
   baseURL: "http://localhost:3000",
@@ -12,11 +10,30 @@ export const clientAPI = axios.create({
 
 
 
+// error = {
+//   config: { ...request_config },
+//   response: { ...server_response },
+//   message: "...",
+// }
+
+// {
+//   url: "/users",
+//   method: "get",
+//   baseURL: "http://localhost:3000",
+//   headers: {
+//     Authorization: "Bearer oldToken"
+//   }
+// }
+
+
+
+
 // đính accessToken
 
 clientAPI.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
+  async(config: InternalAxiosRequestConfig) => {
 
+    const {store} = await import ('../../redux/store')
     const token = store.getState().Auth.token;
 
     if (token && config.headers) {
@@ -52,44 +69,39 @@ const processQueue = (error: any, token: string | null = null) => {
   failedQueue = [];
 };
 
-/*
-==============================
-RESPONSE INTERCEPTOR
-==============================
-*/
+
+
+//RESPONSE INTERCEPTOR
+
 
 clientAPI.interceptors.response.use(
   (response) => response,
 
   async (error: AxiosError) => {
+    const { store } = await import("../../redux/store");
+    const { refresh } = await import("../../services/auth_service");
+
 
     const originalRequest: any = error.config;
 
-    /*
-    ==============================
-    NOT 401 -> reject normally
-    ==============================
-    */
+    //NOT 401 -> reject normally
+    
 
     if (error.response?.status !== 401) {
       return Promise.reject(error);
     }
 
-    /*
-    ==============================
-    Skip refresh endpoint
-    ==============================
-    */
+  
+    // Skip refresh endpoint
+
 
     if (originalRequest.url === "/auth/refresh") {
       return Promise.reject(error);
     }
 
-    /*
-    ==============================
-    User chưa login -> không refresh
-    ==============================
-    */
+ 
+    // User chưa login -> không refresh
+
 
     const token = store.getState().Auth.token;
 
@@ -97,11 +109,9 @@ clientAPI.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    /*
-    ==============================
-    Avoid retry loop
-    ==============================
-    */
+
+    // Avoid retry loop
+
 
     if (originalRequest._retry) {
       return Promise.reject(error);
@@ -109,11 +119,8 @@ clientAPI.interceptors.response.use(
 
     originalRequest._retry = true;
 
-    /*
-    ==============================
-    Nếu đang refresh -> queue
-    ==============================
-    */
+
+    // Nếu đang refresh -> queue
 
     if (isRefreshing) { // đảm bảo 1 refreshToken được chạy 1 thời điểm
 
@@ -142,18 +149,15 @@ clientAPI.interceptors.response.use(
 
     }
 
-    /*
-    ==============================
-    START REFRESH
-    ==============================
-    */
+
+    // START REFRESH
 
     isRefreshing = true;
 
     try {
 
       const newToken =
-        await store.dispatch(refreshToken()).unwrap();
+        await store.dispatch(refresh()).unwrap();
 
       processQueue(null, newToken);
 

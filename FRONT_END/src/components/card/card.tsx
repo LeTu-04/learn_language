@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { VocabularyItem } from "../../types/vocabulary";
+import type { VocabularyItem } from "../../features/vocabulary/vocabulary.type";
 import { Trash2 } from "lucide-react";
 import {Volume2Icon} from "lucide-react"
 

@@ -31,7 +31,7 @@ import { LocalService } from './auth/service/auth/local/local.service';
     {
       provide : APP_GUARD,
       useClass : JwtAuthGuard
-    }, JwtService, LocalService
+    }, 
    ],
 })
 export class AppModule {}

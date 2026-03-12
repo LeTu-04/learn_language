@@ -5,15 +5,23 @@ import { CreateCategoryDto, updateCategory } from '../../types/categories';
 @Injectable()
 export class CategoryService {
     constructor(private readonly prisma : PrismaService){}
-    async createCategory (data : CreateCategoryDto) {
-        const category = await this.prisma.category.create({data})
+    async createCategory (data : CreateCategoryDto, userId : string) {
+        if(!userId) {
+            throw new BadRequestException();
+        }
+        const category = await this.prisma.category.create({
+            data : {
+                name : data.name,
+                userId : userId
+            }
+        })
         return category;
     }
 
-    async fetchCategory () {
+    async fetchCategory (userId : string) {
         const data = await this.prisma.category.findMany({
             where : {
-                isDeleted : false
+                isDeleted : false, userId : userId
             }, orderBy : {
                 createdAt : 'desc'
             }
@@ -22,9 +30,9 @@ export class CategoryService {
         return data;
     }
 
-    async softRemoveCategory (id : number) {
+    async softRemoveCategory (id : number, userId : string) {
         await this.prisma.category.update({
-            where : {id},
+            where : {id, userId : userId},
             data : {isDeleted : true,
                     deletedAt : new Date()
             }
@@ -33,7 +41,7 @@ export class CategoryService {
 
     async updateCategory (id : number, data : updateCategory) {
         const category = await this.prisma.category.findFirst({
-            where : {id},
+            where : {id, userId : data.userId},
         });
         if(!category) {
             throw new BadRequestException('Không tìm thấy Category');
@@ -42,7 +50,7 @@ export class CategoryService {
             return category;
         }
         return await this.prisma.category.update({
-            where : {id},
+            where : {id, userId : data.userId},
             data : {name : data.name}
         });
         
