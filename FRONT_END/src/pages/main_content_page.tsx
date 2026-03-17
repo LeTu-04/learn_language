@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/hook"
 import { deleteVocabularyByCategory, fetchVocabularyByCategory } from "../services/vocab_service";
 import toast from "react-hot-toast";
-import './main.css'
+import './css/main_content.css'
 import Card from "../components/card/card";
 import { useSpeech } from "../components/voices/voice";
 
@@ -43,12 +43,12 @@ export default function MainContent ({toogleSidebar} : MainContentProps) {
     }
 
     return (
-        <div className="main">
+        <div className="main-content">
             <div className="headerofcard">
                 <button className="buttonToogleSidebar" onClick={toogleSidebar}>≡</button>
                 <h2 className="CategoryVocabName">Category : {getCategoryName()}</h2>
-                <p>{`You have ${totalVocabulary} word `}</p>
             </div>
+             <p className="totalwords">{`You have ${totalVocabulary} words `}</p>
            <div className="vocabulary-list">
                  {
                 Vocabulary.map((v) => {

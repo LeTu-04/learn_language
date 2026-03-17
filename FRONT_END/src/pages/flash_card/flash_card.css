@@ -1,0 +1,49 @@
+/* 1. Vùng chứa không gian 3D */
+.flashcard-container {
+  width: 300px;
+  height: 200px;
+  perspective: 1000px; /* Tạo độ sâu 3D cho hiệu ứng lật */
+  cursor: pointer;
+}
+
+/* 2. Lõi của thẻ (phần sẽ quay) */
+.flashcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s; /* Thời gian lật (0.6 giây) */
+  transform-style: preserve-3d; /* Giữ các mặt ở dạng 3D */
+}
+
+/* Class này sẽ được React thêm vào khi click */
+.flashcard-inner.is-flipped {
+  transform: rotateY(180deg); /* Lật ngang 180 độ */
+}
+
+/* 3. Định dạng chung cho 2 mặt trước/sau */
+.flashcard-front, .flashcard-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden; /* QUAN TRỌNG: Giấu mặt bị lật úp đi */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Mặt trước (Hiện Từ Vựng) */
+.flashcard-front {
+  background-color: #ffffff;
+  color: #333;
+}
+
+/* Mặt sau (Hiện Nghĩa & Ví dụ) */
+.flashcard-back {
+  background-color: #4a90e2; /* Đổi màu để dễ phân biệt */
+  color: white;
+  transform: rotateY(180deg); /* Lật ngược sẵn mặt sau 180 độ */
+}

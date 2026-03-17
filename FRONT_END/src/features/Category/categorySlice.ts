@@ -26,7 +26,7 @@ const CategorySlice = createSlice({
         editCategoryLocal : (state, action : PayloadAction<{id : number, name : string}>) => {
             const category = state.Category.find((cat) => cat.id === action.payload.id);
             if(category) {
-                category.name = action.payload.name;
+                category.name = action.payload.name
             }
         },
         setSelectedCategory : (state, action) => {

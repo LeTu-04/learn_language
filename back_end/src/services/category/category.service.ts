@@ -39,9 +39,9 @@ export class CategoryService {
         })
     }
 
-    async updateCategory (id : number, data : updateCategory) {
+    async updateCategory (id : number, data : updateCategory, userId : string) {
         const category = await this.prisma.category.findFirst({
-            where : {id, userId : data.userId},
+            where : {id, userId},
         });
         if(!category) {
             throw new BadRequestException('Không tìm thấy Category');
@@ -50,7 +50,7 @@ export class CategoryService {
             return category;
         }
         return await this.prisma.category.update({
-            where : {id, userId : data.userId},
+            where : {id, userId },
             data : {name : data.name}
         });
         

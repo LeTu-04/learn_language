@@ -1,11 +1,12 @@
 
-
-
 import { useState } from "react"
-import MainContent from "./main";
+
+import MainContent from "./main_content_page";
 import SideBar from "./sidebar";
 import Panel from "./panel";
-import "./addvocab.css"
+import HeaderPage from "./header_page";
+
+import "./css/addvocab.css"
 
 
 export default function AddVocabPage () {
@@ -20,8 +21,9 @@ export default function AddVocabPage () {
     return (
 
         <div className={`layout ${isSidebarOpen ? "sidebaropen" : "sidebarclose"}`} >
-            {/* {isSidebarOpen && <SideBar/>} */}
-            <SideBar/>
+            
+            <SideBar />
+            <HeaderPage />
             <MainContent toogleSidebar={handleToogleSideBar}></MainContent>
             <Panel/>
         </div>

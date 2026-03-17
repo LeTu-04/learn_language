@@ -3,13 +3,13 @@ import  Popup  from "../components/popup/popup";
 import { Pencil, Trash } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../hooks/hook";
 import { editCategory, fetchCategory, softDeleteCategory } from "../services/category";
-import './sidebar.css'
+import './css/sidebar.css'
 import { editCategoryLocal, removeCategoryLocal, restoreCategory, setSelectedCategory, } from "../features/Category/categorySlice.ts";
 import type { getCat } from "../features/Category/category.type.ts";
 import {logger} from '../../utils/logger.ts'
 
 export default function SideBar () {
-    const category = useAppSelector((state) => state.Category.Category);
+    const category = useAppSelector((state) => state.Category.Category);    
     const selectedCategoryId = useAppSelector((state) => state.Category.selectedCategory);
 
     const [popUp, setpopUp] = useState(false);
@@ -81,7 +81,7 @@ export default function SideBar () {
     console.log(category);
     return (
         <div className="sidebar">
-        <h3 className="headtitle">📘 My Vocabulary</h3>
+        <h3 className="headtitle">📒 My Vocabulary</h3>
         <button className="buttonSidebar" onClick={handleClickAddCategory}>+ New Category</button>
         {
             category.map((cat) => 

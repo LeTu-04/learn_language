@@ -13,7 +13,5 @@ export class updateCategory {
     @IsString()
     @IsNotEmpty()
     name? : string
-    @IsString()
-    @IsNotEmpty()
-    userId! : string
+
 }

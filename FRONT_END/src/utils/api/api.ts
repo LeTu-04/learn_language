@@ -9,7 +9,6 @@ export const clientAPI = axios.create({
 });
 
 
-
 // error = {
 //   config: { ...request_config },
 //   response: { ...server_response },

@@ -1,5 +1,6 @@
+
 import Course_Card from "../components/box/course_box";
-import "./homepage.css"
+import "./css/homepage.css"
 
 
 export default function Homepage () {

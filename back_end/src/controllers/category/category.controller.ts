@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, ParseIntPipe, Patch, Post, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, ParseIntPipe, Patch, Post, Req, UnauthorizedException } from '@nestjs/common';
 import { CreateCategoryDto, updateCategory } from '../../types/categories';
 import { CategoryService } from '../../services/category/category.service';
 import type { Request } from "express";
@@ -35,16 +35,23 @@ export class CategoryController {
     @Delete(':id')
     async softDeleteCategory(
         @Param('id') id : number,
-        @Body () body : string
+        @Req()req : Request
     ) {
-        await this.category.softRemoveCategory(id, body);
+        if(!req.user?.sub) {
+            throw new UnauthorizedException()
+        }
+        await this.category.softRemoveCategory(id, req.user?.sub);
     }
 
     @Patch(':id')
     async updateCategory (
         @Param('id', ParseIntPipe) id : number,
-        @Body() body : updateCategory
+        @Body() body : updateCategory,
+        @Req()req : Request
     ) {
-        return await this.category.updateCategory(id, body);
+        if(!req.user?.sub) {
+            throw new UnauthorizedException()
+        }
+        return await this.category.updateCategory(id, body, req.user?.sub);
     }
 }

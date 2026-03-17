@@ -32,7 +32,7 @@ export const editCategory = createAsyncThunk('Category/editCategory',
     async({id, name} : getCat) => {
         const response = await clientAPI.patch(`/Category/${id}`, {name}) ;
         return response.data;
-    }
+    }   
 )
 
 

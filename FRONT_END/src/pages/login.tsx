@@ -29,7 +29,7 @@ export default function LoginPage () {
     e.preventDefault();
     try {
             const thunk = isSignUp ?   signUp : signIn ; 
-            await dispatch(thunk({email, password})); 
+            await dispatch(thunk({email, password})).unwrap(); 
             navigate('/home')
     } catch (error : any) {
         setError(error.message)

@@ -5,7 +5,12 @@ import { useAppDispatch, useAppSelector } from "../hooks/hook";
 import { postVocabularyByCategory } from "../services/vocab_service";
 import toast from "react-hot-toast";
 
+import './css/panel.css'
+import { useQuery } from "@tanstack/react-query";
 
+import { apiNoAuth } from "../utils/api/api2";
+import type { DictionaryEntry } from "../features/vocabulary/vocabulary.type";
+import { useDebounce } from "../hooks/debound";
 
 export default function Panel () {
 
@@ -27,27 +32,6 @@ export default function Panel () {
         }));
         logger.log(formData);
     }
-
-
-    // chỗ này để test api giọng đọc
-//     const speak = (text : string) => {
-//         const utterance = new SpeechSynthesisUtterance(text);
-
-//         const voices = speechSynthesis.getVoices();
-//         const englishVoice = voices.find(v =>
-//             v.lang === "en-US" && v.name.includes("Google")
-//         );
-
-//         if (englishVoice) {
-//             utterance.voice = englishVoice;
-//         }
-
-//         utterance.rate = 0.9;
-//         utterance.pitch = 1;
-
-//         speechSynthesis.speak(utterance);
-// };
-
 
 
 
@@ -74,7 +58,7 @@ export default function Panel () {
 
        
         try {
-            dispatch(postVocabularyByCategory({id : selectedCategory, data : vocabulary_data }))
+            dispatch(postVocabularyByCategory({id : selectedCategory, data : vocabulary_data })).unwrap()
             toast.success('Thêm thành công');
         } catch (error) {
             toast.error("Thêm thất bại")
@@ -88,20 +72,44 @@ export default function Panel () {
         
     }
 
+
+    const fetchExamplefromDictionary = async (word : string) => {
+        const response = await apiNoAuth.get<DictionaryEntry[]>(`${word}`) ;
+        const example = response.data[0].meanings.flatMap((meaning) => 
+        meaning.definitions.filter((df) => df.example).map(
+            (df) => df.example
+        )) ;
+
+
+        return example.length > 0? example[0] : null;
+
+    }
+
+    const debouncedValue = useDebounce(formData.word);
+
+    const {data} = useQuery({
+        queryKey : ['example', debouncedValue],
+        queryFn : () => fetchExamplefromDictionary(debouncedValue),
+        enabled : !! formData.word,
+        
+    }) ;
+
+
+
     return (
         <div className="addwordpanel">
             <form className="formsubmit" onSubmit={handleSubmit} >
                 <div className="form-group">
                     <label htmlFor="word">Word</label>
-                    <input type="text" name="word" id="word" value={formData.word} onChange={handleChangeInput} />
+                    <input type="text" name="word" id="word" value={formData.word} onChange={handleChangeInput} autoComplete="off"/>
                 </div>
                 <div className="form-group">
                     <label htmlFor="meaning">Meaning</label>
-                    <input type="text" name="mean" id="meaning" value={formData.mean} onChange={handleChangeInput}/>
+                    <input type="text" name="mean" id="meaning" value={formData.mean} onChange={handleChangeInput} autoComplete="off"/>
                 </div>
                 <div className="form-group">
                     <label htmlFor="example">Example</label>
-                    <input type="text" name="example" id="example" value={formData.example}onChange={handleChangeInput} />
+                    <input type="text" name="example" id="example" value={formData.example}onChange={handleChangeInput} placeholder={data!} autoComplete="off"/>
                 </div>
                 <button type="submit"  className="buttonSubmit"  >Add word</button>
             </form>

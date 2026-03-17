@@ -11,6 +11,7 @@ import { useDispatch, } from 'react-redux'
 import type { AppDispatch } from './redux/store'
 import { useEffect, useRef, } from 'react'
 import { refresh } from './services/auth_service'
+import Flashcard from './pages/flash_card/flashcard_page'
 
 
 
@@ -38,6 +39,7 @@ function App() {
             <Homepage></Homepage>
           </ProtectedRoute>}/>
           <Route path='/course/add_vocab' element = {<AddVocabPage/>} />
+          <Route path='/course/flashcard' element = {<Flashcard />} />
         </Routes>
       </BrowserRouter>
     )

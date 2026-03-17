@@ -1,0 +1,96 @@
+.addwordpanel{
+  grid-area:right;
+      background: #f8f7fb;
+  border-radius: 22px;
+
+  padding: 28px;
+   box-shadow:
+    0 20px 40px rgba(0,0,0,0.08),
+    0 6px 16px rgba(0,0,0,0.05);
+
+  border: 1px solid rgba(0,0,0,0.05);
+    margin: 20px;
+
+  position: relative;
+  overflow: hidden;
+
+}
+
+.addwordpanel::before{
+  content: "";
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 6px;
+
+  background: linear-gradient(
+    90deg,
+    #ffb347,
+    #ff6fa1,
+    #6b8cff
+  );
+}
+
+.formsubmit{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group input{
+  padding: 10px 12px;
+
+  border-radius: 8px;
+  border: 1px solid #e6e6e6;
+
+  font-size: 14px;
+
+  transition: 0.2s;
+}
+
+.form-group input:focus{
+  outline: none;
+
+  border-color: #7aa7ff;
+
+  box-shadow: 0 0 0 3px rgba(122,167,255,0.2);
+}
+
+.buttonSubmit{
+  margin-top: 10px;
+
+  background: linear-gradient(
+    135deg,
+    #6c8cff,
+    #4f6fff
+  );
+
+  border: none;
+  border-radius: 10px;
+
+  padding: 10px 16px;
+
+  color: white;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.buttonSubmit:hover{
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 8px 18px rgba(79,111,255,0.3);
+}
+

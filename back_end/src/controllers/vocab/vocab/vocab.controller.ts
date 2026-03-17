@@ -1,11 +1,11 @@
-import { Result } from './../../../../prisma/client/internal/prismaNamespace';
 
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
-
-import { STATUS_CODES } from 'http';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Req, UnauthorizedException } from '@nestjs/common';
+import type { Request} from "express";
 
 import { VocabService } from '../../../services/vocab/vocab/vocab.service.js';
 import { CreateVocabularyDto } from '../../../types/vocabularies';
+
+
 
 @Controller('Category')
 export class VocabController {
@@ -13,9 +13,13 @@ export class VocabController {
     @Post(':CategoryId/vocabularies')
     async create(
         @Body() data : CreateVocabularyDto,
+        @Req()req : Request,
         @Param('CategoryId', ParseIntPipe) CategoryId : number
     ) {
-        const result = await this.vocab.create(CategoryId,data);
+        if(!req.user?.sub) {
+            throw new UnauthorizedException('Không có user-id');
+        }
+        const result = await this.vocab.create(CategoryId,data, req.user.sub);
         return {
             message : 'Tạo dữ liệu thành công',
             data : result,
@@ -24,9 +28,13 @@ export class VocabController {
     }
     @Get(':CategoryId/vocabularies')
     async getVocab(
-        @Param('CategoryId', ParseIntPipe) categoryId : number
+        @Param('CategoryId', ParseIntPipe) categoryId : number,
+        @Req()req : Request
     ) {
-        const vocab = await this.vocab.fetch(categoryId);
+        if(!req.user?.sub){
+            throw new UnauthorizedException()
+        }
+        const vocab = await this.vocab.fetch(categoryId, req.user.sub);
         return {
             message : 'Lấy dữ liệu thành công',
             data : vocab,
@@ -37,9 +45,12 @@ export class VocabController {
     @Delete(':CategoryId/vocabularies/:vocabularyId')
     async delete (
         @Param('CategoryId', ParseIntPipe) CategoryId : number,
-        @Param('vocabularyId', ParseIntPipe) vocabularyId : number
+        @Param('vocabularyId', ParseIntPipe) vocabularyId : number,
+        @Req()req : Request
     ) {
-        await this.vocab.delete(CategoryId, vocabularyId);
+        if(!req.user?.sub) 
+            throw new UnauthorizedException();
+        await this.vocab.delete(CategoryId, vocabularyId, req.user?.sub);
         return {
             message : "Xóa từ vựng thành công",
             STATUS_CODES : 204

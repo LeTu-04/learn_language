@@ -1,0 +1,99 @@
+.sidebar{
+  grid-area:sidebar;
+  color:white;
+  padding:20px;
+  /* background: var(--sidebar-background); */
+   background: linear-gradient(
+    180deg,
+    #1f1c2c,
+    #2a2a72
+  );
+
+  border-radius: 15px;
+  margin: 10px 10px ;
+
+  min-width: 0;
+  overflow: hidden;
+  opacity: 1;
+  transition: transform 0.3s ease, opacity 0.2s ease;
+  font-family: 'Inter', sans-serif;
+  
+}
+
+.headtitle {
+    font-family: 'Inter';
+    margin-bottom: 20px;
+    margin-top: 15px;
+}
+
+.buttonSidebar {
+    height: 6vh;
+    width: 100%;
+    border-radius: 7px;
+    background: var(--button-addcate-sidebar);
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-weight: bold ;
+    margin-bottom: 20px;
+    border: none;
+}
+
+.buttonSidebar:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.Category {
+    display: flex;
+    align-items: center;
+    flex-direction: row ;
+    margin: 10px ;
+    padding: 8px;
+    font-size: small;
+
+    min-width: 0;
+
+}
+
+.Category:hover{
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.Category.currentCategory {
+    background : grey;
+    border-radius: 8px;
+}
+
+
+.Category h3 {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.category-edit-input {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  border: none;
+}
+
+.action {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.pen,
+.trash {
+  cursor: pointer;
+}
+
