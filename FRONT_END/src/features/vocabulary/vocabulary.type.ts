@@ -2,6 +2,7 @@
 
 export interface VocabularyState {
     items : VocabularyItem[],
+    search : string,
     count : number,
     loading : boolean,
     error : string | null

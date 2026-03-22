@@ -1,5 +1,5 @@
 
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import './App.css'
 
 import Homepage from './pages/homepage'
@@ -11,7 +11,7 @@ import { useDispatch, } from 'react-redux'
 import type { AppDispatch } from './redux/store'
 import { useEffect, useRef, } from 'react'
 import { refresh } from './services/auth_service'
-import Flashcard from './pages/flash_card/flashcard_page'
+import FlashCard_Page from './pages/flash_card/flashcard_page'
 
 
 
@@ -34,12 +34,17 @@ function App() {
       <BrowserRouter>
       <Toaster position="top-right" />
         <Routes>
-          <Route path='/' element = {<LoginPage/>}/>
+          <Route path='/' element={<Navigate to="/login" replace />} />
+          <Route path='/login' element = {<LoginPage/>}/>
           <Route path='/home' element={<ProtectedRoute>
             <Homepage></Homepage>
           </ProtectedRoute>}/>
-          <Route path='/course/add_vocab' element = {<AddVocabPage/>} />
-          <Route path='/course/flashcard' element = {<Flashcard />} />
+          <Route path='/course/add_vocab' element = {<ProtectedRoute>
+            <AddVocabPage />
+          </ProtectedRoute>} />
+          <Route path='/course/flashcard' element = {<ProtectedRoute>
+            <FlashCard_Page/>
+          </ProtectedRoute>} />
         </Routes>
       </BrowserRouter>
     )

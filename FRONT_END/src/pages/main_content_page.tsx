@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import './css/main_content.css'
 import Card from "../components/card/card";
 import { useSpeech } from "../components/voices/voice";
+import selectedFilteredVocabulary from "../features/vocabulary/selector/selector";
 
 interface MainContentProps {
     toogleSidebar : () => void
@@ -14,7 +15,7 @@ export default function MainContent ({toogleSidebar} : MainContentProps) {
     const {speak, ready} =  useSpeech();
 
     const dispatch = useAppDispatch();
-    const Vocabulary = useAppSelector((state) => state.Vocabulary.items);
+    const Vocabulary = useAppSelector(selectedFilteredVocabulary);
     const totalVocabulary = useAppSelector((state) => state.Vocabulary.count);
     const selectedCategory = useAppSelector((state) => state.Category.selectedCategory);
     const category = useAppSelector((state) => state.Category.Category);
@@ -48,7 +49,7 @@ export default function MainContent ({toogleSidebar} : MainContentProps) {
                 <button className="buttonToogleSidebar" onClick={toogleSidebar}>≡</button>
                 <h2 className="CategoryVocabName">Category : {getCategoryName()}</h2>
             </div>
-             <p className="totalwords">{`You have ${totalVocabulary} words `}</p>
+             <p className="totalwords">{`You have ${totalVocabulary} ${totalVocabulary > 1 ? 'words' : 'word'} `}</p>
            <div className="vocabulary-list">
                  {
                 Vocabulary.map((v) => {

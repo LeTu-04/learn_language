@@ -64,6 +64,7 @@ const AuthSlice = createSlice({
             state.loading = true
         }).addCase(refresh.rejected, (state) => {
             state.loading = false
+            state.token = null
         })
     }
 });

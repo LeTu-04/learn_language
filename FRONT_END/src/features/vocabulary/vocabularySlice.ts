@@ -5,6 +5,7 @@ import { deleteVocabularyByCategory, fetchVocabularyByCategory, postVocabularyBy
 
 const defaultStateVocabulary : VocabularyState = {
     items : [],
+    search : '',
     count : 0,
     loading : false,
     error : null
@@ -20,7 +21,10 @@ const vocabularySlice = createSlice({
         // },
         // restoreAddVocabularyLocal : (state, action) => {
             
-        // }    
+        // }  
+        setSearchVocabulary : (state, action) => {
+            state.search = action.payload ;
+        }  
     },
     extraReducers : (builder) => {
         builder.addCase(postVocabularyByCategory.pending, (state, action) => {
@@ -51,8 +55,10 @@ const vocabularySlice = createSlice({
         }).addCase(fetchVocabularyByCategory.fulfilled, (state, action) => {
             state.items = action.payload
             state.count = action.payload.length
+            state.loading = false
         }).addCase(fetchVocabularyByCategory.rejected, (state, action) => {
             state.error = action.error.message ??'Có lỗi khi tải từ vựng'
+            state.loading = false
         }).addCase(deleteVocabularyByCategory.fulfilled, (state, action) => {
             state.items = state.items.filter((v) => {
                 return v.id !== action.payload.vocabularyId && v.categoryId === action.payload.categoryId
@@ -63,3 +69,4 @@ const vocabularySlice = createSlice({
 })
 
 export const vocabularyReducer = vocabularySlice.reducer;
+export const {setSearchVocabulary} = vocabularySlice.actions ;

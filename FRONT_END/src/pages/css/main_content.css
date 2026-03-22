@@ -162,19 +162,46 @@
 .vocab_and_voice {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.buttonVoice {
+.action-icons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+.buttonVoice, .buttonStar {
     flex-shrink: 0;
     border-radius: 50%;
     border: none;
-    padding: 2px;
-    color: blue;
+    padding: 6px;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
 }
 
-.buttonVoice:hover {
+.buttonVoice {
+    color: #3b82f6; /* Xanh lam nổi bật cho loa */
+}
+
+/* Áp dụng hover nảy lên chung cho cả 2 nút */
+.buttonVoice:hover, .buttonStar:hover {
     cursor: pointer;
-    opacity: 0.6;
+    background-color: #f3f4f6;
+    transform: scale(1.1);
+}
+
+.starIcon {
+    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), fill 0.2s ease, color 0.2s ease;
+}
+
+.buttonStar:active .starIcon {
+    transform: scale(0.8);
 }
 
 .footerofcard {

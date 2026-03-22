@@ -1,0 +1,103 @@
+.button-prev,
+.button-next {
+  height: 10vh;
+  width: 8vw;
+  border-radius: 12px;
+  border: none;
+  font-size: 2.5rem;
+  background: var(--button-addcate-sidebar);
+  cursor: pointer;
+  transition: transform 0.2s linear;
+  color: white;
+}
+
+
+.button-next:hover {
+  transform: translateY(-10px);
+}
+
+.button-prev:hover {
+  transform: translateY(-10px);
+}
+
+.button-next:active {
+  transform: translateY(0px);
+}
+
+.button-prev:active {
+  transform: translateY(0px);
+}
+
+
+.container-flashcard {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100vh;
+  /* Phủ kín chiều cao màn hình */
+  background-color: #f7f9fc;
+  /* (Tuỳ chọn) màu nền nhẹ cho phần thân */
+  overflow: hidden; /* CỰC QUAN TRỌNG: Ở ẩn thanh cuộn */
+}
+
+.sidebar-flashcard {
+  width: 300px;
+  /* Nên set cứng thay vì 20% để lúc thu nhỏ màn hình web nó không bị bóp méo */
+  height: 100%;
+}
+
+.container_vocab_page {
+  flex: 1;
+  /* Chiếm toàn bộ % không gian còn lại */
+  display: flex;
+  flex-direction: column; /* Chuyển thành Cột để nhét Thanh Progress lên trên */
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+/* Đây là hàng ngang chứa 2 nút bấm và Flashcard */
+.flashcard-interaction-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  width: 100%;
+}
+
+/* =========== CSS GIAO DIỆN THANH TIẾN TRÌNH =========== */
+
+.flashcard-progress-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px; /* CÁCH LÊN ĐẦU FLASHCARD 1 TÍ */
+  width: 45%; 
+  min-width: 300px;
+}
+
+.flashcard-progress-text {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #6b7280;
+  margin-bottom: 12px;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.flashcard-progress-bar {
+  width: 100%;
+  height: 14px;
+  background-color: #e5e7eb; /* Màu xám nềnn */
+  border-radius: 9999px; /* bo tròn 2 đầu */
+  overflow: hidden; /* Chặn màu lem ra ngoài */
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.flashcard-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #ec4899); /* Chuyển màu xịn xò */
+  border-radius: 9999px;
+  transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Chạy mượt */
+}

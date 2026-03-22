@@ -1,0 +1,84 @@
+.empty-flashcard-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 450px; /* Đảm bảo nó chiếm đủ không gian trống */
+  background-color: transparent; /* Giữ nguyên nền của app bạn */
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.empty-flashcard-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 420px;
+  background: #ffffff;
+  padding: 3rem 2.5rem;
+  border-radius: 24px;
+  /* Đổ bóng mềm mại, hiện đại */
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+  border: 1px solid #f3f4f6;
+  transition: transform 0.3s ease;
+}
+
+.empty-flashcard-content:hover {
+  transform: translateY(-4px); /* Hiệu ứng nổi lên nhẹ khi di chuột */
+}
+
+.empty-icon-wrapper {
+  background: #eff6ff; /* Nền xanh dương nhạt */
+  color: #3b82f6; /* Icon xanh dương đậm */
+  padding: 1.5rem;
+  border-radius: 50%;
+  margin-bottom: 1.5rem;
+}
+
+.empty-icon {
+  stroke-width: 1.5;
+}
+
+.empty-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.75rem 0;
+}
+
+.empty-description {
+  font-size: 0.95rem;
+  color: #6b7280;
+  line-height: 1.6;
+  margin: 0 0 2.5rem 0;
+}
+
+.add-vocab-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  /* Dùng Button có Gradient màu xanh mượt mà */
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  border: none;
+  padding: 0.85rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 9999px; /* Bo tròn dạng viên thuốc (Pill) */
+  cursor: pointer;
+  box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.39);
+  transition: all 0.2s ease-in-out;
+}
+
+.add-vocab-btn:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+  transform: translateY(-2px);
+}
+
+.add-vocab-btn:active {
+  transform: translateY(1px);
+}

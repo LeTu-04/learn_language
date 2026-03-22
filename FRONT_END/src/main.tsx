@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import { Component, StrictMode, type ReactNode, type ErrorInfo } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Provider } from "react-redux";
 import './index.css'
@@ -12,6 +12,37 @@ import "@fontsource/inter/600.css";
 import "@fontsource/inter/700.css";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
+
+class RootErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
+  state = { hasError: false };
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    console.error("Unhandled UI error:", error, info);
+  }
+
+  goHome = () => {
+    window.location.href = "/home";
+  };
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ padding: 24 }}>
+          <h2>Da xay ra loi giao dien.</h2>
+          <button onClick={this.goHome}>Quay ve Home</button>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
+
 const queryClient = new QueryClient({
   defaultOptions : {
     queries : {
@@ -24,13 +55,15 @@ const queryClient = new QueryClient({
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+    <RootErrorBoundary>
     <Provider store={store}>
-      <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
+        <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
         <QueryClientProvider client={queryClient}>
         <App/>
         </QueryClientProvider>
       </GoogleOAuthProvider>
     </Provider>
+    </RootErrorBoundary>
   </StrictMode>,
 )
   

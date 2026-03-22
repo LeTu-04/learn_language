@@ -21,7 +21,7 @@ export class JwtService {
         private prisma : PrismaService,
         private token : Token
     ) {
-
+ 
     }
     async refreshToken (refreshOld : string){
         let payload :  payloadProps;

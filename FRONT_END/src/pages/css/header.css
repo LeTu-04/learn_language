@@ -1,4 +1,135 @@
-.header{
-  grid-area:header;
+.header {
+  grid-area: header;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: transparent; 
+  font-family: 'Inter', sans-serif;
+}
 
+/* ================== SEARCH BAR ================== */
+.header-search-container {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 10px 18px;
+  border-radius: 9999px; /* Dang viên thuốc */
+  width: 100%;
+  max-width: 350px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+  border: 1px solid #f3f4f6;
+  transition: all 0.2s ease;
+}
+
+.header-search-container:focus-within {
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15);
+  border-color: #3b82f6; /* Viền xanh khi đang gõ chự */
+}
+
+.header-search-icon {
+  color: #9ca3af;
+  margin-right: 12px;
+}
+
+.header-search-input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+.header-search-input::placeholder {
+  color: #9ca3af;
+}
+
+/* ================== RIGHT ACTIONS ================== */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Các nút bấm Icon Tròn */
+.header-icon-btn {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background-color: #ffffff;
+  color: #6b7280;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  transition: all 0.2s;
+}
+
+.header-icon-btn:hover {
+  background-color: #f3f4f6;
+  transform: translateY(-2px); /* Bay nhẹ lên khi rê chuột */
+  color: #3b82f6; /* Đổi màu xanh dương nhấn nhá */
+}
+
+/* Chấm đỏ báo có thông báo */
+.header-notification-dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 9px;
+  height: 9px;
+  background-color: #ef4444; /* Màu đỏ Red chuẩn */
+  border-radius: 50%;
+  border: 2px solid #ffffff; /* Viền trắng tách khung */
+}
+
+/* ================== USER AVATAR ================== */
+.header-avatar-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-left: 20px;
+  border-left: 2px solid #e5e7eb; /* Đường kẻ xám chia cách dọc */
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.header-avatar-container:hover {
+  opacity: 0.8;
+}
+
+.header-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: #e5e7eb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.header-user-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.header-username {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.header-role {
+  font-size: 0.75rem;
+  color: #f59e0b; /* Vàng cam cho hệ Premium */
+  font-weight: 700;
+  margin-top: 2px;
 }

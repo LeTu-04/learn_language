@@ -1,7 +1,7 @@
 import { createPortal } from "react-dom";
 import "./popup.css";
 import React, { useEffect, useRef, useState } from "react";
-import { useAppDispatch, useAppSelector } from "..//../hooks/hook";
+import { useAppDispatch, } from "..//../hooks/hook";
 import { postCategory } from "../../services/category";
 
 type popUpProps = {
@@ -51,12 +51,24 @@ export default function Popup ({pop, setpopUp} : popUpProps) {
     }
    
     return pop ? createPortal(
-        <div className="popup">
-           <form onSubmit={handleSubmitNewCategory}>
-                <input ref={inputRef} type="text"  value={newcategory} onChange={handleChangeInputCategory}/>
-                <button className="popup_cancel" type="button" onClick={() => setpopUp(!pop)}>Hủy</button>
-                <button className="popup_save_cat" type="submit">Lưu</button>
-           </form>
+        <div className="popup-overlay" onClick={() => setpopUp(false)}>
+            <div className="popup" onClick={(e) => e.stopPropagation()}>
+                <h3 className="popup-title">Thêm Danh Mục Mới</h3>
+                <form className="popup-form" onSubmit={handleSubmitNewCategory}>
+                     <input 
+                        className="popup-input"
+                        placeholder="Ví dụ: Daily Life."
+                        ref={inputRef} 
+                        type="text"  
+                        value={newcategory} 
+                        onChange={handleChangeInputCategory}
+                     />
+                     <div className="popup-actions">
+                         <button className="popup_cancel" type="button" onClick={() => setpopUp(false)}>Hủy</button>
+                         <button className="popup_save_cat" type="submit">Lưu Mới</button>
+                     </div>
+                </form>
+            </div>
         </div>,
         document.body
     ) : null

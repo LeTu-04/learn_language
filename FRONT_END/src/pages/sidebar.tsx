@@ -7,8 +7,24 @@ import './css/sidebar.css'
 import { editCategoryLocal, removeCategoryLocal, restoreCategory, setSelectedCategory, } from "../features/Category/categorySlice.ts";
 import type { getCat } from "../features/Category/category.type.ts";
 import {logger} from '../../utils/logger.ts'
+import {  useSearchParams } from "react-router-dom";
 
-export default function SideBar () {
+interface showAddCategoryProps {
+    showAddCategory : boolean
+}
+
+export default function SideBar ({showAddCategory} : showAddCategoryProps) {
+      const dispatch = useAppDispatch();
+    const [queryParams] = useSearchParams();
+    
+    useEffect(() => {
+        const categoryIdParams = queryParams.get('category');
+        console.log(categoryIdParams)
+        if(categoryIdParams) {
+            dispatch(setSelectedCategory(Number(categoryIdParams)));
+        }
+    }, [queryParams, dispatch])
+
     const category = useAppSelector((state) => state.Category.Category);    
     const selectedCategoryId = useAppSelector((state) => state.Category.selectedCategory);
 
@@ -24,7 +40,7 @@ export default function SideBar () {
 
     //  const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
 
-    const dispatch = useAppDispatch();
+  
 
     const handleClickEditCategory = (id : number) => {
         setInputUpdateId(id);
@@ -67,9 +83,9 @@ export default function SideBar () {
     }
 
     useEffect(() => {
-        if(!token ) return
+        if(!token || category.length > 0) return
         dispatch(fetchCategory());
-    },[dispatch, token])
+    },[dispatch, token, category.length])
 
      useEffect(()=> {
         if(category.length > 0 && selectedCategoryId === null) {
@@ -82,7 +98,7 @@ export default function SideBar () {
     return (
         <div className="sidebar">
         <h3 className="headtitle">📒 My Vocabulary</h3>
-        <button className="buttonSidebar" onClick={handleClickAddCategory}>+ New Category</button>
+        {showAddCategory &&  <button className="buttonSidebar" onClick={handleClickAddCategory}>+ New Category</button>}
         {
             category.map((cat) => 
             {   const currentTarget = selectedCategoryId === cat.id ;
