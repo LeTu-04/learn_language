@@ -1,6 +1,6 @@
 import { PrismaService } from '../../../Prisma/prisma.service';
 import { BadRequestException, Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { CreateVocabularyDto } from '../../../types/vocabularies';
+import { BathUpdateFavoriteDto, CreateVocabularyDto, UpdateFavorite } from '../../../types/vocabularies';
 import { Prisma } from '../../../../prisma/client/client';
 
 @Injectable()
@@ -90,4 +90,28 @@ export class VocabService {
             throw new Error('Có lỗi, không xóa được')
         }
     }
+
+    async updateFavoriteVocab(data : BathUpdateFavoriteDto) {
+        await this.prisma.$transaction(
+            data.changes.map((item) => 
+                this.prisma.vocabulary.update(
+                    {
+                        where : {id : item.id},
+                        data : {isFavorite : item.isFavorite}
+                    }
+                )
+            )
+        )
+    }
+
+    // async updateFavoriteWithBeacon (data : BathUpdateFavoriteDto) {
+    //     await this.prisma.$transaction(
+    //         data.changes.map((item) => 
+    //             this.prisma.vocabulary.update({
+    //                 where : {id : item.id},
+    //                 data : {isFavorite : item.isFavorite}
+    //             })
+    //         )
+    //     )
+    // }
 }

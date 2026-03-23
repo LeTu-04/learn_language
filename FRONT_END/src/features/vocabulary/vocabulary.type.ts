@@ -24,6 +24,7 @@ export interface VocabularyResponse {
     word : string,
     mean : string,
     example? : string,
+    isFavorite : boolean
     categoryId : number,
     createdAt? : string ,
     deletedAt? : string | null 

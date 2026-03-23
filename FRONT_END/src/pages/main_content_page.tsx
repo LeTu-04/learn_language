@@ -6,6 +6,8 @@ import './css/main_content.css'
 import Card from "../components/card/card";
 import { useSpeech } from "../components/voices/voice";
 import selectedFilteredVocabulary from "../features/vocabulary/selector/selector";
+import { localStorageHelper } from "../helper/localStorage_helper";
+import { toogleFavorite } from "../features/vocabulary/vocabularySlice";
 
 interface MainContentProps {
     toogleSidebar : () => void
@@ -43,6 +45,20 @@ export default function MainContent ({toogleSidebar} : MainContentProps) {
 
     }
 
+    const handleChangeStatusButtonFavorite = (id : number, orginalStatus : boolean) => {
+        localStorageHelper('favoritepending', (pending : Record<string, boolean>) => {
+            if(pending[id] !== undefined) {
+                delete pending[id];
+            }else {
+                pending[id] = !orginalStatus ;
+            }
+            return pending ;
+        }
+    ) ;
+
+    dispatch(toogleFavorite(id));
+    }
+
     return (
         <div className="main-content">
             <div className="headerofcard">
@@ -59,6 +75,7 @@ export default function MainContent ({toogleSidebar} : MainContentProps) {
                         vocab={v}
                         speak={speak}
                         ready={ready}
+                        toogleButtonFavorite={() => handleChangeStatusButtonFavorite(v.id, v.isFavorite)}
                         />
                     )
                 })

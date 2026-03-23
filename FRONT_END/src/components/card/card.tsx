@@ -6,7 +6,8 @@ interface vocabProps {
     vocab : VocabularyItem,
     onDelete : (id : number) => void,
     speak : (text : string) => void,
-    ready : boolean
+    ready : boolean,
+    toogleButtonFavorite : (id : number) => void
 }
 
 function getAccentColor(id:number){
@@ -14,19 +15,14 @@ function getAccentColor(id:number){
   return `hsl(${hue},70%,55%)`
 }
 
-export default function Card ({vocab, onDelete, speak, ready} : vocabProps) {
+export default function Card ({vocab, onDelete, speak, ready, toogleButtonFavorite} : vocabProps) {
     const [isExpanded, setExpanded] = useState<boolean>(false);
     
- 
-    const [isFavorite, setIsFavorite] = useState<boolean>(false);
-
     const handleToogleExpande = ()=> {
         setExpanded(prev => !prev);
     }
     
-    const handleToggleFavorite = () => {
-        setIsFavorite(!isFavorite);
-    }
+ 
 
     return (
         <div className="card" style={{"--accent" : getAccentColor(vocab.id) ,} as React.CSSProperties} >
@@ -37,8 +33,8 @@ export default function Card ({vocab, onDelete, speak, ready} : vocabProps) {
                 
                 {/* Khu vực chứa các nút icon bên góc phải */}
                 <div className="action-icons">
-                    <button className="buttonStar" onClick={handleToggleFavorite} title="Thêm vào yêu thích">
-                        <Star fill={isFavorite ? "#fbbf24" : "transparent"} color={isFavorite ? "#fbbf24" : "#9ca3af"} size={22} className="starIcon"/>
+                    <button className="buttonStar" onClick={()=> toogleButtonFavorite(vocab.id)} title="Thêm vào yêu thích">
+                        <Star fill={vocab.isFavorite ? "#fbbf24" : "transparent"} color={vocab.isFavorite ? "#fbbf24" : "#9ca3af"} size={22} className="starIcon"/>
                     </button>
 
                     <button className="buttonVoice" 

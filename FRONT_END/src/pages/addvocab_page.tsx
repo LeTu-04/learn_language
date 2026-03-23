@@ -9,7 +9,7 @@ import HeaderPage from "./header_page";
 import "./css/addvocab.css"
 
 
-export default function AddVocabPage () {
+export default function AddVocabPage() {
     const [isSidebarOpen, setIsSideBarOpen] = useState(true);
 
     const handleToogleSideBar = () => {
@@ -17,15 +17,15 @@ export default function AddVocabPage () {
         console.log(isSidebarOpen);
     }
 
-  
+
     return (
 
         <div className={`layout ${isSidebarOpen ? "sidebaropen" : "sidebarclose"}`} >
-            
+
             <SideBar showAddCategory={true} />
             <HeaderPage />
             <MainContent toogleSidebar={handleToogleSideBar}></MainContent>
-            <Panel/>
+            <Panel />
         </div>
     )
 }

@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react"
 import  Popup  from "../components/popup/popup";
-import { Pencil, Trash } from "lucide-react";
+import { Pencil, Trash, Home } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../hooks/hook";
 import { editCategory, fetchCategory, softDeleteCategory } from "../services/category";
 import './css/sidebar.css'
 import { editCategoryLocal, removeCategoryLocal, restoreCategory, setSelectedCategory, } from "../features/Category/categorySlice.ts";
 import type { getCat } from "../features/Category/category.type.ts";
 import {logger} from '../../utils/logger.ts'
-import {  useSearchParams } from "react-router-dom";
+import {  useNavigate, useSearchParams } from "react-router-dom";
+import { flushPendingFavorite } from "../services/vocab_service.ts";
 
 interface showAddCategoryProps {
     showAddCategory : boolean
 }
 
 export default function SideBar ({showAddCategory} : showAddCategoryProps) {
+    const navigate = useNavigate();
       const dispatch = useAppDispatch();
     const [queryParams] = useSearchParams();
     
@@ -77,9 +79,15 @@ export default function SideBar ({showAddCategory} : showAddCategoryProps) {
         }
     }
 
-    const handleClickChooseCategory = (cat : getCat) => {
+    const handleClickChooseCategory = async(cat : getCat) => {
         dispatch(setSelectedCategory(cat.id));
-        logger.log(`[SelectedCatName : ${cat.name} id : ${cat.id}]`)   ;     
+        logger.log(`[SelectedCatName : ${cat.name} id : ${cat.id}]`)   ;  
+        await flushPendingFavorite();   
+    }
+
+    const handleClickHome  = () =>  {
+        flushPendingFavorite()
+        navigate('/home')
     }
 
     useEffect(() => {
@@ -99,6 +107,10 @@ export default function SideBar ({showAddCategory} : showAddCategoryProps) {
         <div className="sidebar">
         <h3 className="headtitle">📒 My Vocabulary</h3>
         {showAddCategory &&  <button className="buttonSidebar" onClick={handleClickAddCategory}>+ New Category</button>}
+        <button className="buttonHome" onClick={handleClickHome}>
+            <Home size={18} />
+            <span>Trang Chủ</span>
+        </button>
         {
             category.map((cat) => 
             {   const currentTarget = selectedCategoryId === cat.id ;

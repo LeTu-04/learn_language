@@ -42,6 +42,7 @@ export type VocabularyMinAggregateOutputType = {
   word: string | null
   mean: string | null
   example: string | null
+  isFavorite: boolean | null
   createdAt: Date | null
   deletedAt: Date | null
 }
@@ -52,6 +53,7 @@ export type VocabularyMaxAggregateOutputType = {
   word: string | null
   mean: string | null
   example: string | null
+  isFavorite: boolean | null
   createdAt: Date | null
   deletedAt: Date | null
 }
@@ -62,6 +64,7 @@ export type VocabularyCountAggregateOutputType = {
   word: number
   mean: number
   example: number
+  isFavorite: number
   createdAt: number
   deletedAt: number
   _all: number
@@ -84,6 +87,7 @@ export type VocabularyMinAggregateInputType = {
   word?: true
   mean?: true
   example?: true
+  isFavorite?: true
   createdAt?: true
   deletedAt?: true
 }
@@ -94,6 +98,7 @@ export type VocabularyMaxAggregateInputType = {
   word?: true
   mean?: true
   example?: true
+  isFavorite?: true
   createdAt?: true
   deletedAt?: true
 }
@@ -104,6 +109,7 @@ export type VocabularyCountAggregateInputType = {
   word?: true
   mean?: true
   example?: true
+  isFavorite?: true
   createdAt?: true
   deletedAt?: true
   _all?: true
@@ -201,6 +207,7 @@ export type VocabularyGroupByOutputType = {
   word: string
   mean: string
   example: string | null
+  isFavorite: boolean
   createdAt: Date
   deletedAt: Date | null
   _count: VocabularyCountAggregateOutputType | null
@@ -234,6 +241,7 @@ export type VocabularyWhereInput = {
   word?: Prisma.StringFilter<"Vocabulary"> | string
   mean?: Prisma.StringFilter<"Vocabulary"> | string
   example?: Prisma.StringNullableFilter<"Vocabulary"> | string | null
+  isFavorite?: Prisma.BoolFilter<"Vocabulary"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Vocabulary"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Vocabulary"> | Date | string | null
   category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
@@ -245,6 +253,7 @@ export type VocabularyOrderByWithRelationInput = {
   word?: Prisma.SortOrder
   mean?: Prisma.SortOrder
   example?: Prisma.SortOrderInput | Prisma.SortOrder
+  isFavorite?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   category?: Prisma.CategoryOrderByWithRelationInput
@@ -259,6 +268,7 @@ export type VocabularyWhereUniqueInput = Prisma.AtLeast<{
   word?: Prisma.StringFilter<"Vocabulary"> | string
   mean?: Prisma.StringFilter<"Vocabulary"> | string
   example?: Prisma.StringNullableFilter<"Vocabulary"> | string | null
+  isFavorite?: Prisma.BoolFilter<"Vocabulary"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Vocabulary"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Vocabulary"> | Date | string | null
   category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>
@@ -270,6 +280,7 @@ export type VocabularyOrderByWithAggregationInput = {
   word?: Prisma.SortOrder
   mean?: Prisma.SortOrder
   example?: Prisma.SortOrderInput | Prisma.SortOrder
+  isFavorite?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.VocabularyCountOrderByAggregateInput
@@ -288,6 +299,7 @@ export type VocabularyScalarWhereWithAggregatesInput = {
   word?: Prisma.StringWithAggregatesFilter<"Vocabulary"> | string
   mean?: Prisma.StringWithAggregatesFilter<"Vocabulary"> | string
   example?: Prisma.StringNullableWithAggregatesFilter<"Vocabulary"> | string | null
+  isFavorite?: Prisma.BoolWithAggregatesFilter<"Vocabulary"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Vocabulary"> | Date | string
   deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Vocabulary"> | Date | string | null
 }
@@ -296,6 +308,7 @@ export type VocabularyCreateInput = {
   word: string
   mean: string
   example?: string | null
+  isFavorite?: boolean
   createdAt?: Date | string
   deletedAt?: Date | string | null
   category: Prisma.CategoryCreateNestedOneWithoutVocabularyInput
@@ -307,6 +320,7 @@ export type VocabularyUncheckedCreateInput = {
   word: string
   mean: string
   example?: string | null
+  isFavorite?: boolean
   createdAt?: Date | string
   deletedAt?: Date | string | null
 }
@@ -315,6 +329,7 @@ export type VocabularyUpdateInput = {
   word?: Prisma.StringFieldUpdateOperationsInput | string
   mean?: Prisma.StringFieldUpdateOperationsInput | string
   example?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   category?: Prisma.CategoryUpdateOneRequiredWithoutVocabularyNestedInput
@@ -326,6 +341,7 @@ export type VocabularyUncheckedUpdateInput = {
   word?: Prisma.StringFieldUpdateOperationsInput | string
   mean?: Prisma.StringFieldUpdateOperationsInput | string
   example?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -336,6 +352,7 @@ export type VocabularyCreateManyInput = {
   word: string
   mean: string
   example?: string | null
+  isFavorite?: boolean
   createdAt?: Date | string
   deletedAt?: Date | string | null
 }
@@ -344,6 +361,7 @@ export type VocabularyUpdateManyMutationInput = {
   word?: Prisma.StringFieldUpdateOperationsInput | string
   mean?: Prisma.StringFieldUpdateOperationsInput | string
   example?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -354,6 +372,7 @@ export type VocabularyUncheckedUpdateManyInput = {
   word?: Prisma.StringFieldUpdateOperationsInput | string
   mean?: Prisma.StringFieldUpdateOperationsInput | string
   example?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -374,6 +393,7 @@ export type VocabularyCountOrderByAggregateInput = {
   word?: Prisma.SortOrder
   mean?: Prisma.SortOrder
   example?: Prisma.SortOrder
+  isFavorite?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
 }
@@ -389,6 +409,7 @@ export type VocabularyMaxOrderByAggregateInput = {
   word?: Prisma.SortOrder
   mean?: Prisma.SortOrder
   example?: Prisma.SortOrder
+  isFavorite?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
 }
@@ -399,6 +420,7 @@ export type VocabularyMinOrderByAggregateInput = {
   word?: Prisma.SortOrder
   mean?: Prisma.SortOrder
   example?: Prisma.SortOrder
+  isFavorite?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
 }
@@ -454,6 +476,7 @@ export type VocabularyCreateWithoutCategoryInput = {
   word: string
   mean: string
   example?: string | null
+  isFavorite?: boolean
   createdAt?: Date | string
   deletedAt?: Date | string | null
 }
@@ -463,6 +486,7 @@ export type VocabularyUncheckedCreateWithoutCategoryInput = {
   word: string
   mean: string
   example?: string | null
+  isFavorite?: boolean
   createdAt?: Date | string
   deletedAt?: Date | string | null
 }
@@ -502,6 +526,7 @@ export type VocabularyScalarWhereInput = {
   word?: Prisma.StringFilter<"Vocabulary"> | string
   mean?: Prisma.StringFilter<"Vocabulary"> | string
   example?: Prisma.StringNullableFilter<"Vocabulary"> | string | null
+  isFavorite?: Prisma.BoolFilter<"Vocabulary"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Vocabulary"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Vocabulary"> | Date | string | null
 }
@@ -511,6 +536,7 @@ export type VocabularyCreateManyCategoryInput = {
   word: string
   mean: string
   example?: string | null
+  isFavorite?: boolean
   createdAt?: Date | string
   deletedAt?: Date | string | null
 }
@@ -519,6 +545,7 @@ export type VocabularyUpdateWithoutCategoryInput = {
   word?: Prisma.StringFieldUpdateOperationsInput | string
   mean?: Prisma.StringFieldUpdateOperationsInput | string
   example?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -528,6 +555,7 @@ export type VocabularyUncheckedUpdateWithoutCategoryInput = {
   word?: Prisma.StringFieldUpdateOperationsInput | string
   mean?: Prisma.StringFieldUpdateOperationsInput | string
   example?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -537,6 +565,7 @@ export type VocabularyUncheckedUpdateManyWithoutCategoryInput = {
   word?: Prisma.StringFieldUpdateOperationsInput | string
   mean?: Prisma.StringFieldUpdateOperationsInput | string
   example?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isFavorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -549,6 +578,7 @@ export type VocabularySelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   word?: boolean
   mean?: boolean
   example?: boolean
+  isFavorite?: boolean
   createdAt?: boolean
   deletedAt?: boolean
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
@@ -560,6 +590,7 @@ export type VocabularySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   word?: boolean
   mean?: boolean
   example?: boolean
+  isFavorite?: boolean
   createdAt?: boolean
   deletedAt?: boolean
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
@@ -571,6 +602,7 @@ export type VocabularySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   word?: boolean
   mean?: boolean
   example?: boolean
+  isFavorite?: boolean
   createdAt?: boolean
   deletedAt?: boolean
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
@@ -582,11 +614,12 @@ export type VocabularySelectScalar = {
   word?: boolean
   mean?: boolean
   example?: boolean
+  isFavorite?: boolean
   createdAt?: boolean
   deletedAt?: boolean
 }
 
-export type VocabularyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "categoryId" | "word" | "mean" | "example" | "createdAt" | "deletedAt", ExtArgs["result"]["vocabulary"]>
+export type VocabularyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "categoryId" | "word" | "mean" | "example" | "isFavorite" | "createdAt" | "deletedAt", ExtArgs["result"]["vocabulary"]>
 export type VocabularyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
 }
@@ -608,6 +641,7 @@ export type $VocabularyPayload<ExtArgs extends runtime.Types.Extensions.Internal
     word: string
     mean: string
     example: string | null
+    isFavorite: boolean
     createdAt: Date
     deletedAt: Date | null
   }, ExtArgs["result"]["vocabulary"]>
@@ -1039,6 +1073,7 @@ export interface VocabularyFieldRefs {
   readonly word: Prisma.FieldRef<"Vocabulary", 'String'>
   readonly mean: Prisma.FieldRef<"Vocabulary", 'String'>
   readonly example: Prisma.FieldRef<"Vocabulary", 'String'>
+  readonly isFavorite: Prisma.FieldRef<"Vocabulary", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Vocabulary", 'DateTime'>
   readonly deletedAt: Prisma.FieldRef<"Vocabulary", 'DateTime'>
 }

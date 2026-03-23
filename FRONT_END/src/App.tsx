@@ -12,6 +12,7 @@ import type { AppDispatch } from './redux/store'
 import { useEffect, useRef, } from 'react'
 import { refresh } from './services/auth_service'
 import FlashCard_Page from './pages/flash_card/flashcard_page'
+import { flushPendingFavorite, flushWithBeacon } from './services/vocab_service'
 
 
 
@@ -30,6 +31,26 @@ function App() {
 
     //  if (authLoading && !token) return null;
 
+    useEffect(() => {
+      flushPendingFavorite();
+      const handleVisibility = () => {
+        if(document.visibilityState === 'hidden') {
+          flushPendingFavorite()
+        }
+      }
+
+      // const hadnleUnload = () => {
+      //   flushWithBeacon();
+      // }
+
+      document.addEventListener('visibilitychange', handleVisibility);
+      // window.addEventListener('beforeunload', hadnleUnload);
+
+      return () => {
+        document.removeEventListener('visibilitychange', handleVisibility);
+        // window.removeEventListener('beforeunload', hadnleUnload);
+      }
+    }, [])
     return (
       <BrowserRouter>
       <Toaster position="top-right" />

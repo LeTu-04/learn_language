@@ -1,9 +1,9 @@
 
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Req, UnauthorizedException } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Req, UnauthorizedException } from '@nestjs/common';
 import type { Request} from "express";
 
 import { VocabService } from '../../../services/vocab/vocab/vocab.service.js';
-import { CreateVocabularyDto } from '../../../types/vocabularies';
+import { BathUpdateFavoriteDto, CreateVocabularyDto } from '../../../types/vocabularies';
 
 
 
@@ -56,4 +56,18 @@ export class VocabController {
             STATUS_CODES : 204
         }
     }
+
+    @Patch('vocabularies/favorite')
+    async updateFavorite (
+        @Body() body : BathUpdateFavoriteDto
+    ){
+        return await this.vocab.updateFavoriteVocab(body);
+    }
+
+    // @Post('vocabularies/favorite-beacon')
+    // async updateFavoriteBeacon (
+    //     @Body() body : BathUpdateFavoriteDto
+    // ) {
+    //     return await this.vocab.updateFavoriteWithBeacon(body);
+    // }
 }

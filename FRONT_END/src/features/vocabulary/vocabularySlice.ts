@@ -24,7 +24,14 @@ const vocabularySlice = createSlice({
         // }  
         setSearchVocabulary : (state, action) => {
             state.search = action.payload ;
-        }  
+        } ,
+        toogleFavorite : (state, action) => {
+            const vocabId = action.payload;
+            const item = state.items.find((i) => i.id === vocabId);
+            if(item) {
+                item.isFavorite = !item.isFavorite
+            }
+        }
     },
     extraReducers : (builder) => {
         builder.addCase(postVocabularyByCategory.pending, (state, action) => {
@@ -36,7 +43,8 @@ const vocabularySlice = createSlice({
                 example : action.meta.arg.data.example,
                 categoryId : action.meta.arg.id,
                 isLoading : true,
-                requestId : action.meta.requestId
+                requestId : action.meta.requestId,
+                isFavorite : false
             }),
             state.count += 1;
         }) .addCase(postVocabularyByCategory.fulfilled,(state, action)=> {
@@ -69,4 +77,4 @@ const vocabularySlice = createSlice({
 })
 
 export const vocabularyReducer = vocabularySlice.reducer;
-export const {setSearchVocabulary} = vocabularySlice.actions ;
+export const {setSearchVocabulary, toogleFavorite} = vocabularySlice.actions ;

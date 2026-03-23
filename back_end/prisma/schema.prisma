@@ -64,6 +64,7 @@ model Vocabulary {
   word  String
   mean String
   example String? 
+  isFavorite Boolean @default(false)
   createdAt DateTime @default(now())
   deletedAt DateTime?
 

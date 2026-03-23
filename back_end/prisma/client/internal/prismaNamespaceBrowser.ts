@@ -116,6 +116,7 @@ export const VocabularyScalarFieldEnum = {
   word: 'word',
   mean: 'mean',
   example: 'example',
+  isFavorite: 'isFavorite',
   createdAt: 'createdAt',
   deletedAt: 'deletedAt'
 } as const
