@@ -44,7 +44,7 @@ export class Token {
         ]);
 
         const refreshTokenEncode = await argon2.hash(refreshToken);
-        const expiresIn = this.jwtConfiguration.jwt_refresh_expire ;
+        const expiresIn = this.jwtConfiguration.jwt_refresh_expire_ms ;
         const expiresAt = new Date(Date.now() + expiresIn)
         await db.refreshToken.create({
             data : {

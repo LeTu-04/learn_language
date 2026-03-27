@@ -2,6 +2,7 @@ import { PrismaService } from '../../../Prisma/prisma.service';
 import { BadRequestException, Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { BathUpdateFavoriteDto, CreateVocabularyDto, UpdateFavorite } from '../../../types/vocabularies';
 import { Prisma } from '../../../../prisma/client/client';
+import { not } from 'rxjs/internal/util/not';
 
 @Injectable()
 export class VocabService {
@@ -114,4 +115,60 @@ export class VocabService {
     //         )
     //     )
     // }
+
+    async getVocabForExam (categoryId : number, limit : number, userId : string) {
+        if(!userId) {
+            throw new UnauthorizedException()
+        }
+        this.logger.log(`CategoryId [${categoryId}], ${typeof(categoryId)}`)
+        this.logger.log(userId);
+        const allVocabofCat = await this.prisma.category.findFirst({
+            where : {id : categoryId, isDeleted : false},
+            select : {
+                vocabulary : {select : {
+                    id : true,
+                    word : true,
+                    mean : true
+                } }
+            }
+        });
+        if(!allVocabofCat) {
+            throw new BadRequestException('Category Not Found')
+        }
+        if(!allVocabofCat?.vocabulary) {
+            throw new BadRequestException('Không đủ để tạo thành bộ câu hỏi trắc nghiệm');
+        }
+        
+
+        const storeRandom = allVocabofCat?.vocabulary.sort(() => Math.random() - 0.5) ;
+        const question = storeRandom?.slice(0, limit);
+        //Cần Promise.all() để đợi tất cả Promise hoàn thành rồi mới trả kết quả cuối cùng.
+        return Promise.all(
+            question?.map(async (q) => {
+            const wrongAnswer = allVocabofCat?.vocabulary.filter((v) => v.id !== q.id)
+            .sort(() => Math.random()-0.5)
+            .slice(0,3)
+            .map((v) => v.mean);
+            if(wrongAnswer.length < 3) {
+                const extraVocab = await this.prisma.vocabulary.findMany({
+                    where : {categoryId : {not : categoryId}},
+                    select : {mean : true},
+                    take :  3 - wrongAnswer.length
+                })
+                wrongAnswer.push(...extraVocab.map((v) => v.mean));
+            }
+            const options = [...wrongAnswer, q.mean];
+
+            return {
+                id : q.id,
+                question : q.word,
+                options,
+                correctAnswer : q.mean
+            }
+        })
+        )
+
+
+    }
 }
+

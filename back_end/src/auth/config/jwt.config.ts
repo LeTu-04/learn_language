@@ -10,8 +10,10 @@ export default registerAs('jwt', () => {
         const refreshExpire = process.env.JWT_REFRESH_EXPIRE! as StringValue; 
     return {
     jwt_access_secret : process.env.JWT_ACCESS_SECRET as string,
-    jwt_access_expire : ms(accessExpire)  ,
+    jwt_access_expire : accessExpire  ,
     jwt_refresh_secret : process.env.JWT_REFRESH_SECRET as string ,
-    jwt_refresh_expire : ms(refreshExpire)
+    jwt_refresh_expire : refreshExpire,
+
+    jwt_refresh_expire_ms : ms(refreshExpire)
     }
 })
