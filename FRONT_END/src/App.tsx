@@ -12,7 +12,8 @@ import type { AppDispatch } from './redux/store'
 import { useEffect, useRef, } from 'react'
 import { refresh } from './services/auth_service'
 import FlashCard_Page from './pages/flash_card/flashcard_page'
-import { flushPendingFavorite, flushWithBeacon } from './services/vocab_service'
+import { flushPendingFavorite, } from './services/vocab_service'
+import Review_Page from './pages/review_page'
 
 
 
@@ -65,6 +66,9 @@ function App() {
           </ProtectedRoute>} />
           <Route path='/course/flashcard' element = {<ProtectedRoute>
             <FlashCard_Page/>
+          </ProtectedRoute>} />
+          <Route path='/course/review' element={<ProtectedRoute>
+            <Review_Page/>
           </ProtectedRoute>} />
         </Routes>
       </BrowserRouter>

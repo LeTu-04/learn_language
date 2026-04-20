@@ -1,0 +1,23 @@
+.review-page-container {
+    display: grid;
+    grid-template-areas: 
+        "sidebar nav   nav"
+        "sidebar main  main";
+    grid-template-columns: 260px minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    height: 100vh;
+    overflow: hidden;
+    background: var(--app-background);
+}
+
+.review-page-container nav {
+    grid-area: nav;
+}
+
+.review-page-container aside {
+    grid-area: sidebar;
+}
+
+.review-page-container main {
+    grid-area: main;
+}

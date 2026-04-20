@@ -3,7 +3,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { PostVocabularyArg, VocabularyFetch, VocabularyResponse,} from "../features/vocabulary/vocabulary.type";
 import { clientAPI } from "../utils/api/api";
-import { logger } from "../../utils/logger";
+
 
 
 
@@ -48,24 +48,25 @@ export const flushPendingFavorite = async() => {
     }
 }
 
-export const flushWithBeacon = () => {
-    const pending = JSON.parse(localStorage.getItem('favoritepending') || '{}');
-    if(Object.keys(pending).length === 0) return;
-    // object.entries đưa từ {} thành []
-    const changes = Object.entries(pending).map(([id, isFavorite]) => ({
-        id : Number(id),
-        isFavorite
-    }));
+// export const flushWithBeacon = () => {
+//     const pending = JSON.parse(localStorage.getItem('favoritepending') || '{}');
+//     if(Object.keys(pending).length === 0) return;
+//     // object.entries đưa từ {} thành []
+//     const changes = Object.entries(pending).map(([id, isFavorite]) => ({
+//         id : Number(id),
+//         isFavorite
+//     }));
 
-    try {
-        const success = navigator.sendBeacon(
-            'http://localhost:3000/Category/vocabularies/favorite-beacon',
-            new Blob([JSON.stringify({changes})], {type : 'application/json'})
-        );
-        if(success) {
-            localStorage.removeItem('favoritepending')
-        }
-    } catch (error) {
-        logger.error('Không thể gửi favorite lên sever với Beacon', error);
-    }
-}
+//     try {
+//         const success = navigator.sendBeacon(
+//             'http://localhost:3000/Category/vocabularies/favorite-beacon',
+//             new Blob([JSON.stringify({changes})], {type : 'application/json'})
+//         );
+//         if(success) {
+//             localStorage.removeItem('favoritepending')
+//         }
+//     } catch (error) {
+//         logger.error('Không thể gửi favorite lên sever với Beacon', error);
+//     }
+// }
+

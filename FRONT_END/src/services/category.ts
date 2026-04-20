@@ -36,3 +36,7 @@ export const editCategory = createAsyncThunk('Category/editCategory',
 )
 
 
+export const getQuizzExam = async(categoryId : number, limit : number) =>  {
+    const response = await clientAPI.get(`Category/${categoryId}/exam`);
+    return response.data
+}

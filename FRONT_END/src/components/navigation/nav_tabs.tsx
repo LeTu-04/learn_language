@@ -1,5 +1,5 @@
 import { BookPlus, Layers, RefreshCw, MessageCircle } from 'lucide-react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import './nav_tabs.css';
 
 const navItems = [
@@ -11,6 +11,7 @@ const navItems = [
 
 export default function NavTabs() {
     const navigate = useNavigate();
+    const params = useParams();
 
     // cho biết url của trang 
 //     Nếu URL hiện tại là http://localhost:5173/course/add_vocab?category=5#section1:
