@@ -2,12 +2,17 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../Prisma/prisma.service';
 import { CreateCategoryDto, updateCategory } from '../../types/categories';
 
+
 @Injectable()
 export class CategoryService {
     constructor(private readonly prisma : PrismaService){}
+
+
+
+
     async createCategory (data : CreateCategoryDto, userId : string) {
         if(!userId) {
-            throw new BadRequestException();
+            throw new BadRequestException('USER_ID_MISSING');
         }
         const category = await this.prisma.category.create({
             data : {

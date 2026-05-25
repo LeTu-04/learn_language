@@ -9,6 +9,19 @@ export class LocalService {
     constructor(private prisma : PrismaService,
         private token : Token
     ){}
+
+        async testScale () {
+            const password  = 'nguyenletu';
+            const start = Date.now();
+            await argon2.hash(password);
+            const end = Date.now();
+
+            return end-start;
+        }
+    
+
+
+
     async signUp (data : SignIn_Up){
         if(!data) {
             throw new UnauthorizedException('Tài khoản hoặc mật khẩu không đúng')

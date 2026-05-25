@@ -5,6 +5,7 @@ export const clientAPI = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true,
   timeout: 5000,
 });
 
@@ -30,9 +31,9 @@ export const clientAPI = axios.create({
 // đính accessToken
 
 clientAPI.interceptors.request.use(
-  async(config: InternalAxiosRequestConfig) => {
+  async (config: InternalAxiosRequestConfig) => {
 
-    const {store} = await import ('../../redux/store')
+    const { store } = await import('../../redux/store')
     const token = store.getState().Auth.token;
 
     if (token && config.headers) {
@@ -84,13 +85,13 @@ clientAPI.interceptors.response.use(
     const originalRequest: any = error.config;
 
     //NOT 401 -> reject normally
-    
+
 
     if (error.response?.status !== 401) {
       return Promise.reject(error);
     }
 
-  
+
     // Skip refresh endpoint
 
 
@@ -98,7 +99,7 @@ clientAPI.interceptors.response.use(
       return Promise.reject(error);
     }
 
- 
+
     // User chưa login -> không refresh
 
 

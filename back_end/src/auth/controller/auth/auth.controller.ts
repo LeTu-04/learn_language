@@ -17,6 +17,19 @@ export class AuthController {
         private readonly local : LocalService,
         private readonly jwt : JwtService
     ){}
+
+    // @Public()
+    // @Get('spam')
+    // async Spam() {
+    //     const data = await this.local.testScale();
+    //     return {
+    //         time : data,
+    //     }
+    // }
+
+
+
+
     @Public()
     @Post('google') 
     async loginGoole (

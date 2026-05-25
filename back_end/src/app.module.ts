@@ -17,6 +17,12 @@ import { JwtService } from './auth/service/jwt/jwt.service';
 import { LocalService } from './auth/service/auth/local/local.service';
 
 
+import { DiscussController } from './controllers/discuss/discuss.controller';
+import { DiscussService } from './services/discuss/discuss.service.js';
+
+
+
+
 
 @Module({
   imports: [
@@ -26,12 +32,12 @@ import { LocalService } from './auth/service/auth/local/local.service';
     AuthModule,
     PrismaModule
   ],
-  controllers: [ VocabController, CategoryController, ],
+  controllers: [ VocabController, CategoryController, DiscussController, ],
   providers: [VocabService,  CategoryService, 
     {
       provide : APP_GUARD,
       useClass : JwtAuthGuard
-    }, 
+    }, DiscussService 
    ],
 })
 export class AppModule {}

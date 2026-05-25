@@ -217,7 +217,7 @@ export type VocabularyGroupByOutputType = {
   _max: VocabularyMaxAggregateOutputType | null
 }
 
-type GetVocabularyGroupByPayload<T extends VocabularyGroupByArgs> = Prisma.PrismaPromise<
+export type GetVocabularyGroupByPayload<T extends VocabularyGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<VocabularyGroupByOutputType, T['by']> &
       {
@@ -1272,6 +1272,11 @@ export type VocabularyFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Skip the first `n` Vocabularies.
    */
   skip?: number
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+   * 
+   * Filter by unique combinations of Vocabularies.
+   */
   distinct?: Prisma.VocabularyScalarFieldEnum | Prisma.VocabularyScalarFieldEnum[]
 }
 

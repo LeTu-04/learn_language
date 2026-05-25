@@ -10,7 +10,7 @@ const navItems = [
 ];
 
 export default function NavTabs() {
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
     const params = useParams();
 
     // cho biết url của trang 
@@ -33,6 +33,7 @@ export default function NavTabs() {
                 return (
                     <button
                         key={item.path}
+                        type="button"
                         className={`nav-tab ${isActive ? 'active' : ''}`}
                         onClick={() => navigate(item.path)}
                     >

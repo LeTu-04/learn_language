@@ -27,6 +27,11 @@ model User {
   isActive Boolean @default(true)
   provider Provider[]
   refreshTokens RefreshToken[]
+
+  posts Post[]
+
+  comments Comment[]
+
   @@index([id])
 }
 
@@ -79,4 +84,27 @@ model RefreshToken {
   expireAt DateTime
   userId String
   user User @relation(fields: [userId], references: [id])
+}
+
+model Post {
+  id Int @id @default(autoincrement())
+  title String?
+  content String @db.Text
+  authorId String
+  author User @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+  deletedAt DateTime?
+
+  comments Comment[]
+  @@index([authorId])
+  
+}
+
+model Comment {
+  id Int @id @default(autoincrement())  
+  content String
+  authorId String
+  author User @relation(fields: [authorId], references: [id])
+  postId Int
+  post Post @relation(fields: [postId], references: [id])
 }

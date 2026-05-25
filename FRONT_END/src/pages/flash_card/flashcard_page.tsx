@@ -97,6 +97,9 @@ export default function FlashCard_Page() {
             <div className="sidebar-flashcard">
                 <SideBar showAddCategory={false} />
             </div>
+            <div className="navigator_bar">
+                
+            </div>
             <div className="container_vocab_page">
                 {/* 1. Thanh tiến trình và bộ đếm (Progress Bar & Counter) */}
                 <div className="flashcard-progress-container">

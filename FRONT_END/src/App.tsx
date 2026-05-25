@@ -14,65 +14,70 @@ import { refresh } from './services/auth_service'
 import FlashCard_Page from './pages/flash_card/flashcard_page'
 import { flushPendingFavorite, } from './services/vocab_service'
 import Review_Page from './pages/review_page'
+import Discuss from './components/discuss/discuss'
 
 
 
 
 function App() {
-    const dispatch = useDispatch<AppDispatch>();
-    //const token = useSelector((state : RootState) => state.Auth.token);
-    const refreshCalled = useRef(false);
+  const dispatch = useDispatch<AppDispatch>();
+  //const token = useSelector((state : RootState) => state.Auth.token);
+  const refreshCalled = useRef(false);
 
-    useEffect(() => {
-      if(refreshCalled.current) return ;
-      refreshCalled.current = true
+  useEffect(() => {
+    if (refreshCalled.current) return;
+    refreshCalled.current = true
 
-      dispatch(refresh());
-    },[])
+    dispatch(refresh());
+  }, [])
 
-    //  if (authLoading && !token) return null;
+  //  if (authLoading && !token) return null;
 
-    useEffect(() => {
-      flushPendingFavorite();
-      const handleVisibility = () => {
-        if(document.visibilityState === 'hidden') {
-          flushPendingFavorite()
-        }
+  useEffect(() => {
+    flushPendingFavorite();
+    const handleVisibility = () => {
+      if (document.visibilityState === 'hidden') {
+        flushPendingFavorite()
       }
+    }
 
-      // const hadnleUnload = () => {
-      //   flushWithBeacon();
-      // }
+    // const hadnleUnload = () => {
+    //   flushWithBeacon();
+    // }
 
-      document.addEventListener('visibilitychange', handleVisibility);
-      // window.addEventListener('beforeunload', hadnleUnload);
+    document.addEventListener('visibilitychange', handleVisibility);
+    // window.addEventListener('beforeunload', hadnleUnload);
 
-      return () => {
-        document.removeEventListener('visibilitychange', handleVisibility);
-        // window.removeEventListener('beforeunload', hadnleUnload);
-      }
-    }, [])
-    return (
-      <BrowserRouter>
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibility);
+      // window.removeEventListener('beforeunload', hadnleUnload);
+    }
+  }, [])
+  return (
+    <BrowserRouter>
       <Toaster position="top-right" />
-        <Routes>
-          <Route path='/' element={<Navigate to="/login" replace />} />
-          <Route path='/login' element = {<LoginPage/>}/>
-          <Route path='/home' element={<ProtectedRoute>
-            <Homepage></Homepage>
-          </ProtectedRoute>}/>
-          <Route path='/course/add_vocab' element = {<ProtectedRoute>
-            <AddVocabPage />
-          </ProtectedRoute>} />
-          <Route path='/course/flashcard' element = {<ProtectedRoute>
-            <FlashCard_Page/>
-          </ProtectedRoute>} />
-          <Route path='/course/review' element={<ProtectedRoute>
-            <Review_Page/>
-          </ProtectedRoute>} />
-        </Routes>
-      </BrowserRouter>
-    )
+      <Routes>
+        <Route path='/' element={<Navigate to="/login" replace />} />
+        <Route path='/login' element={<LoginPage />} />
+        <Route path='/home' element={<ProtectedRoute>
+          <Homepage></Homepage>
+        </ProtectedRoute>} />
+        <Route path='/course/add_vocab' element={<ProtectedRoute>
+          <AddVocabPage />
+        </ProtectedRoute>} />
+        <Route path='/course/flashcard' element={<ProtectedRoute>
+          <FlashCard_Page />
+        </ProtectedRoute>} />
+        <Route path='/course/review' element={<ProtectedRoute>
+          <Review_Page />
+        </ProtectedRoute>} />
+        <Route path='/course/discuss' element={<ProtectedRoute>
+          <Discuss />
+        </ProtectedRoute>} />
+      </Routes>
+    </BrowserRouter>
+
+  )
 }
 
 export default App

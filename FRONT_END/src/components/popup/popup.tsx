@@ -44,8 +44,8 @@ export default function Popup ({pop, setpopUp} : popUpProps) {
                 setpopUp(false); 
             }
             
-        } catch (error) {
-            console.log('Fail in upload new Category ');
+        } catch (error: any) {
+            console.log('Fail in upload new Category:', error.response?.data);
             alert('Thêm category mới thất bại')
         }
     }

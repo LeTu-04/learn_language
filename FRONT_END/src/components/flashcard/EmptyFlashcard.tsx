@@ -1,7 +1,7 @@
 
 import { useNavigate } from 'react-router-dom';
 import { PlusCircle, Inbox } from 'lucide-react';
-import './EmptyFlashcard.css'; // Nhớ import CSS nhé
+import './emptyFlashCard.css'
 
 interface EmptyFlashcardProps {
   categoryId?: number;

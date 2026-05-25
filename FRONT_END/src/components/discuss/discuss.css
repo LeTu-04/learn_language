@@ -1,0 +1,224 @@
+.main-content-discuss {
+    grid-area: content;
+    overflow-y: auto;
+    background: transparent;
+}
+
+/* Container for the discuss section */
+.discuss-container {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* Form Section */
+.discuss-form-card {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+    margin-bottom: 32px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.discuss-form-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 45px rgba(0, 0, 0, 0.08);
+}
+
+.discuss-header {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.discuss-input,
+.discuss-textarea {
+    width: 100%;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 1rem;
+    font-family: inherit;
+    background: #fdfdfd;
+    transition: all 0.25s ease;
+    outline: none;
+    margin-bottom: 16px;
+    color: #2d3748;
+}
+
+.discuss-input::placeholder,
+.discuss-textarea::placeholder {
+    color: #a0aec0;
+}
+
+.discuss-input:focus,
+.discuss-textarea:focus {
+    border-color: #667eea;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+}
+
+.discuss-textarea {
+    min-height: 140px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+.discuss-submit-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    float: right;
+}
+
+.discuss-submit-btn:hover {
+    box-shadow: 0 6px 20px rgba(118, 75, 162, 0.4);
+    transform: translateY(-2px);
+}
+
+.discuss-submit-btn:active {
+    transform: translateY(0);
+}
+
+/* Post List */
+.discuss-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.discuss-post-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.discuss-post-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
+    border-color: rgba(102, 126, 234, 0.2);
+}
+
+.post-meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.post-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f64f59, #c471ed);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 10px rgba(246, 79, 89, 0.3);
+}
+
+.post-author-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.post-author {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #1a202c;
+}
+
+.post-time {
+    font-size: 0.85rem;
+    color: #718096;
+    margin-top: 2px;
+}
+
+.post-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.post-content-preview {
+    font-size: 1rem;
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.post-actions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    border-top: 1px solid #edf2f7;
+    padding-top: 16px;
+}
+
+.post-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    color: #718096;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 6px 12px;
+    border-radius: 8px;
+}
+
+.post-action-btn:hover {
+    color: #667eea;
+    background: #edf2f7;
+}
+
+.post-action-btn.active {
+    color: #f64f59;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Clearfix */
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
