@@ -11,16 +11,21 @@ import { JwtStrategy } from '../strategies/jwt.strategy';
 import { LocalService } from '../service/auth/local/local.service';
 import { JwtService } from '../service/jwt/jwt.service';
 import { JwtRefreshStrategy } from '../strategies/jwt.refresh.strategy';
+import { GenerateHashService } from '../../utils/hash.utils';
+import { RedisModule } from '../../modules/redis/redis.module';
+import { MailModule } from '../../modules/mail/mail.module';
 
 @Module({
     imports : [
         PassportModule,
         ConfigModule.forFeature(googleOauthConfig),
         ConfigModule.forFeature(jwtConfig),
-        JwtModule.register({})
+        JwtModule.register({}),
+        RedisModule,
+        MailModule
     ],
     controllers : [AuthController],
-    providers : [GoogleService, Token, JwtStrategy, JwtService, LocalService, JwtRefreshStrategy],
+    providers : [GoogleService, Token, JwtStrategy, JwtService, LocalService, JwtRefreshStrategy, GenerateHashService],
     exports : [GoogleService, JwtService, LocalService]
 })
 export class AuthModule {}

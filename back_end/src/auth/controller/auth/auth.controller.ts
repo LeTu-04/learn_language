@@ -4,12 +4,14 @@ import type { Response } from 'express';
 import type{ Request } from "express";
 
 import { Public } from '../../decorators/jwt.public';
-import { SignIn_Up } from '../../service/auth/local/local.types';
 import { LocalService } from '../../service/auth/local/local.service';
 import { JwtRefreshGuard } from '../../guards/jwt.refresh.guard';
 
 import { JwtAuthGuard } from '../../guards/jwtaccess.guard';
 import { JwtService } from '../../service/jwt/jwt.service';
+import { SignInDto, SignUpDto } from '../../service/auth/local/local.types';
+
+
 
 @Controller('auth')
 export class AuthController {
@@ -51,9 +53,21 @@ export class AuthController {
     }
 
     @Public()
+    @Post('sendotp')
+    async checkAndSendOtp(
+        @Body() data : {email : string}
+    ) {
+        const otp = await this.local.checkAndGenOtpForClient(data.email);
+        return {
+            message : 'SUCCESS',
+            otp
+        }
+    }
+
+    @Public()
     @Post('signup') 
     async SignUp (
-        @Body() body : SignIn_Up,
+        @Body() body : SignUpDto,
         @Res({passthrough : true})res : Response
     ){
         const data = await this.local.signUp(body);
@@ -74,7 +88,7 @@ export class AuthController {
     @Public()
     @Post('signin')
     async signIn(
-        @Body() body : SignIn_Up,
+        @Body() body : SignInDto,
         @Res({passthrough : true}) res : Response
     ){
         const data = await this.local.SignIn(body);

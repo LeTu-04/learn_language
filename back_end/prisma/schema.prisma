@@ -92,6 +92,9 @@ model Post {
   content String @db.Text
   authorId String
   author User @relation(fields: [authorId], references: [id])
+
+  image_public_id String?
+  image_url String?
   createdAt DateTime @default(now())
   deletedAt DateTime?
 

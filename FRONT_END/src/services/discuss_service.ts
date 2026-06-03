@@ -11,6 +11,8 @@ interface PostData {
         email : string
         avatarUrl : string | null
     }
+
+    image_url : string
     createdAt : string
 }
 
@@ -19,10 +21,7 @@ interface DiscusstDataDto {
     nextcursor : number | null 
 }
 
-export interface createPost  {
-    title : string
-    content : string
-}
+export type createPost = FormData;
 
 
 
@@ -30,7 +29,11 @@ export interface createPost  {
 
 export const postService = {
     createPost : async (data : createPost) => {
-        const response = await clientAPI.post('/discuss', data);
+        const response = await clientAPI.post('/discuss', data, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
         return response.data ;
     },
 

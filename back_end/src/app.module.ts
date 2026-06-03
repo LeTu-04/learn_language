@@ -19,6 +19,13 @@ import { LocalService } from './auth/service/auth/local/local.service';
 
 import { DiscussController } from './controllers/discuss/discuss.controller';
 import { DiscussService } from './services/discuss/discuss.service.js';
+import { CloudinaryModule } from './modules/upload/cloudinary.module.js';
+import cloudinaryConfig from './auth/config/cloudinary.config.js';
+import { RedisModule } from './modules/redis/redis.module.js';
+import { MailModule } from './modules/mail/mail.module.js';
+import redisConfig from './auth/config/redis.config.js';
+import hashConfig from './auth/config/hash.config.js';
+import mailConfig from './auth/config/mail.config.js';
 
 
 
@@ -27,10 +34,14 @@ import { DiscussService } from './services/discuss/discuss.service.js';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal : true
+      isGlobal : true,
+      load : [cloudinaryConfig, redisConfig, hashConfig, mailConfig]
     }),
     AuthModule,
-    PrismaModule
+    PrismaModule,
+    CloudinaryModule,
+    RedisModule,
+    MailModule
   ],
   controllers: [ VocabController, CategoryController, DiscussController, ],
   providers: [VocabService,  CategoryService, 

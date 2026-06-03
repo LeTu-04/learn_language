@@ -141,6 +141,13 @@
     font-weight: 700;
     font-size: 1.2rem;
     box-shadow: 0 4px 10px rgba(246, 79, 89, 0.3);
+    overflow: hidden;
+}
+
+.post-avatar-image {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
 }
 
 .post-author-info {
@@ -211,9 +218,38 @@
     color: #f64f59;
 }
 
+.post-image-container {
+    width: 100%;
+    margin: 16px 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #f7fafc;
+    /* Màu nền nhẹ phòng khi ảnh trong suốt */
+    display: flex;
+    justify-content: center;
+    border: 1px solid #edf2f7;
+}
+
+.post-image {
+    max-width: 100%;
+    max-height: 450px;
+    /* Giới hạn chiều cao để bài viết không bị quá dài */
+    object-fit: contain;
+    /* Giữ nguyên tỷ lệ ảnh, không bị cắt cúp */
+    border-radius: 12px;
+}
+
+
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Clearfix */

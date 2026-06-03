@@ -1,13 +1,20 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '../../../../Prisma/prisma.service';
-import { SignIn_Up } from './local.types';
 import * as argon2 from 'argon2'
 import { Token } from '../../../token/token';
+import { GenerateHashService } from '../../../../utils/hash.utils';
+import { RedisService } from '../../../../modules/redis/redis.service';
+import { MailService } from '../../../../modules/mail/mail.service';
+import { SignInDto, SignUpDto } from './local.types';
 
 @Injectable()
 export class LocalService {
-    constructor(private prisma : PrismaService,
-        private token : Token
+    constructor(
+        private prisma : PrismaService,
+        private token : Token,
+        private readonly hash : GenerateHashService,
+        private readonly redis : RedisService,
+        private readonly mail : MailService
     ){}
 
         async testScale () {
@@ -22,7 +29,22 @@ export class LocalService {
 
 
 
-    async signUp (data : SignIn_Up){
+    async checkAndGenOtpForClient (email : string) : Promise<void>{
+        const isExists = await this.prisma.user.findUnique({
+            where : {email }
+        });
+        if(isExists) {
+            throw new BadRequestException('Email đã tồn tại');
+        }
+        const otp = this.hash.generateOtp();
+        //const valueHashed = this.hash.createHmacForOtpValue(email, otp);
+        await this.redis.setEmailOtp(email, otp);
+        await this.mail.sendOtp(email, otp);
+
+    }
+    
+
+    async signUp (data : SignUpDto){
         if(!data) {
             throw new UnauthorizedException('Tài khoản hoặc mật khẩu không đúng')
         }
@@ -36,6 +58,14 @@ export class LocalService {
             throw new BadRequestException('Email này đã được sử dụng, vui lòng thay đổi');
         }
         
+        const otpValueInRedis = await this.redis.getEmailOpt(data.email);
+
+        const otpExact = this.hash.createHmacForOtpValue(data.email, data.inputotp) === otpValueInRedis ;
+
+        if(!otpExact) {
+            throw new BadRequestException('Sai mã xác thực OTP')
+        }
+
         const passwordHash = await argon2.hash(data.password);
 
         const {user, tokens} = await this.prisma.$transaction(
@@ -68,7 +98,7 @@ export class LocalService {
 
     }
 
-    async SignIn(data : SignIn_Up) {
+    async SignIn(data : SignInDto) {
         const isExists = await this.prisma.user.findUnique({
             where : {email : data.email}, select : {email : true, password : true, id : true, name : true, avatarUrl : true}
         });

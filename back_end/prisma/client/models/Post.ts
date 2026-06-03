@@ -39,6 +39,8 @@ export type PostMinAggregateOutputType = {
   title: string | null
   content: string | null
   authorId: string | null
+  image_public_id: string | null
+  image_url: string | null
   createdAt: Date | null
   deletedAt: Date | null
 }
@@ -48,6 +50,8 @@ export type PostMaxAggregateOutputType = {
   title: string | null
   content: string | null
   authorId: string | null
+  image_public_id: string | null
+  image_url: string | null
   createdAt: Date | null
   deletedAt: Date | null
 }
@@ -57,6 +61,8 @@ export type PostCountAggregateOutputType = {
   title: number
   content: number
   authorId: number
+  image_public_id: number
+  image_url: number
   createdAt: number
   deletedAt: number
   _all: number
@@ -76,6 +82,8 @@ export type PostMinAggregateInputType = {
   title?: true
   content?: true
   authorId?: true
+  image_public_id?: true
+  image_url?: true
   createdAt?: true
   deletedAt?: true
 }
@@ -85,6 +93,8 @@ export type PostMaxAggregateInputType = {
   title?: true
   content?: true
   authorId?: true
+  image_public_id?: true
+  image_url?: true
   createdAt?: true
   deletedAt?: true
 }
@@ -94,6 +104,8 @@ export type PostCountAggregateInputType = {
   title?: true
   content?: true
   authorId?: true
+  image_public_id?: true
+  image_url?: true
   createdAt?: true
   deletedAt?: true
   _all?: true
@@ -190,6 +202,8 @@ export type PostGroupByOutputType = {
   title: string | null
   content: string
   authorId: string
+  image_public_id: string | null
+  image_url: string | null
   createdAt: Date
   deletedAt: Date | null
   _count: PostCountAggregateOutputType | null
@@ -222,6 +236,8 @@ export type PostWhereInput = {
   title?: Prisma.StringNullableFilter<"Post"> | string | null
   content?: Prisma.StringFilter<"Post"> | string
   authorId?: Prisma.StringFilter<"Post"> | string
+  image_public_id?: Prisma.StringNullableFilter<"Post"> | string | null
+  image_url?: Prisma.StringNullableFilter<"Post"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Post"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Post"> | Date | string | null
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -233,6 +249,8 @@ export type PostOrderByWithRelationInput = {
   title?: Prisma.SortOrderInput | Prisma.SortOrder
   content?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
+  image_public_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  image_url?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   author?: Prisma.UserOrderByWithRelationInput
@@ -247,6 +265,8 @@ export type PostWhereUniqueInput = Prisma.AtLeast<{
   title?: Prisma.StringNullableFilter<"Post"> | string | null
   content?: Prisma.StringFilter<"Post"> | string
   authorId?: Prisma.StringFilter<"Post"> | string
+  image_public_id?: Prisma.StringNullableFilter<"Post"> | string | null
+  image_url?: Prisma.StringNullableFilter<"Post"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Post"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Post"> | Date | string | null
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -258,6 +278,8 @@ export type PostOrderByWithAggregationInput = {
   title?: Prisma.SortOrderInput | Prisma.SortOrder
   content?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
+  image_public_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  image_url?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.PostCountOrderByAggregateInput
@@ -275,6 +297,8 @@ export type PostScalarWhereWithAggregatesInput = {
   title?: Prisma.StringNullableWithAggregatesFilter<"Post"> | string | null
   content?: Prisma.StringWithAggregatesFilter<"Post"> | string
   authorId?: Prisma.StringWithAggregatesFilter<"Post"> | string
+  image_public_id?: Prisma.StringNullableWithAggregatesFilter<"Post"> | string | null
+  image_url?: Prisma.StringNullableWithAggregatesFilter<"Post"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Post"> | Date | string
   deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Post"> | Date | string | null
 }
@@ -282,6 +306,8 @@ export type PostScalarWhereWithAggregatesInput = {
 export type PostCreateInput = {
   title?: string | null
   content: string
+  image_public_id?: string | null
+  image_url?: string | null
   createdAt?: Date | string
   deletedAt?: Date | string | null
   author: Prisma.UserCreateNestedOneWithoutPostsInput
@@ -293,6 +319,8 @@ export type PostUncheckedCreateInput = {
   title?: string | null
   content: string
   authorId: string
+  image_public_id?: string | null
+  image_url?: string | null
   createdAt?: Date | string
   deletedAt?: Date | string | null
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutPostInput
@@ -301,6 +329,8 @@ export type PostUncheckedCreateInput = {
 export type PostUpdateInput = {
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  image_public_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   author?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
@@ -312,6 +342,8 @@ export type PostUncheckedUpdateInput = {
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
+  image_public_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   comments?: Prisma.CommentUncheckedUpdateManyWithoutPostNestedInput
@@ -322,6 +354,8 @@ export type PostCreateManyInput = {
   title?: string | null
   content: string
   authorId: string
+  image_public_id?: string | null
+  image_url?: string | null
   createdAt?: Date | string
   deletedAt?: Date | string | null
 }
@@ -329,6 +363,8 @@ export type PostCreateManyInput = {
 export type PostUpdateManyMutationInput = {
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  image_public_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -338,6 +374,8 @@ export type PostUncheckedUpdateManyInput = {
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
+  image_public_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -357,6 +395,8 @@ export type PostCountOrderByAggregateInput = {
   title?: Prisma.SortOrder
   content?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
+  image_public_id?: Prisma.SortOrder
+  image_url?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
 }
@@ -370,6 +410,8 @@ export type PostMaxOrderByAggregateInput = {
   title?: Prisma.SortOrder
   content?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
+  image_public_id?: Prisma.SortOrder
+  image_url?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
 }
@@ -379,6 +421,8 @@ export type PostMinOrderByAggregateInput = {
   title?: Prisma.SortOrder
   content?: Prisma.SortOrder
   authorId?: Prisma.SortOrder
+  image_public_id?: Prisma.SortOrder
+  image_url?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
 }
@@ -451,6 +495,8 @@ export type PostUpdateOneRequiredWithoutCommentsNestedInput = {
 export type PostCreateWithoutAuthorInput = {
   title?: string | null
   content: string
+  image_public_id?: string | null
+  image_url?: string | null
   createdAt?: Date | string
   deletedAt?: Date | string | null
   comments?: Prisma.CommentCreateNestedManyWithoutPostInput
@@ -460,6 +506,8 @@ export type PostUncheckedCreateWithoutAuthorInput = {
   id?: number
   title?: string | null
   content: string
+  image_public_id?: string | null
+  image_url?: string | null
   createdAt?: Date | string
   deletedAt?: Date | string | null
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutPostInput
@@ -499,6 +547,8 @@ export type PostScalarWhereInput = {
   title?: Prisma.StringNullableFilter<"Post"> | string | null
   content?: Prisma.StringFilter<"Post"> | string
   authorId?: Prisma.StringFilter<"Post"> | string
+  image_public_id?: Prisma.StringNullableFilter<"Post"> | string | null
+  image_url?: Prisma.StringNullableFilter<"Post"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Post"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Post"> | Date | string | null
 }
@@ -506,6 +556,8 @@ export type PostScalarWhereInput = {
 export type PostCreateWithoutCommentsInput = {
   title?: string | null
   content: string
+  image_public_id?: string | null
+  image_url?: string | null
   createdAt?: Date | string
   deletedAt?: Date | string | null
   author: Prisma.UserCreateNestedOneWithoutPostsInput
@@ -516,6 +568,8 @@ export type PostUncheckedCreateWithoutCommentsInput = {
   title?: string | null
   content: string
   authorId: string
+  image_public_id?: string | null
+  image_url?: string | null
   createdAt?: Date | string
   deletedAt?: Date | string | null
 }
@@ -539,6 +593,8 @@ export type PostUpdateToOneWithWhereWithoutCommentsInput = {
 export type PostUpdateWithoutCommentsInput = {
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  image_public_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   author?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
@@ -549,6 +605,8 @@ export type PostUncheckedUpdateWithoutCommentsInput = {
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
   authorId?: Prisma.StringFieldUpdateOperationsInput | string
+  image_public_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -557,6 +615,8 @@ export type PostCreateManyAuthorInput = {
   id?: number
   title?: string | null
   content: string
+  image_public_id?: string | null
+  image_url?: string | null
   createdAt?: Date | string
   deletedAt?: Date | string | null
 }
@@ -564,6 +624,8 @@ export type PostCreateManyAuthorInput = {
 export type PostUpdateWithoutAuthorInput = {
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  image_public_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   comments?: Prisma.CommentUpdateManyWithoutPostNestedInput
@@ -573,6 +635,8 @@ export type PostUncheckedUpdateWithoutAuthorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  image_public_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   comments?: Prisma.CommentUncheckedUpdateManyWithoutPostNestedInput
@@ -582,6 +646,8 @@ export type PostUncheckedUpdateManyWithoutAuthorInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  image_public_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -622,6 +688,8 @@ export type PostSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   title?: boolean
   content?: boolean
   authorId?: boolean
+  image_public_id?: boolean
+  image_url?: boolean
   createdAt?: boolean
   deletedAt?: boolean
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -634,6 +702,8 @@ export type PostSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   title?: boolean
   content?: boolean
   authorId?: boolean
+  image_public_id?: boolean
+  image_url?: boolean
   createdAt?: boolean
   deletedAt?: boolean
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -644,6 +714,8 @@ export type PostSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   title?: boolean
   content?: boolean
   authorId?: boolean
+  image_public_id?: boolean
+  image_url?: boolean
   createdAt?: boolean
   deletedAt?: boolean
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -654,11 +726,13 @@ export type PostSelectScalar = {
   title?: boolean
   content?: boolean
   authorId?: boolean
+  image_public_id?: boolean
+  image_url?: boolean
   createdAt?: boolean
   deletedAt?: boolean
 }
 
-export type PostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "content" | "authorId" | "createdAt" | "deletedAt", ExtArgs["result"]["post"]>
+export type PostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "content" | "authorId" | "image_public_id" | "image_url" | "createdAt" | "deletedAt", ExtArgs["result"]["post"]>
 export type PostInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   comments?: boolean | Prisma.Post$commentsArgs<ExtArgs>
@@ -682,6 +756,8 @@ export type $PostPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     title: string | null
     content: string
     authorId: string
+    image_public_id: string | null
+    image_url: string | null
     createdAt: Date
     deletedAt: Date | null
   }, ExtArgs["result"]["post"]>
@@ -1113,6 +1189,8 @@ export interface PostFieldRefs {
   readonly title: Prisma.FieldRef<"Post", 'String'>
   readonly content: Prisma.FieldRef<"Post", 'String'>
   readonly authorId: Prisma.FieldRef<"Post", 'String'>
+  readonly image_public_id: Prisma.FieldRef<"Post", 'String'>
+  readonly image_url: Prisma.FieldRef<"Post", 'String'>
   readonly createdAt: Prisma.FieldRef<"Post", 'DateTime'>
   readonly deletedAt: Prisma.FieldRef<"Post", 'DateTime'>
 }

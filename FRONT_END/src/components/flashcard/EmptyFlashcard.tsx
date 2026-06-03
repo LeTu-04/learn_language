@@ -4,7 +4,7 @@ import { PlusCircle, Inbox } from 'lucide-react';
 import './emptyFlashCard.css'
 
 interface EmptyFlashcardProps {
-  categoryId?: number;
+  categoryId: number | null;
   categoryName?: string;
 }
 

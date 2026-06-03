@@ -10,6 +10,7 @@ import { fetchVocabularyByCategory } from "../../services/vocab_service";
 import '../css/flashcard_page.css'
 import SideBar from "../sidebar";
 import EmptyFlashcard from "../../components/flashcard/EmptyFlashcard";
+import NavTabs from "../../components/navigation/nav_tabs";
 
 export default function FlashCard_Page() {
     const dispatch = useAppDispatch();
@@ -57,33 +58,47 @@ export default function FlashCard_Page() {
         }
     }, [selectedCategory, dispatch]);
 
-    if (categoriesLoading || vocabulariesLoading) {
-        return (
-            <div className="data-loading">
-                Đang tải dữ liệu
-            </div>
-        )
-    }
-
-    if (categories.length === 0) {
-        return <div className="container_vocab_page">Chua co category nao.</div>;
-    }
-
-    if (selectedCategory === null) {
-        return <div className="container_vocab_page">Dang chon category...</div>;
-    }
-
-    if (vocabularies.length === 0) {
-
+        if (categoriesLoading || vocabulariesLoading) {
         return (
             <div className="container-flashcard">
                 <div className="sidebar-flashcard">
                     <SideBar showAddCategory={false} />
                 </div>
-                <div className="container_vocab_page" >
+                <div className="container_vocab_page" style={{ justifyContent: 'flex-start', paddingTop: '20px' }}>
+                    <NavTabs />
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+                        <div className="data-loading">
+                            Đang tải dữ liệu...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+
+    // if (categories.length === 0) {
+    //     return <div className="container_vocab_page">Chua co category nao.</div>;
+    // }
+
+    // if (selectedCategory === null) {
+    //     return <div className="container_vocab_page">Dang chon category...</div>;
+    // }
+
+    if (vocabularies.length === 0 || categories.length === 0 || selectedCategory === null) {
+
+        return (
+            <div className="container-flashcard">
+            <div className="sidebar-flashcard">
+                <SideBar showAddCategory={false} />
+            </div>
+            <div className="container_vocab_page" style={{ justifyContent: 'flex-start', paddingTop: '20px' }}>
+                <NavTabs />
+                <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
                     <EmptyFlashcard categoryId={selectedCategory} categoryName={categories.find(c => c.id === selectedCategory)?.name} />
                 </div>
             </div>
+        </div>
         )
     }
 
@@ -93,16 +108,18 @@ export default function FlashCard_Page() {
     const currentV = vocabularies[index] || vocabularies[0];
 
     return (
+        
         <div className="container-flashcard">
             <div className="sidebar-flashcard">
                 <SideBar showAddCategory={false} />
             </div>
-            <div className="navigator_bar">
+            
+            <div className="container_vocab_page" style={{ justifyContent: 'flex-start', paddingTop: '20px' }}>
+                <NavTabs />
                 
-            </div>
-            <div className="container_vocab_page">
-                {/* 1. Thanh tiến trình và bộ đếm (Progress Bar & Counter) */}
-                <div className="flashcard-progress-container">
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+                    {/* 1. Thanh tiến trình và bộ đếm (Progress Bar & Counter) */}
+                    <div className="flashcard-progress-container">
                     <span className="flashcard-progress-text">
                         Thẻ {index + 1} / {vocabularies.length}
                     </span>
@@ -128,10 +145,8 @@ export default function FlashCard_Page() {
                         {'>'}
                     </button>
                 </div>
+                </div>
             </div>
-
-
         </div>
     )
 }
-

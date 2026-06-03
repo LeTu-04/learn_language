@@ -1,43 +1,89 @@
 import { GoogleLogin } from "@react-oauth/google";
 import { logger } from "../../utils/logger";
 import { useAppDispatch } from "../hooks/hook";
-import { loginGoogleWithBackend, signIn, signUp} from "../services/auth_service";
+import { loginGoogleWithBackend, signIn, signUp } from "../services/auth_service";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import './css/login_page.css'
+import OtpPopup from "../components/popup/otp_popup";
+import { clientAPI } from "../utils/api/api";
 
-export default function LoginPage () {
+
+export default function LoginPage() {
     const [isSignUp, setIsSignUp] = useState(false)
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
+    const [showPopupOtp, setShowPopupOtp] = useState<boolean>(false);
+
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const loginWithBackend = async(tokenId : string) => {
+
+    const handleClickTurnOffOtp = () => {
+        setShowPopupOtp(false)
+    }
+
+    const loginWithBackend = async (tokenId: string) => {
         try {
-           await dispatch(loginGoogleWithBackend(tokenId)); 
-            navigate('/home') ;  
+            await dispatch(loginGoogleWithBackend(tokenId));
+            navigate('/home');
         } catch (error) {
             logger.error('Login thất bại', error)
         }
+
+    }
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if(isSignUp) {
+           try {
+            setLoading(true)
+            const response = await clientAPI.post('/auth/sendotp', {email}) ;
+            if(response.data.message === 'SUCCESS') {
+                setShowPopupOtp(true);
+            }
+            setLoading(false);
+            
+           } catch (error) {
+                console.log('Lỗi khi gửi OTP')
+           }finally {
+                setLoading(false)
+           }
+        }
+        else {
+            try {
+            setLoading(true)
+            await dispatch(signIn({ email, password })).unwrap();
+            navigate('/home')
+        } catch (error: any) {
+            setError(error.message)
+        }finally {
+            setLoading(false)
+        }
+        }
         
     }
-    
-    const handleSubmit = async( e:React.FormEvent) => {
-    e.preventDefault();
-    try {
-            const thunk = isSignUp ?   signUp : signIn ; 
-            await dispatch(thunk({email, password})).unwrap(); 
+
+    const checkAndSubmitValueSignUp = async(otpValue : string) => {
+        try {
+            setLoading(true);
+            await dispatch(signUp({email, password, inputotp : otpValue})).unwrap();
+            setShowPopupOtp(false);
             navigate('/home')
-    } catch (error : any) {
-        setError(error.message)
-    }
+        } catch (error : any) {
+            setError(error.message);
+        }finally {
+            setLoading(false)
+           // setShowPopupOtp(false)
+        }
     }
 
     return (
-         <div className="login-page">
+        <div className="login-page">
+            {showPopupOtp && <OtpPopup handleClickTurnOffOtp={handleClickTurnOffOtp} handleClickSignup={(otpFromPopUp) =>checkAndSubmitValueSignUp(otpFromPopUp)} />}
             <div className="login-card">
                 <h2>{isSignUp ? 'Đăng ký' : 'Đăng nhập'}</h2>
 
@@ -57,7 +103,7 @@ export default function LoginPage () {
                         required
                         minLength={6}
                     />
-             {error && <p className="login-error">{error}</p>}
+                    {error && <p className="login-error">{error}</p>}
                     <button type="submit" disabled={loading}>
                         {loading ? 'Đang xử lý...' : isSignUp ? 'Đăng ký' : 'Đăng nhập'}
                     </button>
@@ -83,10 +129,10 @@ export default function LoginPage () {
                     />
                 </div>
             </div>
-        </div> 
-        
+        </div>
 
-      
+
+
     )
 
 }

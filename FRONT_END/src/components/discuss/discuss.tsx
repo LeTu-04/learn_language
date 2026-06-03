@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useEffect, useState } from "react";
 import SideBar from "../../pages/sidebar";
 import NavTabs from "../navigation/nav_tabs";
 import HeaderPage from "../../pages/header_page";
@@ -8,15 +8,16 @@ import './discuss.css';
 import { tantackService } from "../../utils/tanstack/tanstackquery";
 import Skeleton from "react-loading-skeleton";
 
+import { useInView } from 'react-intersection-observer';
+
+
 export default function Discuss() {
-    // UI State cho mock up
-    // const [title, setTitle] = useState("");
-    // const [content, setContent] = useState("");
+
     const [formData, setFormData] = useState({
         title: '',
         content: '',
-        image: null
-    })
+        file: null as File | null
+    });
 
     const [isSidebarOpen, setIsSideBarOpen] = useState(true);
 
@@ -40,50 +41,44 @@ export default function Discuss() {
         console.log(formData);
     }
 
-    const {mutate, isPending : isCreatePostPending} = tantackService.createPost()
+    const { mutate, isPending: isCreatePostPending } = tantackService.createPost()
 
-    const handleClickPost= () => {
-        mutate(formData,
+    const handleClickPost = () => {
+        const newformData = new FormData();
+
+
+        newformData.append('title', formData.title);
+        newformData.append('content', formData.content);
+
+        if (formData.file) {
+            newformData.append('file', formData.file);
+        }
+        mutate(newformData,
             {
-                onSuccess : () => {
+                onSuccess: () => {
                     setFormData({
-                        title : '',
-                        content : '',
-                        image : null
+                        title: '',
+                        content: '',
+                        file: null
                     })
                 }
             }
         )
-        
+
     }
 
-    // Dữ liệu mẫu (UI only)
-    // const mockPosts = [
-    //     {
-    //         id: 1,
-    //         author: "Nguyễn Lê Tú",
-    //         avatarInitial: "T",
-    //         timeAgo: "2 giờ trước",
-    //         title: "Chia sẻ lộ trình học từ vựng hiệu quả trong 30 ngày",
-    //         content: "Chào mọi người, hôm nay mình muốn chia sẻ phương pháp học từ vựng kết hợp Flashcard và Spaced Repetition (Lặp lại ngắt quãng) mà mình đã áp dụng rất thành công. Thay vì học nhồi nhét, các bạn nên chia nhỏ ra mỗi ngày 10-15 từ và ôn tập lại theo chu kỳ 1 ngày, 3 ngày, 1 tuần...",
-    //         likes: 24,
-    //         comments: 5,
-    //         isLiked: true
-    //     },
-    //     {
-    //         id: 2,
-    //         author: "Học Giả Vui Vẻ",
-    //         avatarInitial: "H",
-    //         timeAgo: "5 giờ trước",
-    //         title: "Làm sao để nhớ lâu những từ vựng trừu tượng?",
-    //         content: "Mình đang gặp khó khăn với các từ vựng mang tính trừu tượng hoặc học thuật cao. Có bạn nào có tips để ghi nhớ chúng dễ dàng hơn không? Mình đã thử dùng hình ảnh nhưng đôi khi không tìm được hình phù hợp. Xin cảm ơn!",
-    //         likes: 12,
-    //         comments: 8,
-    //         isLiked: false
-    //     }
-    // ];
 
-    const { data, isPending, isError } = tantackService.usePosts()
+    const { data, isPending, isError, hasNextPage, isFetchingNextPage, fetchNextPage } = tantackService.usePosts()
+
+    // Lưu ý: inView phải viết hoa chữ V
+    const { ref, inView } = useInView()
+
+    useEffect(() => {
+        if (inView && hasNextPage) {
+            fetchNextPage();
+        }
+    }, [inView, hasNextPage, fetchNextPage]);
+
     return (
         <div className={`layout ${isSidebarOpen ? "sidebaropen" : "sidebarclose"}`}>
             <SideBar showAddCategory={false} />
@@ -114,9 +109,9 @@ export default function Discuss() {
                             value={formData.content}
                             onChange={handleChangeFormData}
                         ></textarea>
-                        <input type="file" name="file" />
+                        <input type="file" name="file" onChange={handleChangeFormData} />
                         <div className="clearfix">
-                            <button className="discuss-submit-btn" onClick={handleClickPost} disabled = {isCreatePostPending}>
+                            <button className="discuss-submit-btn" onClick={handleClickPost} disabled={isCreatePostPending}>
                                 <Send size={18} />
                                 {isCreatePostPending ? 'Đang đăng' : 'Đăng bài'}
                             </button>
@@ -132,89 +127,57 @@ export default function Discuss() {
                         </div>
                     )}
 
-                    {
-                        isPending && (
-                            <div>
-                                <Skeleton count={3} height={50} />
-                            </div>
-                        )
-                    }
-                    {/* Danh sách bài viết */}
-                    {
-                        <div className="discuss-list">
-                            {
-                                data?.pages.map((post, index) => {
-                                    return <React.Fragment key={index}>
-                                        {post.postData.map((p) => {
-                                            return <div key={p.id} className="discuss-post-card">
-                                                <div className="post-meta">
-                                                    <div className="post-avatar"> {p.author.avatarUrl ? p.author.avatarUrl : <User/> } </div>
-                                                    <div className="posth-author-info">
-                                                        <span> {p.author.name ? p.author.name : p.author.email} </span>
-                                                        <span className="post-time"> {new Date(p.createdAt).toLocaleDateString()} </span>
-                                                    </div>
-                                                </div>
-                                                <h4 className="post-title"> {p.title} </h4>
-                                                <p className="post-content-review"> {p.content} </p>
-                                                <div className="post-actions">
-                                                    <button className="post-action-btn">
-                                                        <Heart size={18}/> Yêu thích
-                                                    </button>
-                                                    <button className="post-action-btn">
-                                                        <MessageCircle size={18}/> Bình luận
-                                                    </button>
-                                                    <button className="post-action-btn">
-                                                        <Share2 size={18}/> Chia sẻ
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        })}
-                                    </React.Fragment>
-                                })
-                            }
+                    {isPending && (
+                        <div>
+                            <Skeleton count={3} height={50} />
                         </div>
-                    }
+                    )}
 
-
-                    {/* <div className="discuss-list">
-                        <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#2d3748', marginBottom: '12px' }}>
-                            Thảo luận nổi bật
-                        </h3>
-                        
-                        {mockPosts.map(post => (
-                            <div key={post.id} className="discuss-post-card">
-                                <div className="post-meta">
-                                    <div className="post-avatar">{post.avatarInitial}</div>
-                                    <div className="post-author-info">
-                                        <span className="post-author">{post.author}</span>
-                                        <span className="post-time">{post.timeAgo}</span>
+                    {/* Danh sách bài viết */}
+                    <div className="discuss-list">
+                        {data?.pages.map((post, index) => {
+                            return <React.Fragment key={index}>
+                                {post.postData.map((p) => {
+                                    return <div key={p.id} className="discuss-post-card">
+                                        <div className="post-meta">
+                                            <div className="post-avatar"> {p.author.avatarUrl ? <img className="post-avatar-image" src={p.author.avatarUrl} /> : <User />} </div>
+                                            <div className="posth-author-info">
+                                                <span> {p.author.name ? p.author.name : p.author.email} </span>
+                                                <span className="post-time"> {new Date(p.createdAt).toLocaleDateString()} </span>
+                                            </div>
+                                        </div>
+                                        <h4 className="post-title"> {p.title} </h4>
+                                        <p className="post-content-review"> {p.content} </p>
+                                        {p.image_url && (
+                                            <div className="post-image-container">
+                                                <img src={p.image_url} alt="Post attached image" className="post-image" />
+                                            </div>
+                                        )}
+                                        <div className="post-actions">
+                                            <button className="post-action-btn">
+                                                <Heart size={18} /> Yêu thích
+                                            </button>
+                                            <button className="post-action-btn">
+                                                <MessageCircle size={18} /> Bình luận
+                                            </button>
+                                            <button className="post-action-btn">
+                                                <Share2 size={18} /> Chia sẻ
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                                <h4 className="post-title">{post.title}</h4>
-                                <p className="post-content-preview">{post.content}</p>
-                                
-                                <div className="post-actions">
-                                    <button className={`post-action-btn ${post.isLiked ? 'active' : ''}`}>
-                                        <Heart size={18} fill={post.isLiked ? "#f64f59" : "none"} />
-                                        {post.likes} Yêu thích
-                                    </button>
-                                    <button className="post-action-btn">
-                                        <MessageCircle size={18} />
-                                        {post.comments} Bình luận
-                                    </button>
-                                    <button className="post-action-btn">
-                                        <Share2 size={18} />
-                                        Chia sẻ
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
-                    </div> */}
+                                })}
+                            </React.Fragment>
+                        })}
+
+                       
+                        <div ref={ref} style={{ textAlign: 'center', padding: '20px' }}>
+                            {isFetchingNextPage ? 'Đang tải thêm...' : ''}
+                        </div>
+                    </div>
 
                 </div>
             </div>
 
-            {/* Panel trống ở bên phải (nếu bạn muốn tận dụng không gian grid) */}
             <div style={{ gridArea: 'right' }}></div>
         </div>
     )

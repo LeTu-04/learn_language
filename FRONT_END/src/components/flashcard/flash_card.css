@@ -2,19 +2,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
-} 
-    
+}
+
 /* 1. Vùng chứa không gian 3D */
 .flashcard-container {
     position: relative;
     font-family: 'Inter', sans-serif;
-    font-size: 3rem;    
+    font-size: 3rem;
     width: 35vw;
     height: 25vh;
     max-width: 600px;
     max-height: 400px;
     min-height: 300px;
-    perspective: 1000px; /* Tạo độ sâu 3D cho hiệu ứng lật */
+    perspective: 1000px;
+    /* Tạo độ sâu 3D cho hiệu ứng lật */
     cursor: pointer;
 }
 
@@ -23,25 +24,27 @@
     width: 100%;
     height: 100%;
     text-align: center;
-    transition: transform 0.6s; 
+    transition: transform 0.6s;
     transform-style: preserve-3d;
 }
 
 .flashcard-inner.is-flipped {
-    transform: rotateY(180deg); 
+    transform: rotateY(180deg);
 }
 
-.flashcard-front, .flashcard-back {
+.flashcard-front,
+.flashcard-back {
     position: absolute;
     width: 100%;
     height: 100%;
-    backface-visibility: hidden; /*  Giấu mặt bị lật úp đi */
+    backface-visibility: hidden;
+    /*  Giấu mặt bị lật úp đi */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .flashcard-front {
@@ -50,9 +53,9 @@
 }
 
 .flashcard-back {
-    background-color: #4a90e2; 
+    background-color: #4a90e2;
     color: white;
-    transform: rotateY(180deg); 
+    transform: rotateY(180deg);
 }
 
 /* ======= Hiệu ứng lướt bài (Swipe) y như thật ======= */
@@ -63,6 +66,7 @@
         opacity: 0;
         transform: translateX(150px) rotate(8deg) scale(0.9);
     }
+
     100% {
         opacity: 1;
         transform: translateX(0) rotate(0deg) scale(1);
@@ -75,6 +79,7 @@
         opacity: 0;
         transform: translateX(-150px) rotate(-8deg) scale(0.9);
     }
+
     100% {
         opacity: 1;
         transform: translateX(0) rotate(0deg) scale(1);
@@ -96,4 +101,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+
+.flashcard-navtab {
+    height: 20px;
 }

@@ -24,7 +24,7 @@ export const refreshToken = createAsyncThunk('Auth/refreshToken',
 )
 
 export const signUp = createAsyncThunk('Auth/signUp',
-    async (body : {email : string, password : string}) => {
+    async (body : {email : string, password : string, inputotp : string}) => {
         const response = await clientAPI.post('/auth/signup', body, {withCredentials : true}) ;
         return response.data ;
     }

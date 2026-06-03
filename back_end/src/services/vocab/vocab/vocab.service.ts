@@ -123,7 +123,7 @@ export class VocabService {
         this.logger.log(`CategoryId [${categoryId}], ${typeof(categoryId)}`)
         this.logger.log(userId);
         const allVocabofCat = await this.prisma.category.findFirst({
-            where : {id : categoryId, isDeleted : false},
+            where : {id : categoryId, isDeleted : false, userId},
             select : {
                 vocabulary : {select : {
                     id : true,
