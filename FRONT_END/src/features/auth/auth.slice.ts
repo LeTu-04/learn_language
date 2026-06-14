@@ -28,7 +28,16 @@ const AuthSlice = createSlice({
     name : 'Auth',
     initialState : initialAuth,
     reducers : {
-
+        clearDataAfterLogout : (state) => {
+            state.token = null;
+            state.user = null ;
+            state.error = null;
+        },
+        updateAvatar : (state, action) => {
+            if (state.user) {
+                state.user.avatarUrl = action.payload;
+            }
+        }
     },
     extraReducers : (builder) => {
         builder.addCase(loginGoogleWithBackend.pending, (state) => {
@@ -52,21 +61,25 @@ const AuthSlice = createSlice({
         .addCase(signIn.pending, handlePending)
         .addCase(signIn.fulfilled, handleFullfill)
         .addCase(signIn.rejected, handleRejected)
-        .addCase(logOut.fulfilled, (state) => {
+        // .addCase(logOut.fulfilled, (state) => {
+        //     state.loading = false,
+        //     state.token = null,
+        //     state.user = null,
+        //     state.error = null
+        // }) 
+        .addCase(refresh.fulfilled, (state, action) => {
             state.loading = false,
-            state.token = null,
-            state.user = null,
-            state.error = null
-        }) .addCase(refresh.fulfilled, (state, action) => {
-            state.loading = false,
-            state.token = action.payload
+            state.token = action.payload.newAccessToken,
+            state.user = action.payload.user
         }).addCase(refresh.pending, (state) => {
             state.loading = true
         }).addCase(refresh.rejected, (state) => {
             state.loading = false
             state.token = null
+            state.user = null
         })
     }
 });
 
+export const { clearDataAfterLogout, updateAvatar } = AuthSlice.actions;
 export const AuthReducer = AuthSlice.reducer

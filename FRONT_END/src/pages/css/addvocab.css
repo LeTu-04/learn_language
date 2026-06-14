@@ -7,11 +7,15 @@
   transition: grid-template-columns 0.3s ease;
   grid-template-rows: 70px auto minmax(0, 1fr);
 
-  grid-template-areas:
+  /* grid-template-areas:
     "sidebar header  header"
     "sidebar nav     nav"
-    "sidebar content right";
-  height: 100vh;
+    "sidebar content right"; */
+  grid-template-rows: 1fr;
+  grid-template-areas: "sidebar content right";
+
+  height: 100%;
+  width: 100%;
   overflow: hidden;
 }
 

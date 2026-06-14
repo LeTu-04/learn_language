@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import SideBar from "../../pages/sidebar";
+import { Controlled } from 'react-medium-image-zoom';
+import 'react-medium-image-zoom/dist/styles.css';
+
+
 import NavTabs from "../navigation/nav_tabs";
 import HeaderPage from "../../pages/header_page";
 import { Send, Heart, MessageCircle, Share2, Sparkles, User } from "lucide-react";
@@ -19,7 +22,7 @@ export default function Discuss() {
         file: null as File | null
     });
 
-    const [isSidebarOpen, setIsSideBarOpen] = useState(true);
+
 
     // const handleToogleSideBar = () => {
     //     setIsSideBarOpen(!isSidebarOpen);
@@ -70,7 +73,7 @@ export default function Discuss() {
 
     const { data, isPending, isError, hasNextPage, isFetchingNextPage, fetchNextPage } = tantackService.usePosts()
 
-    // Lưu ý: inView phải viết hoa chữ V
+
     const { ref, inView } = useInView()
 
     useEffect(() => {
@@ -80,10 +83,9 @@ export default function Discuss() {
     }, [inView, hasNextPage, fetchNextPage]);
 
     return (
-        <div className={`layout ${isSidebarOpen ? "sidebaropen" : "sidebarclose"}`}>
-            <SideBar showAddCategory={false} />
-            <HeaderPage />
-            <NavTabs />
+        <div className={`layout sidebarclose`}>
+            {/* <HeaderPage />
+            <NavTabs /> */}
 
             <div className="main-content-discuss">
                 <div className="discuss-container">
@@ -150,7 +152,9 @@ export default function Discuss() {
                                         <p className="post-content-review"> {p.content} </p>
                                         {p.image_url && (
                                             <div className="post-image-container">
+
                                                 <img src={p.image_url} alt="Post attached image" className="post-image" />
+
                                             </div>
                                         )}
                                         <div className="post-actions">
@@ -169,7 +173,7 @@ export default function Discuss() {
                             </React.Fragment>
                         })}
 
-                       
+
                         <div ref={ref} style={{ textAlign: 'center', padding: '20px' }}>
                             {isFetchingNextPage ? 'Đang tải thêm...' : ''}
                         </div>

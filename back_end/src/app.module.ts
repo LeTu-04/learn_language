@@ -23,10 +23,10 @@ import { CloudinaryModule } from './modules/upload/cloudinary.module.js';
 import cloudinaryConfig from './auth/config/cloudinary.config.js';
 import { RedisModule } from './modules/redis/redis.module.js';
 import { MailModule } from './modules/mail/mail.module.js';
+import { UserModule } from './modules/users/user.module';
 import redisConfig from './auth/config/redis.config.js';
 import hashConfig from './auth/config/hash.config.js';
 import mailConfig from './auth/config/mail.config.js';
-
 
 
 
@@ -41,7 +41,8 @@ import mailConfig from './auth/config/mail.config.js';
     PrismaModule,
     CloudinaryModule,
     RedisModule,
-    MailModule
+    MailModule,
+    UserModule
   ],
   controllers: [ VocabController, CategoryController, DiscussController, ],
   providers: [VocabService,  CategoryService, 

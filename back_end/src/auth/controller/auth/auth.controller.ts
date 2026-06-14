@@ -9,9 +9,12 @@ import { JwtRefreshGuard } from '../../guards/jwt.refresh.guard';
 
 import { JwtAuthGuard } from '../../guards/jwtaccess.guard';
 import { JwtService } from '../../service/jwt/jwt.service';
-import { SignInDto, SignUpDto } from '../../service/auth/local/local.types';
+import { ReGainPasswordDto, SignInDto, SignUpDto } from '../../service/auth/local/local.types';
 
 
+interface SendOtpDto {
+    email : string
+}
 
 @Controller('auth')
 export class AuthController {
@@ -121,6 +124,7 @@ export class AuthController {
         }
     }
 
+
     @Public()
     @UseGuards( JwtRefreshGuard)
     @Get('refresh')
@@ -136,7 +140,35 @@ export class AuthController {
             maxAge : 30 * 24 * 60 * 60 * 1000
         })
         return {
-            newAccessToken : data.accessToken
+            newAccessToken : data.accessToken,
+            user : data.user
         }
     }
+
+
+    @Public()
+    @Post('forgot-password-otp')
+    async sendOtpInCaseForgotPass(
+        @Body () body : SendOtpDto
+    ) {
+        await this.local.sendOtpForReGainPass(body.email);
+        return {
+            message : 'SUCCESS'
+        }
+    }
+
+    @Public()
+    @Post('forgot-password') 
+    async forgotPassword (
+        @Body() body : ReGainPasswordDto
+    ) {
+        await this.local.reGainPassword(body);
+        return {
+            message : 'SUCCESS'
+        }
+    }
+    
+    
+
+    
 }

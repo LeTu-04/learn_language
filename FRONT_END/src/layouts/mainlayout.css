@@ -1,0 +1,16 @@
+.main-layout-containerr {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #cbd5e1;
+    /* width: 100vw; */
+}
+.content-area {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+
+    flex: 1;
+}   

@@ -2,24 +2,6 @@ import { useQueryClient, useInfiniteQuery, useMutation } from "@tanstack/react-q
 import { postService, type createPost } from "../../services/discuss_service";
 import toast from "react-hot-toast";
 
-// export const usePosts = () => {
-//     return useInfiniteQuery({
-//         queryKey: ['posts'],
-//         // pageParam chính là biến cursor được TanStack Query truyền vào tự động
-//         queryFn: ({ pageParam = undefined }) => postService.getPosts(pageParam),
-//         initialPageParam: undefined as number | undefined,
-//         // getNextPageParam giúp TanStack Query biết làm sao để lấy cursor cho trang tiếp theo
-//         getNextPageParam: (lastPage) => {
-//             // lastPage là dữ liệu trả về từ lần fetch gần nhất
-//             // Giả sử API của bạn trả về { data: { postData: [...], cursor: 15 } }
-//             // Nếu không còn cursor (nghĩa là đã hết bài viết), return undefined để dừng fetch
-//             if (!lastPage || !lastPage.nextcursor) {
-//                 return undefined;
-//             }
-//             return lastPage.nextcursor;
-//         }
-//     });
-// };
 
 
 

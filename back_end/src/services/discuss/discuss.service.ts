@@ -19,7 +19,7 @@ export class DiscussService {
         let image_url: string | undefined = undefined;
         let public_id: string | undefined = undefined;
         if (data.file) {
-            const result = await this.cloudinary.uploadImages(data.file);
+            const result = await this.cloudinary.uploadImages(data.file, 'learing_english/posts');
             image_url = result.secure_url;
             public_id = result.public_id;
         }

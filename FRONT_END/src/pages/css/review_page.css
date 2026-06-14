@@ -1,12 +1,15 @@
 .review-page-container {
     display: grid;
-    grid-template-areas: 
+    /* grid-template-areas:
         "sidebar nav   nav"
-        "sidebar main  main";
+        "sidebar main  main"; */
+        grid-template-areas: "sidebar main";
     grid-template-columns: 260px minmax(0, 1fr);
     grid-template-rows: auto minmax(0, 1fr);
     height: 100vh;
     overflow: hidden;
+     height: 100%;
+    width: 100%;
     background: var(--app-background);
 }
 

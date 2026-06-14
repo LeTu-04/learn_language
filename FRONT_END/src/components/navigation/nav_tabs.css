@@ -1,39 +1,74 @@
 .nav-tabs {
-    grid-area: nav;
+    position: fixed;
+    top: 15px;
+    left: 50%;
+    z-index: 1000;
+    transform: translateX(-50%);
     display: flex;
     align-items: center;
     gap: 4px;
-    padding: 8px 16px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 6px; /* Đệm nhỏ bao quanh các nút bấm */
+    border-radius: 9999px;
+
+    /* 1. HIỆU ỨNG KÍNH MỜ (GLASSMORPHISM) */
+    background: rgba(255, 255, 255, 0.05); /* Nền mỏng hơn để nhìn xuyên qua */
+    backdrop-filter: blur(20px) saturate(180%); /* Tăng độ mờ kính và độ bão hòa màu phía sau */
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.35); /* Viền kính phát sáng nhẹ */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 
+                inset 0 1px 1px rgba(255, 255, 255, 0.2); /* Viền bóng nhẹ bên trong tạo độ nổi 3D */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .nav-tab {
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 14px;
+    justify-content: center;
+    gap: 0; /* Bỏ gap mặc định để không bị thừa khoảng trống khi ẩn chữ */
+    padding: 8px 12px;
     border: none;
     background: transparent;
-    color: #64748b;
+    color: #475569;
     font-family: 'Inter', sans-serif;
     font-size: 0.8rem;
     font-weight: 500;
     cursor: pointer;
-    border-radius: 20px;
-    transition: all 0.2s ease;
+    border-radius: 9999px; /* Bo tròn nút bấm tương ứng */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* 2. HIỆU ỨNG ẨN/HIỆN CHỮ CỦA ICON */
+.nav-tab span {
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    transition: max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.2s ease, 
+                margin-left 0.3s ease;
+    margin-left: 0;
+}
+
+/* Khi hover vào tab hoặc tab đang active thì hiển thị chữ ra */
+.nav-tab:hover span,
+.nav-tab.active span {
+    max-width: 100px; /* Cho phép chữ mở rộng tối đa */
+    opacity: 1;
+    margin-left: 6px; /* Khoảng cách giữa icon và chữ */
+}
+
+/* Hover nhẹ nhàng lên các tab chưa active */
 .nav-tab:hover {
-    color: #334155;
-    background: rgba(100, 116, 139, 0.08);
+    color: #1e293b;
+    background: rgba(255, 255, 255, 0.3);
 }
 
+/* Kiểu dáng cho tab active */
 .nav-tab.active {
     color: #7c3aed;
-    background: rgba(124, 58, 237, 0.08);
+    background: rgba(255, 255, 255, 0.6); /* Nền kính đục hơn cho tab được chọn */
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
     font-weight: 600;
-}
-
-.nav-tab.active:hover {
-    background: rgba(124, 58, 237, 0.12);
 }

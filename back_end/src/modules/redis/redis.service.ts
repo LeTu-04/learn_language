@@ -21,7 +21,7 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
             port: parseInt(this.redisCfg.redis_port!, 10),
             password: this.redisCfg.redis_password
         })
-        console.log('✅ Redis connected to host:', this.redisCfg.redis_host);
+        //console.log('✅ Redis connected to host:', this.redisCfg.redis_host);
     }
 
     onModuleDestroy() {

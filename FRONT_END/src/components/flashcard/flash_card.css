@@ -52,6 +52,18 @@
     color: #333;
 }
 
+.flashcard-front h2,
+.flashcard-back h2 {
+    max-width: 85%;
+    text-align: center;
+    margin: 0;
+    padding: 10px;
+
+    overflow: break-word;
+    word-break: break-word;
+    hyphens: auto;
+}
+
 .flashcard-back {
     background-color: #4a90e2;
     color: white;

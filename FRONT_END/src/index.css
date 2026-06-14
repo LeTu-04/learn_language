@@ -1,8 +1,10 @@
 :root {
   /* --app-background : linear-gradient(to right, #d7dde8, #757f9a); */
-  --app-background : #F3EFF0;
+  /* --app-background : #F3EFF0; */
+    /* --app-background : #f1f5f9; */
   --sidebar-background :  linear-gradient(to right, #414345, #232526);
   --button-addcate-sidebar : linear-gradient(to left, #f64f59, #c471ed, #12c2e9); 
+    /* --button-addcate-sidebar : linear-gradient(135deg, #7c3aed 0%, #3b82f6 100%);  */
 }
 
 

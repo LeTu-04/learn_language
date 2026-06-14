@@ -14,6 +14,8 @@
   position: relative;
   overflow: hidden;
 
+  text-align: left;
+
 }
 
 .addwordpanel::before{
@@ -68,12 +70,13 @@
 .buttonSubmit{
   margin-top: 10px;
 
-  background: linear-gradient(
+  /* background: linear-gradient(
     135deg,
     #6c8cff,
     #4f6fff
-  );
+  ); */
 
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
   border: none;
   border-radius: 10px;
 
@@ -90,7 +93,6 @@
 .buttonSubmit:hover{
   transform: translateY(-1px);
 
-  box-shadow:
-    0 8px 18px rgba(79,111,255,0.3);
+   box-shadow: 0 8px 18px rgba(124, 58, 237, 0.3);
 }
 

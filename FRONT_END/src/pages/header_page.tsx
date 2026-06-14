@@ -3,27 +3,45 @@ import './css/header.css'
 import { useAppDispatch, useAppSelector } from '../hooks/hook';
 import type React from 'react';
 import { setSearchVocabulary } from "../features/vocabulary/vocabularySlice";
+import { useNavigate } from 'react-router-dom';
 
-export default function HeaderPage() {
+interface ShowSearchProps {
+    showSearch?: boolean
+}
 
+
+export default function HeaderPage({ showSearch }: ShowSearchProps) {
+    const navigate = useNavigate()
 
     const dispatch = useAppDispatch();
+    const user = useAppSelector((state) => state.Auth.user);
     const searchValue = useAppSelector((state) => state.Vocabulary.search);
-    const handleChangeSearch = (e : React.ChangeEvent<HTMLInputElement>) => {
-        dispatch (setSearchVocabulary(e.target.value));
+    const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(setSearchVocabulary(e.target.value));
+    }
+
+    const handleClickGetUser = () => {
+        navigate('/profile')
     }
 
     return (
         <div className="header">
-            <div className="header-search-container">
-                <Search className="header-search-icon" size={18} />
-                <input 
-                    type="text" 
-                    className="header-search-input" 
-                    placeholder="Tìm kiếm từ vựng, chủ đề..." 
-                    onChange={handleChangeSearch}
-                    value={searchValue}
-                />
+            <div className='header-left'>
+                <div className="header-logo" onClick={() => navigate('/home')} title="Về trang chủ">
+                    <span className="logo-text">L4</span>
+                </div>
+
+                {showSearch && <div className="header-search-container">
+                    <Search className="header-search-icon" size={18} />
+                    <input
+                        type="text"
+                        className="header-search-input"
+                        placeholder="Tìm kiếm từ vựng, chủ đề..."
+                        onChange={handleChangeSearch}
+                        value={searchValue}
+                    />
+                </div>
+                }
             </div>
 
             <div className="header-actions">
@@ -36,13 +54,12 @@ export default function HeaderPage() {
                     <span className="header-notification-dot"></span>
                 </button>
 
-                <div className="header-avatar-container">
+                <div className="header-avatar-container" onClick={handleClickGetUser}>
                     <div className="header-avatar">
-                        <User size={20} color="#6b7280" />
+                        {user?.avatarUrl? <img src={user.avatarUrl} alt="avatar" />: <User size={20} color="#6b7280" />}
                     </div>
                     <div className="header-user-info">
-                        {/* <span className="header-username">Học Viên</span>
-                        <span className="header-role">Premium ✨</span> */}
+                        <span className="header-username"> {user?.name} </span>
                     </div>
                 </div>
             </div>

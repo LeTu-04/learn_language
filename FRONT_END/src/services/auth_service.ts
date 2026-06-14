@@ -47,6 +47,8 @@ export const logOut = createAsyncThunk('Auth/logOut',
 export const refresh = createAsyncThunk('Auth/refresh',
     async () => {
         const response = await clientAPI.get('/auth/refresh', {withCredentials : true});
-        return response.data.newAccessToken ;
+        return response.data ;
     }
 )
+
+

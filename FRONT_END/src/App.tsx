@@ -15,6 +15,8 @@ import FlashCard_Page from './pages/flash_card/flashcard_page'
 import { flushPendingFavorite, } from './services/vocab_service'
 import Review_Page from './pages/review_page'
 import Discuss from './components/discuss/discuss'
+import ProfilePage from './pages/profile.page'
+import MainLayout from './layouts/mainlayout'
 
 
 
@@ -55,25 +57,23 @@ function App() {
   }, [])
   return (
     <BrowserRouter>
-      <Toaster position="top-right" />
+      <Toaster position="top-right" containerStyle={{ zIndex: 999999 }} />
       <Routes>
+
         <Route path='/' element={<Navigate to="/login" replace />} />
+
         <Route path='/login' element={<LoginPage />} />
-        <Route path='/home' element={<ProtectedRoute>
-          <Homepage></Homepage>
-        </ProtectedRoute>} />
-        <Route path='/course/add_vocab' element={<ProtectedRoute>
-          <AddVocabPage />
-        </ProtectedRoute>} />
-        <Route path='/course/flashcard' element={<ProtectedRoute>
-          <FlashCard_Page />
-        </ProtectedRoute>} />
-        <Route path='/course/review' element={<ProtectedRoute>
-          <Review_Page />
-        </ProtectedRoute>} />
-        <Route path='/course/discuss' element={<ProtectedRoute>
-          <Discuss />
-        </ProtectedRoute>} />
+
+        <Route element={<ProtectedRoute />}>
+          <Route element={<MainLayout />}>
+            <Route path='/home' element={<Homepage />} />
+            <Route path='/course/add_vocab' element={<AddVocabPage />} />
+            <Route path='/course/flashcard' element={<FlashCard_Page />} />
+            <Route path='/course/review' element={<Review_Page />} />
+            <Route path='/course/discuss' element={<Discuss />} />
+            <Route path='/profile' element={<ProfilePage />} />
+          </Route>
+        </Route>
       </Routes>
     </BrowserRouter>
 

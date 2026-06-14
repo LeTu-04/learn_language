@@ -15,7 +15,7 @@ export default function LoginPage() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-
+///////////////////////////////////////////////////
     const [showPopupOtp, setShowPopupOtp] = useState<boolean>(false);
 
     const dispatch = useAppDispatch();
@@ -83,7 +83,7 @@ export default function LoginPage() {
 
     return (
         <div className="login-page">
-            {showPopupOtp && <OtpPopup handleClickTurnOffOtp={handleClickTurnOffOtp} handleClickSignup={(otpFromPopUp) =>checkAndSubmitValueSignUp(otpFromPopUp)} />}
+            {showPopupOtp && <OtpPopup type="signup" email={email} handleClickTurnOffOtp={handleClickTurnOffOtp} onSubmitOtp={(otpFromPopUp) =>checkAndSubmitValueSignUp(otpFromPopUp)} />}
             <div className="login-card">
                 <h2>{isSignUp ? 'Đăng ký' : 'Đăng nhập'}</h2>
 
@@ -103,7 +103,7 @@ export default function LoginPage() {
                         required
                         minLength={6}
                     />
-                    {error && <p className="login-error">{error}</p>}
+                    {error && <p className="login-error">{error.toString()}</p>}
                     <button type="submit" disabled={loading}>
                         {loading ? 'Đang xử lý...' : isSignUp ? 'Đăng ký' : 'Đăng nhập'}
                     </button>

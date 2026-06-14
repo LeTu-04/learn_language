@@ -28,8 +28,8 @@ export class MailService implements OnModuleInit {
             from: `"Learning Language" <${this.mailCfg.mail_user}>`,
             to: toEmail,
             subject: 'Mã xác thực OTP của bạn',
-            text: `Mã OTP của bạn là : ${otp}. Mã này sẽ hết hạn sau 2 phút`,
-            html: `<h3>Mã OTP của bạn là: <b style="color:red;">${otp}</b></h3><p>Mã này sẽ hết hạn trong 5 phút.</p>`,
+            text: `Mã OTP của bạn là : ${otp}. Mã này sẽ hết hạn sau 3 phút`,
+            html: `<h3>Mã OTP của bạn là: <b style="color:red;">${otp}</b></h3><p>Mã này sẽ hết hạn trong 3 phút.</p>`,
         };
         await this.transporter.sendMail(mailsOption);
     }

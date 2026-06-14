@@ -7,7 +7,7 @@ export class CloudinaryService {
         @Inject('CLOUDINARY') private readonly cloudinary
     ){}
 
-    async uploadImages (file : Express.Multer.File, folder : string = 'posts') : Promise<UploadApiResponse> {
+    async uploadImages (file : Express.Multer.File, folder : string = 'posts', publicId?: string) : Promise<UploadApiResponse> {
         if(!file) {
             throw new BadRequestException('File is required');
         }
@@ -15,14 +15,21 @@ export class CloudinaryService {
             throw new BadRequestException('Only image files are allowed');
         }
         return new Promise((resolve, reject) => {
+            const options: any = {
+                folder,
+                resource_type: 'image',
+                allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
+                quality: 'auto',
+                fetch_format: 'auto',
+            };
+
+            if (publicId) {
+                options.public_id = publicId;
+                options.overwrite = true;
+            }
+
             const uploadStream = this.cloudinary.uploader.upload_stream(
-                {
-                    folder,
-                    resource_type: 'image',
-                    allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
-                    quality: 'auto',
-                    fetch_format: 'auto',
-                },
+                options,
                 (
                     error : UploadApiErrorResponse,
                     result : UploadApiResponse
