@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "currentStreak" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "lastActiveDay" TIMESTAMP(3),
+ADD COLUMN     "logestStreak" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "totalVocabLearn" INTEGER NOT NULL DEFAULT 0;

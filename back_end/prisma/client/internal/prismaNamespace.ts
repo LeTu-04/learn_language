@@ -975,7 +975,11 @@ export const UserScalarFieldEnum = {
   avatarUrl: 'avatarUrl',
   createdAt: 'createdAt',
   deletedAt: 'deletedAt',
-  isActive: 'isActive'
+  isActive: 'isActive',
+  currentStreak: 'currentStreak',
+  longestStreak: 'longestStreak',
+  lastActiveDay: 'lastActiveDay',
+  totalVocabLearn: 'totalVocabLearn'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -1119,20 +1123,6 @@ export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
- * Reference to a field of type 'NameProvider'
- */
-export type EnumNameProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NameProvider'>
-    
-
-
-/**
- * Reference to a field of type 'NameProvider[]'
- */
-export type ListEnumNameProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NameProvider[]'>
-    
-
-
-/**
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -1143,6 +1133,20 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'NameProvider'
+ */
+export type EnumNameProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NameProvider'>
+    
+
+
+/**
+ * Reference to a field of type 'NameProvider[]'
+ */
+export type ListEnumNameProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NameProvider[]'>
     
 
 

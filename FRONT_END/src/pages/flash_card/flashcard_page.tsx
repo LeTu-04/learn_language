@@ -11,9 +11,13 @@ import '../css/flashcard_page.css'
 import SideBar from "../sidebar";
 import EmptyFlashcard from "../../components/flashcard/EmptyFlashcard";
 import NavTabs from "../../components/navigation/nav_tabs";
+import { useOutletContext } from "react-router-dom";
 
 export default function FlashCard_Page() {
     const dispatch = useAppDispatch();
+
+    const { isSidebarOpen, toggleSidebar } = useOutletContext<{ isSidebarOpen: boolean; toggleSidebar: () => void }>();
+
 
     const categories = useAppSelector((state) => state.Category.Category);
     const selectedCategory = useAppSelector((state) => state.Category.selectedCategory);
@@ -60,11 +64,14 @@ export default function FlashCard_Page() {
 
     if (categoriesLoading || vocabulariesLoading) {
         return (
-            <div className="container-flashcard">
+            <div className={`container-flashcard ${isSidebarOpen ? 'sidebaropen':'sidebarclose'}`}>
                 <div className="sidebar-flashcard">
                     <SideBar showAddCategory={false} />
                 </div>
                 <div className="container_vocab_page" style={{ justifyContent: 'flex-start', paddingTop: '20px' }}>
+                    <div style={{ display: 'flex', width: '100%', alignItems: 'center', padding: '0 20px', gap: '15px', minHeight: '36px' }}>
+                        <button className="buttonToogleSidebar" onClick={toggleSidebar}>≡</button>
+                    </div>
                     <NavTabs />
                     <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
                         <div className="data-loading">
@@ -81,12 +88,16 @@ export default function FlashCard_Page() {
     if (vocabularies.length === 0 || categories.length === 0 || selectedCategory === null) {
 
         return (
-            <div className="container-flashcard">
+            <div className={`container-flashcard ${isSidebarOpen ? 'sidebaropen' : 'sidebarclose'}`}>
                 <div className="sidebar-flashcard">
                     <SideBar showAddCategory={false} />
                 </div>
                 <div className="container_vocab_page" style={{ justifyContent: 'flex-start', paddingTop: '20px' }}>
+                    <div style={{ display: 'flex', width: '100%', alignItems: 'center', padding: '0 20px', gap: '15px', minHeight: '36px' }}>
+                        <button className="buttonToogleSidebar" onClick={toggleSidebar}>≡</button>
+                    </div>
                     <NavTabs />
+    
                     <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
                         <EmptyFlashcard categoryId={selectedCategory} categoryName={categories.find(c => c.id === selectedCategory)?.name} />
                     </div>
@@ -97,17 +108,21 @@ export default function FlashCard_Page() {
 
 
 
-    // Phòng hờ trường hợp React chưa kịp reset index mà data đã đổi
+
     const currentV = vocabularies[index] || vocabularies[0];
 
     return (
 
-        <div className="container-flashcard">
+        <div className={`container-flashcard ${isSidebarOpen ? 'sidebaropen' : 'sidebarclose'}`}>
             <div className="sidebar-flashcard">
                 <SideBar showAddCategory={false} />
             </div>
 
             <div className="container_vocab_page" style={{ justifyContent: 'flex-start', paddingTop: '20px' }}>
+
+                <div style={{ display: 'flex', width: '100%', alignItems: 'center', padding: '0 20px', gap: '15px', minHeight: '36px' }}>
+                    <button className="buttonToogleSidebar" onClick={toggleSidebar}>≡</button>
+                </div>
                 <NavTabs />
 
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%' }}>

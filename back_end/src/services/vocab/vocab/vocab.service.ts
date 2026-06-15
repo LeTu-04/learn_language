@@ -26,13 +26,19 @@ export class VocabService {
 
         const vocabularyData = {...data, categoryId}
         try {
-            const [vocabulary, countVocabulary] = await this.prisma.$transaction([
+            const [vocabulary, countVocabulary ] = await this.prisma.$transaction([
                 this.prisma.vocabulary.create({
                     data : vocabularyData
                 }),
                 this.prisma.vocabulary.count({
                     where : {
                         categoryId : categoryId
+                    }
+                }),
+                this.prisma.user.update({
+                    where : {id : userId},
+                    data : {
+                        totalVocabLearn : {increment : 1}
                     }
                 })
             ])

@@ -1,10 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../Prisma/prisma.service';
 import { CloudinaryService } from '../../modules/upload/cloudinary.service';
+import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
 
-export interface CreatePostDto {
-    title?: string,
-    content: string,
+export class CreatePostDto {
+    @IsOptional()
+    @IsString()
+    @MaxLength(100, { message: 'Tiêu đề không được dài quá 100 ký tự!' })
+    title?: string
+    @IsNotEmpty({ message: 'Nội dung bài viết không được để trống!' })
+    @IsString()
+    @MaxLength(1000, { message: 'Nội dung bài viết không được dài quá 1000 ký tự!' })
+    content: string
     file?: Express.Multer.File
 }
 

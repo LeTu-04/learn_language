@@ -434,14 +434,6 @@ export type CategoryUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.CategoryScalarWhereInput | Prisma.CategoryScalarWhereInput[]
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type CategoryCreateNestedOneWithoutVocabularyInput = {
   create?: Prisma.XOR<Prisma.CategoryCreateWithoutVocabularyInput, Prisma.CategoryUncheckedCreateWithoutVocabularyInput>
   connectOrCreate?: Prisma.CategoryCreateOrConnectWithoutVocabularyInput

@@ -33,7 +33,7 @@
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   /* Phủ kín chiều cao màn hình */
   /* background-color: #f7f9fc; */
   /* (Tuỳ chọn) màu nền nhẹ cho phần thân */
@@ -42,9 +42,20 @@
 }
 
 .sidebar-flashcard {
-  width: 300px;
-  /* Nên set cứng thay vì 20% để lúc thu nhỏ màn hình web nó không bị bóp méo */
+  width: var(--sidebar-width);
   height: 100%;
+  transition: width 0.3s ease;
+}
+
+/* Hỗ trợ ẩn/hiện sidebar khi đóng mở */
+.container-flashcard.sidebarclose .sidebar-flashcard {
+  width: var(--sidebar-close-width);
+}
+
+.container-flashcard.sidebarclose .sidebar {
+  transform: translateX(-12px);
+  opacity: 0;
+  pointer-events: none;
 }
 
 .container_vocab_page {

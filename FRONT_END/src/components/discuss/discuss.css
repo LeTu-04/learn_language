@@ -278,5 +278,74 @@
     width: 100%;
 }
 
+/* File Upload & Preview Styling */
+.discuss-upload-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.discuss-upload-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f1f5f9;
+    color: #475569;
+    border: 1.5px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.discuss-upload-label:hover {
+    background: #e2e8f0;
+    border-color: #94a3b8;
+    color: #1f2937;
+}
+
+.discuss-image-preview {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.discuss-image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.remove-image-btn {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+    line-height: 1;
+}
+
+.remove-image-btn:hover {
+    background: rgba(239, 68, 68, 0.9);
+}
+
 
 

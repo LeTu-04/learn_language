@@ -1,9 +1,8 @@
 .layout {
   background: var(--app-background);
 
-  --sidebar-with: 260px;
   display: grid;
-  grid-template-columns: var(--sidebar-with) minmax(0, 1fr) 370px;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr) 370px;
   transition: grid-template-columns 0.3s ease;
   grid-template-rows: 70px auto minmax(0, 1fr);
 

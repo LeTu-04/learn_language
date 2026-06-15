@@ -84,7 +84,11 @@ export const UserScalarFieldEnum = {
   avatarUrl: 'avatarUrl',
   createdAt: 'createdAt',
   deletedAt: 'deletedAt',
-  isActive: 'isActive'
+  isActive: 'isActive',
+  currentStreak: 'currentStreak',
+  longestStreak: 'longestStreak',
+  lastActiveDay: 'lastActiveDay',
+  totalVocabLearn: 'totalVocabLearn'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]

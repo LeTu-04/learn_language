@@ -1,4 +1,4 @@
-import NavTabs from "../components/navigation/nav_tabs";
+
 import SideBar from "./sidebar";
 import './css/review_page.css'
 import ReviewComponent from "../components/review/review_component";
@@ -7,11 +7,12 @@ import { useAppSelector } from "../hooks/hook";
 import { useEffect, useState } from "react";
 import { logger } from "../../utils/logger";
 import ReviewResult_Component from "../components/common/ReviewResult/Review_result";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import EmptyFlashcard from "../components/flashcard/EmptyFlashcard";
 
 export default function Review_Page() {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const { isSidebarOpen, toggleSidebar } = useOutletContext<{ isSidebarOpen: boolean; toggleSidebar: () => void }>();
     const [isFinished, setIsFinished] = useState<boolean>(false);
     const [score, setScore] = useState<number>(0);
 
@@ -41,10 +42,15 @@ export default function Review_Page() {
 
     if (!categoryId) {
         return (
-            <div className="review-page-container">
+            <div className={`review-page-container ${isSidebarOpen ? "sidebaropen":"sidebarclose"}`}>
                 {/* <nav><NavTabs /></nav> */}
                 <main>
-                    <p style={{ textAlign: 'center', marginTop: '50px' }}>Bạn chưa có danh mục nào để ôn tập!</p>
+                    <div style={{ display: 'flex', alignItems: 'center', padding: '10px 20px', gap: '15px' }}>
+                        <button className="buttonToogleSidebar" onClick={toggleSidebar}>≡</button>
+                    </div>
+                    <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+                        <p style={{ textAlign: 'center' }}>Bạn chưa có danh mục nào để ôn tập!</p>
+                    </div>
                 </main>
                 <aside><SideBar showAddCategory={false} /></aside>
             </div>
@@ -52,12 +58,15 @@ export default function Review_Page() {
     }
 
     if (quiz && quiz.length === 0) {
-        return <div className="review-page-container">
-            {/* <nav>
-                <NavTabs />
-            </nav> */}
+        return <div className={`review-page-container ${isSidebarOpen ? "sidebaropen" : "sidebarclose"}`}>
+
             <main>
-                <EmptyFlashcard categoryId={categoryId!} />
+                <div style={{ display: 'flex', alignItems: 'center', padding: '10px 20px', gap: '15px' }}>
+                    <button className="buttonToogleSidebar" onClick={toggleSidebar}>≡</button>
+                </div>
+                <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+                    <EmptyFlashcard categoryId={categoryId!} />
+                </div>
             </main>
             <aside>
                 <SideBar showAddCategory={false} />
@@ -65,17 +74,22 @@ export default function Review_Page() {
         </div>
     }
     return (
-        <div className="review-page-container">
+        <div className={`review-page-container ${isSidebarOpen ? "sidebaropen" : "sidebarclose"}`}>
             {/* <nav>
                 <NavTabs></NavTabs>
             </nav> */}
             <main>
-                {isLoading && <p>Đang tải câu hỏi</p>}
-                {isError && <p>Lỗi, không lấy được câu hỏi</p>}
-                {/* key thay đổi thì react sẽ nghĩ nó bị thay đổi */}
-                {quiz && isFinished ? <ReviewResult_Component correctCount={score} totalCount={quiz.length}
-                    onGohome={handleGoHome} onRetry={handleRetry} /> :
-                    <ReviewComponent key={`${categoryId}-${retry}`} quiz={quiz} handleFinished={handleFinished} />}
+                <div style={{ display: 'flex', alignItems: 'center', padding: '10px 20px', gap: '15px' }}>
+                    <button className="buttonToogleSidebar" onClick={toggleSidebar}>≡</button>
+                </div>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+                    {isLoading && <p>Đang tải câu hỏi</p>}
+                    {isError && <p>Lỗi, không lấy được câu hỏi</p>}
+                    {/* key thay đổi thì react sẽ nghĩ nó bị thay đổi */}
+                    {quiz && isFinished ? <ReviewResult_Component correctCount={score} totalCount={quiz.length}
+                        onGohome={handleGoHome} onRetry={handleRetry} /> :
+                        <ReviewComponent key={`${categoryId}-${retry}`} quiz={quiz} handleFinished={handleFinished} />}
+                </div>
             </main>
             <aside>
                 <SideBar showAddCategory={false}></SideBar>

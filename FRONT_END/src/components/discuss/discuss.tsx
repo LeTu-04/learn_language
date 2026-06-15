@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Controlled } from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 
-
-import NavTabs from "../navigation/nav_tabs";
-import HeaderPage from "../../pages/header_page";
-import { Send, Heart, MessageCircle, Share2, Sparkles, User } from "lucide-react";
+import { Send, Heart, MessageCircle, Share2, Sparkles, User, Image as ImageIcon } from "lucide-react";
 import '../../pages/css/addvocab.css';
 import './discuss.css';
 import { tantackService } from "../../utils/tanstack/tanstackquery";
 import Skeleton from "react-loading-skeleton";
 
 import { useInView } from 'react-intersection-observer';
+import toast from "react-hot-toast";
 
 
 export default function Discuss() {
@@ -22,11 +19,6 @@ export default function Discuss() {
         file: null as File | null
     });
 
-
-
-    // const handleToogleSideBar = () => {
-    //     setIsSideBarOpen(!isSidebarOpen);
-    // }
 
 
     const handleChangeFormData = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -48,8 +40,17 @@ export default function Discuss() {
 
     const handleClickPost = () => {
         const newformData = new FormData();
+        const titleTrimmed = formData.title.trim();
+        const contentTrimmed = formData.content.trim();
 
-
+        if (titleTrimmed.length > 100) {
+            toast.error('Tiêu đề không được dài quá 100 ký tự!');
+            return;
+        }
+        if (contentTrimmed.length > 1000) {
+            toast.error('Nội dung bài viết không được dài quá 1000 ký tự!');
+            return;
+        }
         newformData.append('title', formData.title);
         newformData.append('content', formData.content);
 
@@ -84,8 +85,6 @@ export default function Discuss() {
 
     return (
         <div className={`layout sidebarclose`}>
-            {/* <HeaderPage />
-            <NavTabs /> */}
 
             <div className="main-content-discuss">
                 <div className="discuss-container">
@@ -99,6 +98,7 @@ export default function Discuss() {
                         <input
                             type="text"
                             name="title"
+                            maxLength={100}
                             className="discuss-input"
                             placeholder="Chủ đề bạn muốn thảo luận là gì?"
                             value={formData.title}
@@ -106,12 +106,32 @@ export default function Discuss() {
                         />
                         <textarea
                             name="content"
+                            maxLength={5000}
                             className="discuss-textarea"
                             placeholder="Chia sẻ suy nghĩ, câu hỏi hoặc kiến thức của bạn tại đây..."
                             value={formData.content}
                             onChange={handleChangeFormData}
                         ></textarea>
-                        <input type="file" name="file" onChange={handleChangeFormData} />
+                        <input
+                            type="file"
+                            id="discuss-file-input"
+                            name="file"
+                            accept="image/*"
+                            onChange={handleChangeFormData}
+                            style={{ display: 'none' }}
+                        />
+                        <div className="discuss-upload-container">
+                            <label htmlFor="discuss-file-input" className="discuss-upload-label">
+                                <ImageIcon size={18} />
+                                <span>{formData.file ? 'Thay đổi ảnh' : 'Thêm hình ảnh'}</span>
+                            </label>
+                            {formData.file && (
+                                <div className="discuss-image-preview">
+                                    <img src={URL.createObjectURL(formData.file)} alt="Preview" />
+                                    <button type="button" className="remove-image-btn" onClick={() => setFormData(prev => ({ ...prev, file: null }))}>×</button>
+                                </div>
+                            )}
+                        </div>
                         <div className="clearfix">
                             <button className="discuss-submit-btn" onClick={handleClickPost} disabled={isCreatePostPending}>
                                 <Send size={18} />

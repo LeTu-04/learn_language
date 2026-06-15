@@ -20,8 +20,22 @@ export type UserModel = runtime.Types.Result.DefaultSelection<Prisma.$UserPayloa
 
 export type AggregateUser = {
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
+}
+
+export type UserAvgAggregateOutputType = {
+  currentStreak: number | null
+  longestStreak: number | null
+  totalVocabLearn: number | null
+}
+
+export type UserSumAggregateOutputType = {
+  currentStreak: number | null
+  longestStreak: number | null
+  totalVocabLearn: number | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -33,6 +47,10 @@ export type UserMinAggregateOutputType = {
   createdAt: Date | null
   deletedAt: Date | null
   isActive: boolean | null
+  currentStreak: number | null
+  longestStreak: number | null
+  lastActiveDay: Date | null
+  totalVocabLearn: number | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -44,6 +62,10 @@ export type UserMaxAggregateOutputType = {
   createdAt: Date | null
   deletedAt: Date | null
   isActive: boolean | null
+  currentStreak: number | null
+  longestStreak: number | null
+  lastActiveDay: Date | null
+  totalVocabLearn: number | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -55,9 +77,25 @@ export type UserCountAggregateOutputType = {
   createdAt: number
   deletedAt: number
   isActive: number
+  currentStreak: number
+  longestStreak: number
+  lastActiveDay: number
+  totalVocabLearn: number
   _all: number
 }
 
+
+export type UserAvgAggregateInputType = {
+  currentStreak?: true
+  longestStreak?: true
+  totalVocabLearn?: true
+}
+
+export type UserSumAggregateInputType = {
+  currentStreak?: true
+  longestStreak?: true
+  totalVocabLearn?: true
+}
 
 export type UserMinAggregateInputType = {
   id?: true
@@ -68,6 +106,10 @@ export type UserMinAggregateInputType = {
   createdAt?: true
   deletedAt?: true
   isActive?: true
+  currentStreak?: true
+  longestStreak?: true
+  lastActiveDay?: true
+  totalVocabLearn?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -79,6 +121,10 @@ export type UserMaxAggregateInputType = {
   createdAt?: true
   deletedAt?: true
   isActive?: true
+  currentStreak?: true
+  longestStreak?: true
+  lastActiveDay?: true
+  totalVocabLearn?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -90,6 +136,10 @@ export type UserCountAggregateInputType = {
   createdAt?: true
   deletedAt?: true
   isActive?: true
+  currentStreak?: true
+  longestStreak?: true
+  lastActiveDay?: true
+  totalVocabLearn?: true
   _all?: true
 }
 
@@ -131,6 +181,18 @@ export type UserAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: UserAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: UserSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: UserMinAggregateInputType
@@ -161,6 +223,8 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   _count?: UserCountAggregateInputType | true
+  _avg?: UserAvgAggregateInputType
+  _sum?: UserSumAggregateInputType
   _min?: UserMinAggregateInputType
   _max?: UserMaxAggregateInputType
 }
@@ -174,7 +238,13 @@ export type UserGroupByOutputType = {
   createdAt: Date
   deletedAt: Date | null
   isActive: boolean
+  currentStreak: number
+  longestStreak: number
+  lastActiveDay: Date | null
+  totalVocabLearn: number
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
 }
@@ -206,6 +276,10 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   isActive?: Prisma.BoolFilter<"User"> | boolean
+  currentStreak?: Prisma.IntFilter<"User"> | number
+  longestStreak?: Prisma.IntFilter<"User"> | number
+  lastActiveDay?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  totalVocabLearn?: Prisma.IntFilter<"User"> | number
   category?: Prisma.CategoryListRelationFilter
   provider?: Prisma.ProviderListRelationFilter
   refreshTokens?: Prisma.RefreshTokenListRelationFilter
@@ -222,6 +296,10 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  currentStreak?: Prisma.SortOrder
+  longestStreak?: Prisma.SortOrder
+  lastActiveDay?: Prisma.SortOrderInput | Prisma.SortOrder
+  totalVocabLearn?: Prisma.SortOrder
   category?: Prisma.CategoryOrderByRelationAggregateInput
   provider?: Prisma.ProviderOrderByRelationAggregateInput
   refreshTokens?: Prisma.RefreshTokenOrderByRelationAggregateInput
@@ -241,6 +319,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   isActive?: Prisma.BoolFilter<"User"> | boolean
+  currentStreak?: Prisma.IntFilter<"User"> | number
+  longestStreak?: Prisma.IntFilter<"User"> | number
+  lastActiveDay?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  totalVocabLearn?: Prisma.IntFilter<"User"> | number
   category?: Prisma.CategoryListRelationFilter
   provider?: Prisma.ProviderListRelationFilter
   refreshTokens?: Prisma.RefreshTokenListRelationFilter
@@ -257,9 +339,15 @@ export type UserOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  currentStreak?: Prisma.SortOrder
+  longestStreak?: Prisma.SortOrder
+  lastActiveDay?: Prisma.SortOrderInput | Prisma.SortOrder
+  totalVocabLearn?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
+  _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
+  _sum?: Prisma.UserSumOrderByAggregateInput
 }
 
 export type UserScalarWhereWithAggregatesInput = {
@@ -274,6 +362,10 @@ export type UserScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   isActive?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  currentStreak?: Prisma.IntWithAggregatesFilter<"User"> | number
+  longestStreak?: Prisma.IntWithAggregatesFilter<"User"> | number
+  lastActiveDay?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  totalVocabLearn?: Prisma.IntWithAggregatesFilter<"User"> | number
 }
 
 export type UserCreateInput = {
@@ -285,6 +377,10 @@ export type UserCreateInput = {
   createdAt?: Date | string
   deletedAt?: Date | string | null
   isActive?: boolean
+  currentStreak?: number
+  longestStreak?: number
+  lastActiveDay?: Date | string | null
+  totalVocabLearn?: number
   category?: Prisma.CategoryCreateNestedManyWithoutUserInput
   provider?: Prisma.ProviderCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
@@ -301,6 +397,10 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   deletedAt?: Date | string | null
   isActive?: boolean
+  currentStreak?: number
+  longestStreak?: number
+  lastActiveDay?: Date | string | null
+  totalVocabLearn?: number
   category?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   provider?: Prisma.ProviderUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
@@ -317,6 +417,10 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  longestStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActiveDay?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalVocabLearn?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   provider?: Prisma.ProviderUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
@@ -333,6 +437,10 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  longestStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActiveDay?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalVocabLearn?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   provider?: Prisma.ProviderUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -349,6 +457,10 @@ export type UserCreateManyInput = {
   createdAt?: Date | string
   deletedAt?: Date | string | null
   isActive?: boolean
+  currentStreak?: number
+  longestStreak?: number
+  lastActiveDay?: Date | string | null
+  totalVocabLearn?: number
 }
 
 export type UserUpdateManyMutationInput = {
@@ -360,6 +472,10 @@ export type UserUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  longestStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActiveDay?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalVocabLearn?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -371,6 +487,10 @@ export type UserUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  longestStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActiveDay?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalVocabLearn?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -382,6 +502,16 @@ export type UserCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  currentStreak?: Prisma.SortOrder
+  longestStreak?: Prisma.SortOrder
+  lastActiveDay?: Prisma.SortOrder
+  totalVocabLearn?: Prisma.SortOrder
+}
+
+export type UserAvgOrderByAggregateInput = {
+  currentStreak?: Prisma.SortOrder
+  longestStreak?: Prisma.SortOrder
+  totalVocabLearn?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -393,6 +523,10 @@ export type UserMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  currentStreak?: Prisma.SortOrder
+  longestStreak?: Prisma.SortOrder
+  lastActiveDay?: Prisma.SortOrder
+  totalVocabLearn?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -404,6 +538,16 @@ export type UserMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
+  currentStreak?: Prisma.SortOrder
+  longestStreak?: Prisma.SortOrder
+  lastActiveDay?: Prisma.SortOrder
+  totalVocabLearn?: Prisma.SortOrder
+}
+
+export type UserSumOrderByAggregateInput = {
+  currentStreak?: Prisma.SortOrder
+  longestStreak?: Prisma.SortOrder
+  totalVocabLearn?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -429,6 +573,14 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
 
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type UserCreateNestedOneWithoutProviderInput = {
@@ -510,6 +662,10 @@ export type UserCreateWithoutProviderInput = {
   createdAt?: Date | string
   deletedAt?: Date | string | null
   isActive?: boolean
+  currentStreak?: number
+  longestStreak?: number
+  lastActiveDay?: Date | string | null
+  totalVocabLearn?: number
   category?: Prisma.CategoryCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
@@ -525,6 +681,10 @@ export type UserUncheckedCreateWithoutProviderInput = {
   createdAt?: Date | string
   deletedAt?: Date | string | null
   isActive?: boolean
+  currentStreak?: number
+  longestStreak?: number
+  lastActiveDay?: Date | string | null
+  totalVocabLearn?: number
   category?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
@@ -556,6 +716,10 @@ export type UserUpdateWithoutProviderInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  longestStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActiveDay?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalVocabLearn?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
@@ -571,6 +735,10 @@ export type UserUncheckedUpdateWithoutProviderInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  longestStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActiveDay?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalVocabLearn?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -586,6 +754,10 @@ export type UserCreateWithoutCategoryInput = {
   createdAt?: Date | string
   deletedAt?: Date | string | null
   isActive?: boolean
+  currentStreak?: number
+  longestStreak?: number
+  lastActiveDay?: Date | string | null
+  totalVocabLearn?: number
   provider?: Prisma.ProviderCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
@@ -601,6 +773,10 @@ export type UserUncheckedCreateWithoutCategoryInput = {
   createdAt?: Date | string
   deletedAt?: Date | string | null
   isActive?: boolean
+  currentStreak?: number
+  longestStreak?: number
+  lastActiveDay?: Date | string | null
+  totalVocabLearn?: number
   provider?: Prisma.ProviderUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
@@ -632,6 +808,10 @@ export type UserUpdateWithoutCategoryInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  longestStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActiveDay?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalVocabLearn?: Prisma.IntFieldUpdateOperationsInput | number
   provider?: Prisma.ProviderUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
@@ -647,6 +827,10 @@ export type UserUncheckedUpdateWithoutCategoryInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  longestStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActiveDay?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalVocabLearn?: Prisma.IntFieldUpdateOperationsInput | number
   provider?: Prisma.ProviderUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -662,6 +846,10 @@ export type UserCreateWithoutRefreshTokensInput = {
   createdAt?: Date | string
   deletedAt?: Date | string | null
   isActive?: boolean
+  currentStreak?: number
+  longestStreak?: number
+  lastActiveDay?: Date | string | null
+  totalVocabLearn?: number
   category?: Prisma.CategoryCreateNestedManyWithoutUserInput
   provider?: Prisma.ProviderCreateNestedManyWithoutUserInput
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
@@ -677,6 +865,10 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   createdAt?: Date | string
   deletedAt?: Date | string | null
   isActive?: boolean
+  currentStreak?: number
+  longestStreak?: number
+  lastActiveDay?: Date | string | null
+  totalVocabLearn?: number
   category?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   provider?: Prisma.ProviderUncheckedCreateNestedManyWithoutUserInput
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
@@ -708,6 +900,10 @@ export type UserUpdateWithoutRefreshTokensInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  longestStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActiveDay?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalVocabLearn?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   provider?: Prisma.ProviderUpdateManyWithoutUserNestedInput
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
@@ -723,6 +919,10 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  longestStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActiveDay?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalVocabLearn?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   provider?: Prisma.ProviderUncheckedUpdateManyWithoutUserNestedInput
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -738,6 +938,10 @@ export type UserCreateWithoutPostsInput = {
   createdAt?: Date | string
   deletedAt?: Date | string | null
   isActive?: boolean
+  currentStreak?: number
+  longestStreak?: number
+  lastActiveDay?: Date | string | null
+  totalVocabLearn?: number
   category?: Prisma.CategoryCreateNestedManyWithoutUserInput
   provider?: Prisma.ProviderCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
@@ -753,6 +957,10 @@ export type UserUncheckedCreateWithoutPostsInput = {
   createdAt?: Date | string
   deletedAt?: Date | string | null
   isActive?: boolean
+  currentStreak?: number
+  longestStreak?: number
+  lastActiveDay?: Date | string | null
+  totalVocabLearn?: number
   category?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   provider?: Prisma.ProviderUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
@@ -784,6 +992,10 @@ export type UserUpdateWithoutPostsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  longestStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActiveDay?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalVocabLearn?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   provider?: Prisma.ProviderUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
@@ -799,6 +1011,10 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  longestStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActiveDay?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalVocabLearn?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   provider?: Prisma.ProviderUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -814,6 +1030,10 @@ export type UserCreateWithoutCommentsInput = {
   createdAt?: Date | string
   deletedAt?: Date | string | null
   isActive?: boolean
+  currentStreak?: number
+  longestStreak?: number
+  lastActiveDay?: Date | string | null
+  totalVocabLearn?: number
   category?: Prisma.CategoryCreateNestedManyWithoutUserInput
   provider?: Prisma.ProviderCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput
@@ -829,6 +1049,10 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   createdAt?: Date | string
   deletedAt?: Date | string | null
   isActive?: boolean
+  currentStreak?: number
+  longestStreak?: number
+  lastActiveDay?: Date | string | null
+  totalVocabLearn?: number
   category?: Prisma.CategoryUncheckedCreateNestedManyWithoutUserInput
   provider?: Prisma.ProviderUncheckedCreateNestedManyWithoutUserInput
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput
@@ -860,6 +1084,10 @@ export type UserUpdateWithoutCommentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  longestStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActiveDay?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalVocabLearn?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.CategoryUpdateManyWithoutUserNestedInput
   provider?: Prisma.ProviderUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput
@@ -875,6 +1103,10 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  longestStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActiveDay?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalVocabLearn?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.CategoryUncheckedUpdateManyWithoutUserNestedInput
   provider?: Prisma.ProviderUncheckedUpdateManyWithoutUserNestedInput
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -957,6 +1189,10 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   deletedAt?: boolean
   isActive?: boolean
+  currentStreak?: boolean
+  longestStreak?: boolean
+  lastActiveDay?: boolean
+  totalVocabLearn?: boolean
   category?: boolean | Prisma.User$categoryArgs<ExtArgs>
   provider?: boolean | Prisma.User$providerArgs<ExtArgs>
   refreshTokens?: boolean | Prisma.User$refreshTokensArgs<ExtArgs>
@@ -974,6 +1210,10 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   deletedAt?: boolean
   isActive?: boolean
+  currentStreak?: boolean
+  longestStreak?: boolean
+  lastActiveDay?: boolean
+  totalVocabLearn?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -985,6 +1225,10 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   deletedAt?: boolean
   isActive?: boolean
+  currentStreak?: boolean
+  longestStreak?: boolean
+  lastActiveDay?: boolean
+  totalVocabLearn?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -996,9 +1240,13 @@ export type UserSelectScalar = {
   createdAt?: boolean
   deletedAt?: boolean
   isActive?: boolean
+  currentStreak?: boolean
+  longestStreak?: boolean
+  lastActiveDay?: boolean
+  totalVocabLearn?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "password" | "avatarUrl" | "createdAt" | "deletedAt" | "isActive", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "password" | "avatarUrl" | "createdAt" | "deletedAt" | "isActive" | "currentStreak" | "longestStreak" | "lastActiveDay" | "totalVocabLearn", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.User$categoryArgs<ExtArgs>
   provider?: boolean | Prisma.User$providerArgs<ExtArgs>
@@ -1028,6 +1276,10 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     createdAt: Date
     deletedAt: Date | null
     isActive: boolean
+    currentStreak: number
+    longestStreak: number
+    lastActiveDay: Date | null
+    totalVocabLearn: number
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -1464,6 +1716,10 @@ export interface UserFieldRefs {
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly deletedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly isActive: Prisma.FieldRef<"User", 'Boolean'>
+  readonly currentStreak: Prisma.FieldRef<"User", 'Int'>
+  readonly longestStreak: Prisma.FieldRef<"User", 'Int'>
+  readonly lastActiveDay: Prisma.FieldRef<"User", 'DateTime'>
+  readonly totalVocabLearn: Prisma.FieldRef<"User", 'Int'>
 }
     
 

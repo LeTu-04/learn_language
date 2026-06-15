@@ -1,4 +1,8 @@
 :root {
+
+  --sidebar-width : 260px;
+  --sidebar-close-width : 30px;
+
   /* --app-background : linear-gradient(to right, #d7dde8, #757f9a); */
   /* --app-background : #F3EFF0; */
     /* --app-background : #f1f5f9; */
@@ -14,4 +18,32 @@
   box-sizing: border-box;
   padding: 0px;
   margin: 0px;
+}
+
+/* Nút Toggle Sidebar Toàn Cục */
+.buttonToogleSidebar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: var(--button-addcate-sidebar);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 1.25rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+    flex-shrink: 0; /* Không cho nút co lại */
+    align-self: center; /* Ngăn chặn co giãn chiều cao theo flex stretch */
+}
+
+.buttonToogleSidebar:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+}
+
+.buttonToogleSidebar:active {
+    transform: scale(0.95);
 }
