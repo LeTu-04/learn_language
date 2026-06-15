@@ -20,8 +20,7 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
             host: this.redisCfg.redis_host,
             port: parseInt(this.redisCfg.redis_port!, 10),
             password: this.redisCfg.redis_password
-        })
-        //console.log('✅ Redis connected to host:', this.redisCfg.redis_host);
+        });
     }
 
     onModuleDestroy() {
@@ -40,4 +39,19 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
     async deleteOtp(email: string) {
         await this.redis.del(`otp:${email}`)
     }
+    
+
+    async get(key: string): Promise<string | null> {
+        return await this.redis.get(key);
+    }
+
+    async set (key : string, value : string, ttl? : number) : Promise<void> {
+        if(!ttl) {
+            await this.redis.set(key, value);
+        }else {
+            await this.redis.set(key, value, 'EX', ttl)
+        }
+
+    }
+
 }

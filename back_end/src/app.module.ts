@@ -11,7 +11,7 @@ import { AuthController } from './auth/controller/auth/auth.controller';
 import { Token } from './auth/token/token.js';
 import jwtConfig from './auth/config/jwt.config.js';
 import { PrismaModule } from './Prisma/prisma.module.js';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwtaccess.guard.js';
 import { JwtService } from './auth/service/jwt/jwt.service';
 import { LocalService } from './auth/service/auth/local/local.service';
@@ -27,6 +27,7 @@ import { UserModule } from './modules/users/user.module';
 import redisConfig from './auth/config/redis.config.js';
 import hashConfig from './auth/config/hash.config.js';
 import mailConfig from './auth/config/mail.config.js';
+import { StreakInterCeptor } from './utils/streak/streak.interceptor.js';
 
 
 
@@ -34,8 +35,8 @@ import mailConfig from './auth/config/mail.config.js';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal : true,
-      load : [cloudinaryConfig, redisConfig, hashConfig, mailConfig]
+      isGlobal: true,
+      load: [cloudinaryConfig, redisConfig, hashConfig, mailConfig]
     }),
     AuthModule,
     PrismaModule,
@@ -44,12 +45,17 @@ import mailConfig from './auth/config/mail.config.js';
     MailModule,
     UserModule
   ],
-  controllers: [ VocabController, CategoryController, DiscussController, ],
-  providers: [VocabService,  CategoryService, 
+  controllers: [VocabController, CategoryController, DiscussController,],
+  providers: [VocabService, CategoryService,
     {
-      provide : APP_GUARD,
-      useClass : JwtAuthGuard
-    }, DiscussService 
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: StreakInterCeptor,
+    },
+    DiscussService 
    ],
 })
-export class AppModule {}
+export class AppModule { }
