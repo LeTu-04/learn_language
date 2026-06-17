@@ -109,7 +109,22 @@
   flex: 1;
   min-width: 0;
   width: 100%;
-  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+  color: white;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 4px 8px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.category-edit-input:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #a78bfa;
+  box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.3);
 }
 
 .action {

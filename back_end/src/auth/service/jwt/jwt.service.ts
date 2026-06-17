@@ -68,7 +68,11 @@ export class JwtService {
 
         const user = await this.prisma.user.findUnique({
             where: { id: payload.sub },
-            select: { name: true, email: true, avatarUrl: true }
+            select: { name: true, email: true, avatarUrl: true,
+                totalVocabLearn : true,
+                currentStreak : true,
+                longestStreak : true
+             }
         });
 
         return {

@@ -13,7 +13,10 @@ export const UserTanstack = {
         return useQuery({
             queryKey: ['user'],
             queryFn: () => UserService.getUser(),
-            initialData: initialUser || undefined
+            //initialData: initialUser || undefined,
+            placeholderData : initialUser || undefined,
+            staleTime : 0
+
         })
     },
 
@@ -47,7 +50,6 @@ export const UserTanstack = {
 
     changeAvatar() {
         const dispatch = useAppDispatch();
-       // const queryClient = useQueryClient();
         return useMutation({
             mutationFn: (data: ChangeAvatarDto) => UserService.changeAvatar(data),
             onSuccess: (newAvatarUrl) => {

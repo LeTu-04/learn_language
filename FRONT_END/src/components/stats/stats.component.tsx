@@ -1,6 +1,12 @@
 import { BookOpen, Flame } from "lucide-react";
 
-export default function Stats () {
+interface StatsProps {
+    totalLearnVocab : number,
+    currentStreak : number,
+    longestStreak : number
+}
+
+export default function Stats ({totalLearnVocab, currentStreak, longestStreak} : StatsProps) {
     return (
         
        <div className="profile-card stats-card">
@@ -12,7 +18,7 @@ export default function Stats () {
             </div>
             <div className="stat-info">
                 <span className="stat-label">Từ vựng đã học</span>
-                <span className="stat-value">1,452</span>
+                <span className="stat-value"> {totalLearnVocab} </span>
             </div>
         </div>
         <div className="stat-item">
@@ -21,7 +27,7 @@ export default function Stats () {
             </div>
             <div className="stat-info">
                 <span className="stat-label">Ngày học liên tục</span>
-                <span className="stat-value">28 Ngày</span>
+                <span className="stat-value">{currentStreak}</span>
             </div>
         </div>
     </div>

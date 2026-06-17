@@ -100,7 +100,11 @@ export class LocalService {
 
     async SignIn(data : SignInDto) {
         const isExists = await this.prisma.user.findUnique({
-            where : {email : data.email}, select : {email : true, password : true, id : true, name : true, avatarUrl : true}
+            where : {email : data.email}, select : {email : true, password : true, id : true, name : true, avatarUrl : true,
+                totalVocabLearn : true,
+                currentStreak : true,
+                longestStreak : true
+            }
         });
         if(!isExists) {
             throw new UnauthorizedException('Tài khoản hoặc mật khẩu không đúng');

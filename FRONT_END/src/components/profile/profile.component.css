@@ -41,10 +41,46 @@
 }
 
 .user-info-card {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+}
+
+.card-settings-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid rgba(229, 231, 235, 0.6);
+    background: rgba(255, 255, 255, 0.6);
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+    padding: 0;
+    z-index: 5;
+}
+
+.card-settings-btn:hover {
+    background: rgba(255, 255, 255, 1);
+    color: #7c3aed;
+    border-color: rgba(124, 58, 237, 0.3);
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.08);
+}
+
+.card-settings-btn:hover svg {
+    transform: rotate(30deg);
+}
+
+.card-settings-btn svg {
+    transition: transform 0.25s ease;
 }
 
 /* Khung Avatar tròn & Camera hover */
@@ -229,7 +265,8 @@
 .settings-card input {
     width: 100%;
     height: 44px;
-    padding: 10px 14px 10px 42px; /* Chừa khoảng trống bên trái cho icon */
+    padding: 10px 14px 10px 42px;
+    /* Chừa khoảng trống bên trái cho icon */
     border-radius: 10px;
     border: 1.5px solid #e5e7eb;
     background-color: #f9fafb;
@@ -269,12 +306,14 @@
     cursor: pointer;
     transition: all 0.2s ease;
     flex-shrink: 0;
-    width: auto !important; /* Ghi đè CSS cũ */
+    width: auto !important;
+    /* Ghi đè CSS cũ */
 }
 
 .btn-save-name:hover {
     background-color: #e5e7eb;
-    opacity: 1 !important; /* Ghi đè CSS cũ */
+    opacity: 1 !important;
+    /* Ghi đè CSS cũ */
 }
 
 /* Form đổi mật khẩu */
@@ -297,13 +336,15 @@
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
     transition: all 0.2s ease;
-    width: auto !important; /* Ghi đè CSS cũ */
+    width: auto !important;
+    /* Ghi đè CSS cũ */
 }
 
 .btn-change-pass:hover {
     transform: translateY(-1px);
     box-shadow: 0 6px 16px rgba(124, 58, 237, 0.25);
-    opacity: 1 !important; /* Ghi đè CSS cũ */
+    opacity: 1 !important;
+    /* Ghi đè CSS cũ */
 }
 
 .btn-change-pass:active {
@@ -332,13 +373,15 @@
     justify-content: center;
     gap: 8px;
     transition: all 0.2s ease;
-    width: auto !important; /* Ghi đè CSS cũ */
+    width: auto !important;
+    /* Ghi đè CSS cũ */
 }
 
 .btn-forgot-pass:hover {
     background-color: #f9fafb;
     border-color: #d1d5db;
-    opacity: 1 !important; /* Ghi đè CSS cũ */
+    opacity: 1 !important;
+    /* Ghi đè CSS cũ */
 }
 
 .btn-logout {
@@ -356,13 +399,59 @@
     justify-content: center;
     gap: 8px;
     transition: all 0.2s ease;
-    width: auto !important; /* Ghi đè CSS cũ */
+    width: auto !important;
+    /* Ghi đè CSS cũ */
 }
 
 .btn-logout:hover {
     background-color: rgba(239, 68, 68, 0.06);
     border-color: rgba(239, 68, 68, 0.35);
-    opacity: 1 !important; /* Ghi đè CSS cũ */
+    opacity: 1 !important;
+    /* Ghi đè CSS cũ */
+}
+
+
+.profile-dropdown-setting {
+    position: absolute;
+    top: 56px; /* Cách bánh răng một khoảng */
+    right: 16px;
+    width: 200px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px); /* Hiệu ứng kính mờ */
+    border: 1px solid rgba(229, 231, 235, 0.8);
+    border-radius: 12px;
+    padding: 6px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 12px;
+    border: none;
+    background: transparent;
+    color: #4b5563;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+}
+.dropdown-item:hover {
+    color: #111827;
+    background-color: #f3f4f6; /* Nền xám nhạt khi hover */
+}
+/* Mục nào đang được chọn sẽ có màu tím nổi bật */
+.dropdown-item.active {
+    color: #7c3aed;
+    background-color: rgba(124, 58, 237, 0.06);
 }
 
 /* Keyframes hiệu ứng */
@@ -371,6 +460,7 @@
         opacity: 0;
         transform: translateY(30px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);
@@ -382,13 +472,13 @@
     .profile-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .user-info {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 20px;
     }
-    
+
     .user-info-card {
         margin-bottom: 0;
     }
@@ -398,7 +488,7 @@
     .user-info {
         grid-template-columns: 1fr;
     }
-    
+
     .action-buttons-row {
         flex-direction: column;
     }
