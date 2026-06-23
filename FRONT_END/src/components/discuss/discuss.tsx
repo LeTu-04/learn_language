@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 
 import { Send, Heart, MessageCircle, Share2, Sparkles, User, Image as ImageIcon } from "lucide-react";
@@ -6,6 +7,7 @@ import '../../pages/css/addvocab.css';
 import './discuss.css';
 import { tantackService } from "../../utils/tanstack/tanstackquery";
 import Skeleton from "react-loading-skeleton";
+import { ExpandableText } from "../common/post/post.component";
 
 import { useInView } from 'react-intersection-observer';
 import toast from "react-hot-toast";
@@ -47,8 +49,8 @@ export default function Discuss() {
             toast.error('Tiêu đề không được dài quá 100 ký tự!');
             return;
         }
-        if (contentTrimmed.length > 1000) {
-            toast.error('Nội dung bài viết không được dài quá 1000 ký tự!');
+        if (contentTrimmed.length > 5000) {
+            toast.error('Nội dung bài viết không được dài quá 5000 ký tự!');
             return;
         }
         newformData.append('title', formData.title);
@@ -169,12 +171,12 @@ export default function Discuss() {
                                             </div>
                                         </div>
                                         <h4 className="post-title"> {p.title} </h4>
-                                        <p className="post-content-review"> {p.content} </p>
+                                        <ExpandableText text={p.content} />
                                         {p.image_url && (
                                             <div className="post-image-container">
-
-                                                <img src={p.image_url} alt="Post attached image" className="post-image" />
-
+                                                <Zoom>
+                                                    <img src={p.image_url} alt="Post attached image" className="post-image" />
+                                                </Zoom>
                                             </div>
                                         )}
                                         <div className="post-actions">
@@ -184,9 +186,9 @@ export default function Discuss() {
                                             <button className="post-action-btn">
                                                 <MessageCircle size={18} /> Bình luận
                                             </button>
-                                            <button className="post-action-btn">
+                                            {/* <button className="post-action-btn">
                                                 <Share2 size={18} /> Chia sẻ
-                                            </button>
+                                            </button> */}
                                         </div>
                                     </div>
                                 })}

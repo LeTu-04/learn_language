@@ -7,36 +7,43 @@ export const baseUrl = 'http://localhost:3000';
 
 
 export const fetchCategory = createAsyncThunk('Category/fetchCategory',
-    async() => {
-        const response  = await clientAPI.get<CategoryResponse>('Category');
+    async () => {
+        const response = await clientAPI.get<CategoryResponse>('Category');
         return response.data.data;
     }
 );
 
 export const postCategory = createAsyncThunk('Category/postCategory',
-    async (data : postCat) => {
+    async (data: postCat) => {
         const response = await clientAPI.post<CategoryPostResponse>('Category', data);
-        console.log('Data Post',response.data);
+        console.log('Data Post', response.data);
         return response.data.data;
     }
 );
 
 export const softDeleteCategory = createAsyncThunk('Category/softDeleteCategory',
-    async (id : number) => {
+    async (id: number) => {
         await clientAPI.delete(`/Category/${id}`);
-        return id 
+        return id
     }
 );
 
 export const editCategory = createAsyncThunk('Category/editCategory',
-    async({id, name} : getCat) => {
-        const response = await clientAPI.patch(`/Category/${id}`, {name}) ;
+    async ({ id, name }: getCat) => {
+        const response = await clientAPI.patch(`/Category/${id}`, { name });
         return response.data;
-    }   
+    }
 )
 
 
-export const getQuizzExam = async(categoryId : number, limit : number) =>  {
+export const getQuizzExam = async (categoryId: number, limit: number) => {
     const response = await clientAPI.get(`Category/${categoryId}/exam`);
     return response.data
+}
+
+export const getCateRemoved = async () => {
+    const response = await clientAPI.get<{
+        message: string, data: { id: number, name: string, deletedAt: string }[]
+    }>(`Category/removed`);
+    return response.data.data;
 }

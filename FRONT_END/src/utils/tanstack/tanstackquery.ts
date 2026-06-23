@@ -15,7 +15,7 @@ export const tantackService = {
         // getNextPageParam giúp TanStack Query biết làm sao để lấy cursor cho trang tiếp theo
         getNextPageParam: (lastPage) => {
             // lastPage là dữ liệu trả về từ lần fetch gần nhất
-            // Giả sử API của bạn trả về { data: { postData: [...], cursor: 15 } }
+            // Giả sử API trả về { data: { postData: [...], cursor: 15 } }
             // Nếu không còn cursor (nghĩa là đã hết bài viết), return undefined để dừng fetch
             if (!lastPage || !lastPage.nextcursor) {
                 return undefined;

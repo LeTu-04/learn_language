@@ -59,5 +59,16 @@ export class UserController {
             data
         }
     }
+
+    @Get('mypost')
+    async getPost (
+        @Req() req : Request
+    ) {
+        const data = await this.user.getALlPostOfUser(req.user?.sub!);
+        return {
+            message : 'SUCCESS',
+            postData : data
+        }
+    }
 }
 

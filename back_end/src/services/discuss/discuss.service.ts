@@ -10,8 +10,9 @@ export class CreatePostDto {
     title?: string
     @IsNotEmpty({ message: 'Nội dung bài viết không được để trống!' })
     @IsString()
-    @MaxLength(1000, { message: 'Nội dung bài viết không được dài quá 1000 ký tự!' })
+    @MaxLength(5000, { message: 'Nội dung bài viết không được dài quá 1000 ký tự!' })
     content: string
+    @IsOptional()
     file?: Express.Multer.File
 }
 

@@ -9,19 +9,20 @@
 .result-card {
     background: #ffffff;
     border-radius: 24px;
-    padding: 48px;
+    padding: 40px;
     width: 100%;
     max-width: 480px;
     text-align: center;
     box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.08);
     border: 1px solid #f8fafc;
     animation: slideUp 0.5s ease-out;
+    max-height: 550px;
 }
 
 /* ===== TIÊU ĐỀ & ICON ===== */
 .icon-wrapper {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     background: #fef08a;
     border-radius: 50%;
     display: flex;
@@ -34,7 +35,7 @@
 
 .result-header h2 {
     font-family: 'Inter', sans-serif;
-    font-size: 2.2rem;
+    font-size: 2rem;
     color: #0f172a;
     margin: 0 0 8px 0;
     font-weight: 800;
@@ -48,15 +49,15 @@
 
 /* ===== PHẦN ĐIỂM SỐ TRUNG TÂM ===== */
 .score-board {
-    margin: 40px 0;
+    margin: 30px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .score-circle {
-    width: 160px;
-    height: 160px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     background: #f8fafc;
     border: 8px solid #10b981;

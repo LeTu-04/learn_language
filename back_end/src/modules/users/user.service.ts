@@ -117,5 +117,32 @@ export class UserService {
         }
     }
 
+    async getALlPostOfUser (userId : string) {
+        try {
+            const postResponse = await this.prisma.user.findUnique({
+                where : {id : userId, isActive : true},
+                select : {
+                    posts : {
+                        select : {
+                            id : true,
+                            title : true,
+                            content : true,
+                            image_url : true,
+                            createdAt : true,
+                        }
+                    }, 
+                    avatarUrl : true,
+                    name : true
+                },
+            });
+            return postResponse;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async removeTheirPost () {
+        
+    }
 
 }

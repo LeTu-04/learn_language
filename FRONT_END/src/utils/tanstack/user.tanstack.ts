@@ -5,6 +5,8 @@ import toast from "react-hot-toast";
 import { logger } from "../../../utils/logger";
 
 import { clearDataAfterLogout, updateAvatar } from "../../features/auth/auth.slice";
+import { clearCategoryState } from "../../features/Category/categorySlice";
+import { clearVocabularyState } from "../../features/vocabulary/vocabularySlice";
 import { useNavigate } from "react-router-dom";
 
 export const UserTanstack = {
@@ -75,6 +77,8 @@ export const UserTanstack = {
             onSuccess: () => {
                 queryClient.clear();
                 dispatch(clearDataAfterLogout());
+                dispatch(clearCategoryState());
+                dispatch(clearVocabularyState());
                 navigate('/login')
             }
         })
@@ -103,6 +107,14 @@ export const UserTanstack = {
                 toast.error('Thay đổi mật khẩu thất bại')
                 throw error;
             }
+        })
+    },
+
+    getMyPost (enabled : boolean) {
+        return useQuery ({
+            queryKey : ['user','mypost'] ,
+            queryFn : () => UserService.getPost(),
+            enabled
         })
     }
 

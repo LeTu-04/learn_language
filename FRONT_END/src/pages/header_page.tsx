@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../hooks/hook';
 import type React from 'react';
 import { setSearchVocabulary } from "../features/vocabulary/vocabularySlice";
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 interface ShowSearchProps {
     showSearch?: boolean
@@ -20,9 +21,20 @@ export default function HeaderPage({ showSearch }: ShowSearchProps) {
         dispatch(setSearchVocabulary(e.target.value));
     }
 
-    const handleClickGetUser = () => {
-        navigate('/profile')
+    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (!isMenuOpen) return;
+        const closeMenu = () => setIsMenuOpen(false);
+        window.addEventListener('click', closeMenu)
+        return () => window.removeEventListener('click', closeMenu);
+    }, [isMenuOpen])
+
+    const handleClickAvatar = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setIsMenuOpen(!isMenuOpen);
     }
+
 
     return (
         <div className="header">
@@ -54,13 +66,29 @@ export default function HeaderPage({ showSearch }: ShowSearchProps) {
                     <span className="header-notification-dot"></span>
                 </button>
 
-                <div className="header-avatar-container" onClick={handleClickGetUser}>
+                <div className="header-avatar-container" onClick={handleClickAvatar}>
                     <div className="header-avatar">
-                        {user?.avatarUrl? <img src={user.avatarUrl} alt="avatar" />: <User size={20} color="#6b7280" />}
+                        {user?.avatarUrl ? <img src={user.avatarUrl} alt="avatar" /> : <User size={20} color="#6b7280" />}
                     </div>
                     <div className="header-user-info">
                         <span className="header-username"> {user?.name} </span>
                     </div>
+                    {isMenuOpen && (
+                        <div className='header-dropdown-menu' onClick={(e) => e.stopPropagation()}>
+                            <button type='button' onClick={() => {
+                                setIsMenuOpen(false);
+                                navigate('/profile')
+                            }}>
+                                Xem trang cá nhân
+                            </button>
+                            <button type='button' onClick={() => {
+                                navigate('/profile?tab=settings');
+                                setIsMenuOpen(false);
+                            }}>
+                                Cài đặt
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

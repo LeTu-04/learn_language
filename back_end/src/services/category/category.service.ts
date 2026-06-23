@@ -78,4 +78,63 @@ export class CategoryService {
         });
 
     }
-}
+
+    async getAllCategoryRemoved(userId: string) {
+        try {
+            const categoryRemoved = await this.prisma.category.findMany({
+                where: {  userId, isDeleted: true },
+            });
+            return categoryRemoved.map(({ userId: __, ...categoryData }) => categoryData);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async deletedCategoryInTrash(categoryId: number, userId: string) {
+        try {
+            await this.prisma.category.delete({
+                where: { id: categoryId, isDeleted: true, userId },
+            });
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async reStoreCategoryRemoved(categoryId: number, userId: string) {
+        try {
+            await this.prisma.category.update({
+                where: { userId, id: categoryId, isDeleted: true },
+                data: { isDeleted: false }
+            });
+        } catch (error) {
+            throw error;
+        }
+    };
+    
+    async getDetailCategoryRemoved (categoryId : number, userId : string) {
+        try {
+            const vocabularyDataDeledted = await this.prisma.category.findUnique(
+            {
+                where : {id : categoryId, userId},
+                select : {
+                    id : true,
+                    name : true,
+                    deletedAt : true,
+                    vocabulary : {
+                        select : {
+                            word : true,
+                            mean : true,
+                            example : true
+                        }
+                    }
+                }
+            },
+        )
+        return vocabularyDataDeledted;
+        } catch (error) {
+            throw error;
+        }
+            
+        }
+    }
+

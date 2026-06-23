@@ -1,4 +1,12 @@
+.main_layout_profile {
+    flex: 1;
+    overflow-y: auto;
+    width: 100%;
+    height: 100%;
+}
+
 .user-container {
+    width: 100%;
     max-width: 960px;
     margin: 40px auto;
     padding: 0 24px;
@@ -17,9 +25,10 @@
 /* Bố cục Grid 2 cột */
 .profile-grid {
     display: grid;
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: 300px minmax(0, 1fr);
     gap: 28px;
     align-items: start;
+    width: 100%;
 }
 
 /* Kiểu dáng Thẻ Glassmorphism */
@@ -38,6 +47,9 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
+
+    position: sticky;
+    top: 30px;
 }
 
 .user-info-card {
@@ -413,11 +425,13 @@
 
 .profile-dropdown-setting {
     position: absolute;
-    top: 56px; /* Cách bánh răng một khoảng */
+    top: 56px;
+    /* Cách bánh răng một khoảng */
     right: 16px;
     width: 200px;
     background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(12px); /* Hiệu ứng kính mờ */
+    backdrop-filter: blur(12px);
+    /* Hiệu ứng kính mờ */
     border: 1px solid rgba(229, 231, 235, 0.8);
     border-radius: 12px;
     padding: 6px;
@@ -444,11 +458,12 @@
     text-align: left;
     transition: all 0.2s ease;
 }
+
 .dropdown-item:hover {
     color: #111827;
-    background-color: #f3f4f6; /* Nền xám nhạt khi hover */
+    background-color: #f3f4f6;
 }
-/* Mục nào đang được chọn sẽ có màu tím nổi bật */
+
 .dropdown-item.active {
     color: #7c3aed;
     background-color: rgba(124, 58, 237, 0.06);

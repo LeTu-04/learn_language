@@ -1,5 +1,5 @@
 import { Body, Controller, Get, ParseIntPipe, Post, Query, Req, UploadedFile, UseInterceptors } from '@nestjs/common';
-import {type  CreatePostDto, DiscussService } from '../../services/discuss/discuss.service';
+import { CreatePostDto, DiscussService } from '../../services/discuss/discuss.service';
 import type { Request } from 'express';
 import { error } from 'console';
 

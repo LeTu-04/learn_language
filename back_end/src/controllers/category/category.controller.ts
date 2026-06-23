@@ -57,4 +57,15 @@ export class CategoryController {
         }
         return await this.category.updateCategory(id, body, req.user?.sub);
     }
+
+    @Get('removed')
+    async getCateRemoved (
+        @Req()req : Request
+    ){
+        const data = await this.category.getAllCategoryRemoved(req.user?.sub!);
+        return {
+            message : 'SUCCESS',
+            data
+        }
+    }
 }

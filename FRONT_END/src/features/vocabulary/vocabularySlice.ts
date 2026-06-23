@@ -31,6 +31,13 @@ const vocabularySlice = createSlice({
             if(item) {
                 item.isFavorite = !item.isFavorite
             }
+        },
+        clearVocabularyState : (state) => {
+            state.items = [];
+            state.search = '';
+            state.count = 0;
+            state.loading = false;
+            state.error = null;
         }
     },
     extraReducers : (builder) => {
@@ -77,4 +84,4 @@ const vocabularySlice = createSlice({
 })
 
 export const vocabularyReducer = vocabularySlice.reducer;
-export const {setSearchVocabulary, toogleFavorite} = vocabularySlice.actions ;
+export const {setSearchVocabulary, toogleFavorite, clearVocabularyState} = vocabularySlice.actions ;

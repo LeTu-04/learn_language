@@ -179,19 +179,34 @@
     word-break: break-word;
 }
 
-.post-content-review {
+.discuss-post-card .post-content {
     font-size: 1rem;
     color: #4a5568;
     line-height: 1.6;
     margin-bottom: 20px;
-    /* display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical; */
     overflow: hidden;
     text-align: left;
-
+    white-space: pre-wrap;
     overflow-wrap: break-word;
     word-break: break-word; 
+}
+
+.discuss-post-card .toggle-expand-btn {
+    background: transparent;
+    border: none;
+    color: #3b82f6;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0 4px;
+    display: inline;
+    outline: none;
+    transition: color 0.2s ease;
+}
+
+.discuss-post-card .toggle-expand-btn:hover {
+    color: #7c3aed;
+    text-decoration: underline;
 }
 
 .post-actions {

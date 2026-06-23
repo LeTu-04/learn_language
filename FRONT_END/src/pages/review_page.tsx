@@ -43,9 +43,9 @@ export default function Review_Page() {
     if (!categoryId) {
         return (
             <div className={`review-page-container ${isSidebarOpen ? "sidebaropen":"sidebarclose"}`}>
-                {/* <nav><NavTabs /></nav> */}
+                
                 <main>
-                    <div style={{ display: 'flex', alignItems: 'center', padding: '10px 20px', gap: '15px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', padding: '10px 20px', gap: '15px', width : '100%' }}>
                         <button className="buttonToogleSidebar" onClick={toggleSidebar}>≡</button>
                     </div>
                     <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
