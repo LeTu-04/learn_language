@@ -1,0 +1,17 @@
+.animate-fade-in {
+    animation: slipfromtheoutsidein 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+
+
+@keyframes slipfromtheoutsidein {
+    0% {
+        transform: translateX(-40px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0px);
+        opacity: 1;
+    }
+}

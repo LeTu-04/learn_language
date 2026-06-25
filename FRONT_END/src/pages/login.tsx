@@ -7,13 +7,13 @@ import React, { useState } from "react";
 import './css/login_page.css'
 import OtpPopup from "../components/popup/otp_popup";
 import { clientAPI } from "../utils/api/api";
+import toast from "react-hot-toast";
 
 
 export default function LoginPage() {
     const [isSignUp, setIsSignUp] = useState(false)
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 ///////////////////////////////////////////////////
     const [showPopupOtp, setShowPopupOtp] = useState<boolean>(false);
@@ -25,12 +25,26 @@ export default function LoginPage() {
         setShowPopupOtp(false)
     }
 
+    const getErrorMessage = (error: any, defaultMessage: string) => {
+        const errorData = error?.response?.data || error;
+        if (errorData && typeof errorData === 'object') {
+            if (Array.isArray(errorData.message)) {
+                return errorData.message.join(', ');
+            }
+            if (typeof errorData.message === 'string') {
+                return errorData.message;
+            }
+        }
+        return error?.message || defaultMessage;
+    };
+
     const loginWithBackend = async (tokenId: string) => {
         try {
-            await dispatch(loginGoogleWithBackend(tokenId));
+            await dispatch(loginGoogleWithBackend(tokenId)).unwrap();
             navigate('/home');
-        } catch (error) {
+        } catch (error: any) {
             logger.error('Login thất bại', error)
+            toast.error(getErrorMessage(error, 'Đăng nhập thất bại'))
         }
 
     }
@@ -47,8 +61,9 @@ export default function LoginPage() {
             }
             setLoading(false);
             
-           } catch (error) {
+           } catch (error: any) {
                 console.log('Lỗi khi gửi OTP')
+                toast.error(getErrorMessage(error, 'Lỗi khi gửi OTP'));
            }finally {
                 setLoading(false)
            }
@@ -59,7 +74,7 @@ export default function LoginPage() {
             await dispatch(signIn({ email, password })).unwrap();
             navigate('/home')
         } catch (error: any) {
-            setError(error.message)
+            toast.error(getErrorMessage(error, 'Đăng nhập thất bại'))
         }finally {
             setLoading(false)
         }
@@ -74,7 +89,7 @@ export default function LoginPage() {
             setShowPopupOtp(false);
             navigate('/home')
         } catch (error : any) {
-            setError(error.message);
+            toast.error(getErrorMessage(error, 'Đăng ký thất bại'));
         }finally {
             setLoading(false)
            // setShowPopupOtp(false)
@@ -103,7 +118,6 @@ export default function LoginPage() {
                         required
                         minLength={6}
                     />
-                    {error && <p className="login-error">{error.toString()}</p>}
                     <button type="submit" disabled={loading}>
                         {loading ? 'Đang xử lý...' : isSignUp ? 'Đăng ký' : 'Đăng nhập'}
                     </button>
@@ -111,7 +125,7 @@ export default function LoginPage() {
 
                 <p className="login-switch">
                     {isSignUp ? 'Đã có tài khoản?' : 'Chưa có tài khoản?'}
-                    <span onClick={() => { setIsSignUp(!isSignUp); setError(''); }}>
+                    <span onClick={() => setIsSignUp(!isSignUp)}>
                         {isSignUp ? ' Đăng nhập' : ' Đăng ký'}
                     </span>
                 </p>

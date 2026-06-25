@@ -26,6 +26,22 @@ export class VocabController {
             STATUS_CODES : 201 
         }
     }
+
+    @Get('vocabularies/favorite')
+    async getAllFavorites(
+        @Req() req: Request
+    ) {
+        if (!req.user?.sub) {
+            throw new UnauthorizedException()
+        }
+        const vocab = await this.vocab.fetchAllFavorites(req.user.sub);
+        return {
+            message: 'Lấy dữ liệu thành công',
+            data: vocab,
+            STATUS_CODES: 200
+        }
+    }
+
     @Get(':CategoryId/vocabularies')
     async getVocab(
         @Param('CategoryId', ParseIntPipe) categoryId : number,

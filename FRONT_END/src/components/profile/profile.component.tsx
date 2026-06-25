@@ -4,6 +4,7 @@ import React, { useRef, useState } from "react"
 import OtpPopup from "../popup/otp_popup"
 
 import Stats from "../stats/stats.component"
+import { useSearchParams } from "react-router-dom"
 
 
 interface UserProps {
@@ -23,6 +24,7 @@ interface ProfileComponentProps {
     user: UserProps | null | undefined;
     isUploading: boolean;
     onChangeAvatar: (file: File) => void;
+    isSetting: boolean
     // onChangeName: (newName: string) => void;
     // onChangePass: (olePass: string, newPass: string) => void;
     // onLogout: () => void;
@@ -30,7 +32,11 @@ interface ProfileComponentProps {
     children?: React.ReactNode
 }
 
-export default function ProfileComponent({ user, onChangeAvatar, isUploading, children }: ProfileComponentProps) {
+export default function ProfileComponent({ user, onChangeAvatar, isUploading, isSetting, children }: ProfileComponentProps) {
+
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const typeSetting = (searchParams.get('tab') || 'settings') as 'settings' | 'trash' | 'history';
 
     const fileRef = useRef<HTMLInputElement>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -38,7 +44,7 @@ export default function ProfileComponent({ user, onChangeAvatar, isUploading, ch
     const [isOtpOn, setOtpOn] = useState<boolean>(false);
 
     const [isDropdownMenu, setIsDropDownMenu] = useState<boolean>(false);
-    const [typeSetting, setTypeSetting] = useState<'settings' | 'trash' | 'history'>('settings')
+    //  const [typeSetting, setTypeSetting] = useState<'settings' | 'trash' | 'history'>('settings')
 
     const handleChangFile = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
@@ -66,14 +72,14 @@ export default function ProfileComponent({ user, onChangeAvatar, isUploading, ch
             <div className="profile-grid">
                 <aside className="user-info">
                     <div className="profile-card user-info-card">
-                        <button type="button" className="card-settings-btn" title="Cài đặt" onClick={() => setIsDropDownMenu(!isDropdownMenu)}>
+                        {isSetting && <button type="button" className="card-settings-btn" title="Cài đặt" onClick={() => setIsDropDownMenu(!isDropdownMenu)}>
                             <Settings size={18} />
-                        </button>
+                        </button>}
                         {isDropdownMenu && (
                             <div className="profile-dropdown-setting">
                                 <button type="button" className={`dropdown-item ${typeSetting === 'settings' ? 'active' : ''}`} onClick={() => {
                                     setIsDropDownMenu(false);
-                                    setTypeSetting('settings')
+                                    setSearchParams({tab : 'settings'})
                                 }}>
                                     <User /> Cài đặt
                                 </button>
@@ -81,7 +87,7 @@ export default function ProfileComponent({ user, onChangeAvatar, isUploading, ch
                                     type="button"
                                     className={`dropdown-item ${typeSetting === 'trash' ? 'active' : ''}`}
                                     onClick={() => {
-                                        setTypeSetting('trash');
+                                        setSearchParams({tab : 'trash'})
                                         setIsDropDownMenu(false);
                                     }}
                                 >
@@ -92,7 +98,7 @@ export default function ProfileComponent({ user, onChangeAvatar, isUploading, ch
                                     type="button"
                                     className={`dropdown-item ${typeSetting === 'history' ? 'active' : ''}`}
                                     onClick={() => {
-                                        setTypeSetting('history');
+                                        setSearchParams({tab : 'history'})
                                         setIsDropDownMenu(false);
                                     }}
                                 >

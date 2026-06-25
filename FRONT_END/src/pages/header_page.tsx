@@ -3,7 +3,7 @@ import './css/header.css'
 import { useAppDispatch, useAppSelector } from '../hooks/hook';
 import type React from 'react';
 import { setSearchVocabulary } from "../features/vocabulary/vocabularySlice";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 interface ShowSearchProps {
@@ -12,7 +12,9 @@ interface ShowSearchProps {
 
 
 export default function HeaderPage({ showSearch }: ShowSearchProps) {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const isFavorite = searchParams.get('view') === 'favorite';
 
     const dispatch = useAppDispatch();
     const user = useAppSelector((state) => state.Auth.user);
@@ -57,9 +59,24 @@ export default function HeaderPage({ showSearch }: ShowSearchProps) {
             </div>
 
             <div className="header-actions">
-                <button className="header-icon-btn" title="Từ vựng yêu thích">
-                    <Heart size={20} />
-                </button>
+                <div className={`header-favorite-wrapper ${isFavorite ? 'is-active' : ''}`}>
+                    <button 
+                        type="button"
+                        className="header-favorite-btn" 
+                        title="Từ vựng yêu thích" 
+                        onClick={() => setSearchParams(isFavorite ? {} : { view: 'favorite' })}
+                    >
+                        <Heart size={20} />
+                    </button>
+                    <button 
+                        type="button"
+                        className="header-favorite-back-btn" 
+                        title="Quay lại học tập" 
+                        onClick={() => setSearchParams({})}
+                    >
+                        Quay lại
+                    </button>
+                </div>
 
                 <button className="header-icon-btn" title="Thông báo">
                     <Bell size={20} />

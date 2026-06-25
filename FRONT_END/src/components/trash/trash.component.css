@@ -1,8 +1,9 @@
 .profile-container-trash {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
     width: 100%;
+    margin-top: 10px;
 }
 
 .profile-each-container-trash {
@@ -10,8 +11,136 @@
     width: 100%;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 20px;
-    background: rgba(255, 255, 255, 0.5);
+    padding: 16px 24px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(229, 231, 235, 0.6);
-    border-radius: 12px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.profile-each-container-trash:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(43, 113, 226, 0.25);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+}
+
+.trash-info-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.trash-name {
+    font-family: 'Outfit', 'Inter', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+}
+
+.trash-time-removed {
+    font-size: 0.8rem;
+    color: #9ca3af;
+    font-weight: 500;
+}
+
+.trash-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.trash-actions button {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+.trash-actions .btn-restore {
+    background: rgba(16, 185, 129, 0.08);
+    color: #10b981;
+}
+
+.trash-actions .btn-restore:hover {
+    background: #10b981;
+    color: #ffffff;
+    transform: scale(1.08) rotate(-5deg);
+    box-shadow: 0 6px 15px rgba(16, 185, 129, 0.25);
+}
+
+.trash-actions .btn-restore:active {
+    transform: scale(0.95);
+}
+
+
+.trash-actions .btn-delete-perm {
+    background: rgba(239, 68, 68, 0.08);
+    color: #ef4444;
+}
+
+.trash-actions .btn-delete-perm:hover {
+    background: #ef4444;
+    color: #ffffff;
+    transform: scale(1.08) rotate(-5deg);
+    box-shadow: 0 6px 15px rgba(239, 68, 68, 0.25);
+}
+
+.trash-actions .btn-delete-perm:active {
+    transform: scale(0.95);
+}
+
+/* Empty state styling */
+.trash-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    background: rgba(255, 255, 255, 0.45);
+    border: 2px dashed rgba(156, 163, 175, 0.3);
+    border-radius: 16px;
+    text-align: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.trash-empty-state:hover {
+    background: rgba(255, 255, 255, 0.65);
+    border-color: rgba(43, 113, 226, 0.4);
+}
+
+.trash-empty-icon {
+    color: #9ca3af;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.trash-empty-state:hover .trash-empty-icon {
+    color: rgb(43, 113, 226);
+    transform: scale(1.08);
+}
+
+.trash-empty-text {
+    font-family: 'Outfit', 'Inter', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #374151;
+    margin: 0;
+}
+
+.trash-empty-subtext {
+    font-size: 0.85rem;
+    color: #9ca3af;
+    margin: 0;
 }

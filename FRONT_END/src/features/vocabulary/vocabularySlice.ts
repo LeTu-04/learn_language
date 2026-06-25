@@ -1,7 +1,7 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 import type { VocabularyState } from "./vocabulary.type";
-import { deleteVocabularyByCategory, fetchVocabularyByCategory, postVocabularyByCategory } from "../../services/vocab_service";
+import { deleteVocabularyByCategory, fetchVocabularyByCategory, postVocabularyByCategory, fetchAllFavoriteVocabulary } from "../../services/vocab_service";
 
 const defaultStateVocabulary : VocabularyState = {
     items : [],
@@ -73,6 +73,15 @@ const vocabularySlice = createSlice({
             state.loading = false
         }).addCase(fetchVocabularyByCategory.rejected, (state, action) => {
             state.error = action.error.message ??'Có lỗi khi tải từ vựng'
+            state.loading = false
+        }).addCase(fetchAllFavoriteVocabulary.pending, (state) => {
+            state.loading = true
+        }).addCase(fetchAllFavoriteVocabulary.fulfilled, (state, action) => {
+            state.items = action.payload
+            state.count = action.payload.length
+            state.loading = false
+        }).addCase(fetchAllFavoriteVocabulary.rejected, (state, action) => {
+            state.error = action.error.message ?? 'Có lỗi khi tải từ vựng yêu thích'
             state.loading = false
         }).addCase(deleteVocabularyByCategory.fulfilled, (state, action) => {
             state.items = state.items.filter((v) => {

@@ -177,3 +177,88 @@
 .post-container .post-action-btn:hover svg {
     transform: scale(1.1);
 }
+
+/* No posts placeholder card */
+.post-container .no-posts-card {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 2px dashed rgba(43, 113, 226, 0.25);
+    border-radius: 24px;
+    padding: 48px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 16px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+}
+
+.post-container .no-posts-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(43, 113, 226, 0.5);
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 20px 40px rgba(43, 113, 226, 0.08);
+}
+
+.post-container .no-posts-icon-wrapper {
+    background: linear-gradient(135deg, rgba(43, 113, 226, 0.1), rgba(43, 113, 226, 0.2));
+    border-radius: 50%;
+    width: 68px;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(43, 113, 226);
+    margin-bottom: 8px;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.post-container .no-posts-card:hover .no-posts-icon-wrapper {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.post-container .no-posts-title {
+    font-family: 'Outfit', 'Inter', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+}
+
+.post-container .no-posts-subtitle {
+    font-size: 0.925rem;
+    color: #6b7280;
+    max-width: 340px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.post-container .no-posts-action-btn {
+    background: linear-gradient(135deg, #2b71e2, #1d4ed8);
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 24px;
+    font-family: 'Outfit', 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(43, 113, 226, 0.35);
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.post-container .no-posts-action-btn:hover {
+    transform: scale(1.04);
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    box-shadow: 0 6px 20px rgba(43, 113, 226, 0.45);
+}
+
+.post-container .no-posts-action-btn:active {
+    transform: scale(0.98);
+}

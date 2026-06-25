@@ -14,6 +14,13 @@ export const fetchVocabularyByCategory = createAsyncThunk<VocabularyResponse[], 
     }
 );
 
+export const fetchAllFavoriteVocabulary = createAsyncThunk<VocabularyResponse[]>('Vocabulary/fetchAllFavoriteVocabulary',
+    async() => {
+        const response = await clientAPI.get<VocabularyFetch>(`Category/vocabularies/favorite`);
+        return response.data.data.vocabulary ;
+    }
+);
+
 export const postVocabularyByCategory = createAsyncThunk<{vocabulary : VocabularyResponse, countVocabulary : number},PostVocabularyArg>('Vocabulary/postVocabularyByCategory',
     async({id, data}) => {
         const response = await clientAPI.post(`Category/${id}/vocabularies`,data,);

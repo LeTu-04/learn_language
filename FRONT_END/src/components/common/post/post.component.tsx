@@ -3,6 +3,7 @@ import Zoom from 'react-medium-image-zoom'
 import { Heart, MessageCircle } from 'lucide-react'
 import 'react-medium-image-zoom/dist/styles.css'
 import './post.component.css'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 interface postProps {
     id: number,
@@ -19,6 +20,7 @@ interface postDataProps {
 }
 
 export function ExpandableText({ text, maxLength = 180 }: { text: string; maxLength?: number }) {
+
     const [isExpanded, setIsExpanded] = useState(false);
 
     if (text.length <= maxLength) {
@@ -40,6 +42,7 @@ export function ExpandableText({ text, maxLength = 180 }: { text: string; maxLen
 }
 
 export default function PostComponent({ posts, avatarUrl, name }: postDataProps) {
+    const navigate = useNavigate()
     const formatDate = (dateStr: string) => {
         try {
             const date = new Date(dateStr);
@@ -52,6 +55,21 @@ export default function PostComponent({ posts, avatarUrl, name }: postDataProps)
             return dateStr;
         }
     }
+
+    if(posts.length === 0) return (
+        <div className='post-container'>
+            <div className='no-posts-card'>
+                <div className='no-posts-icon-wrapper'>
+                    <MessageCircle size={32} className='no-posts-icon' />
+                </div>
+                <h3 className='no-posts-title'>Chưa có bài viết nào</h3>
+                <p className='no-posts-subtitle'>Hãy chia sẻ những suy nghĩ, câu hỏi hoặc kinh nghiệm học tập của bạn cùng mọi người nhé!</p>
+                <button className='no-posts-action-btn' type='button' onClick={() => navigate('/course/discuss')}>
+                    <span>Chia sẻ cảm nghĩ</span>
+                </button>
+            </div>
+        </div>
+    )
 
     return (
         <div className="post-container">

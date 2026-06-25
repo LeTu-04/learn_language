@@ -12,6 +12,13 @@ const selectedFilteredVocabulary = createSelector(
         if(!s.trim()) return items ;
         return items.filter((i) => i.word.toLowerCase().includes(s.toLowerCase()));
     }
+);
+
+const favoriteVocabulary = createSelector(
+    [items],
+    (items) => {
+        return items.filter((i) => i.isFavorite === true);
+    }
 )
 
-export default selectedFilteredVocabulary ;
+export  {selectedFilteredVocabulary, favoriteVocabulary} ;

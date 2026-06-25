@@ -186,5 +186,24 @@ export class VocabService {
 
 
     }
+
+    async fetchAllFavorites(userId: string) {
+        if (!userId) {
+            throw new UnauthorizedException('Không có userId');
+        }
+        const favorites = await this.prisma.vocabulary.findMany({
+            where: {
+                isFavorite: true,
+                category: {
+                    userId: userId,
+                    isDeleted: false
+                }
+            },
+            orderBy: {
+                createdAt: 'desc'
+            }
+        });
+        return { vocabulary: favorites };
+    }
 }
 

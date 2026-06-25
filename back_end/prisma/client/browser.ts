@@ -52,3 +52,8 @@ export type Post = Prisma.PostModel
  * 
  */
 export type Comment = Prisma.CommentModel
+/**
+ * Model HeartEmoji
+ * 
+ */
+export type HeartEmoji = Prisma.HeartEmojiModel

@@ -390,7 +390,8 @@ export const ModelName = {
   Vocabulary: 'Vocabulary',
   RefreshToken: 'RefreshToken',
   Post: 'Post',
-  Comment: 'Comment'
+  Comment: 'Comment',
+  HeartEmoji: 'HeartEmoji'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -406,7 +407,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "provider" | "category" | "vocabulary" | "refreshToken" | "post" | "comment"
+    modelProps: "user" | "provider" | "category" | "vocabulary" | "refreshToken" | "post" | "comment" | "heartEmoji"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -928,6 +929,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    HeartEmoji: {
+      payload: Prisma.$HeartEmojiPayload<ExtArgs>
+      fields: Prisma.HeartEmojiFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.HeartEmojiFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HeartEmojiPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.HeartEmojiFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HeartEmojiPayload>
+        }
+        findFirst: {
+          args: Prisma.HeartEmojiFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HeartEmojiPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.HeartEmojiFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HeartEmojiPayload>
+        }
+        findMany: {
+          args: Prisma.HeartEmojiFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HeartEmojiPayload>[]
+        }
+        create: {
+          args: Prisma.HeartEmojiCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HeartEmojiPayload>
+        }
+        createMany: {
+          args: Prisma.HeartEmojiCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.HeartEmojiCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HeartEmojiPayload>[]
+        }
+        delete: {
+          args: Prisma.HeartEmojiDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HeartEmojiPayload>
+        }
+        update: {
+          args: Prisma.HeartEmojiUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HeartEmojiPayload>
+        }
+        deleteMany: {
+          args: Prisma.HeartEmojiDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.HeartEmojiUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.HeartEmojiUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HeartEmojiPayload>[]
+        }
+        upsert: {
+          args: Prisma.HeartEmojiUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HeartEmojiPayload>
+        }
+        aggregate: {
+          args: Prisma.HeartEmojiAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateHeartEmoji>
+        }
+        groupBy: {
+          args: Prisma.HeartEmojiGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HeartEmojiGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.HeartEmojiCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HeartEmojiCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1050,11 +1125,22 @@ export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof Post
 export const CommentScalarFieldEnum = {
   id: 'id',
   content: 'content',
+  createdAt: 'createdAt',
   authorId: 'authorId',
   postId: 'postId'
 } as const
 
 export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
+
+
+export const HeartEmojiScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  authorId: 'authorId',
+  postId: 'postId'
+} as const
+
+export type HeartEmojiScalarFieldEnum = (typeof HeartEmojiScalarFieldEnum)[keyof typeof HeartEmojiScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1265,6 +1351,7 @@ export type GlobalOmitConfig = {
   refreshToken?: Prisma.RefreshTokenOmit
   post?: Prisma.PostOmit
   comment?: Prisma.CommentOmit
+  heartEmoji?: Prisma.HeartEmojiOmit
 }
 
 /* Types for Logging */

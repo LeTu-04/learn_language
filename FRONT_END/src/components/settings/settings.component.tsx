@@ -1,6 +1,10 @@
 import { Lock, Key, RefreshCw, LogOut, User } from "lucide-react";
 import React, { useState } from "react";
+
+
 import TrashComponent from "../trash/trash.component";
+import HistoryComponent from "../history/history.component";
+import './setting.component.css'
 
 interface SettingsComponentProps {
     typeSetting: 'settings' | 'trash' | 'history';
@@ -124,6 +128,12 @@ export default function SettingsComponent({
                     {typeSetting === 'trash' && (
                         <div className="animate-fade-in">
                             <TrashComponent data={trashCategories || []} />
+                        </div>
+                    )}
+
+                    {typeSetting === 'history' && (
+                        <div className="animate-fade-in">
+                            <HistoryComponent/>
                         </div>
                     )}
                 </div>

@@ -37,7 +37,7 @@ export class CategoryController {
     @HttpCode(204)
     @Delete(':id')
     async softDeleteCategory(
-        @Param('id') id: number,
+        @Param('id', ParseIntPipe) id: number,
         @Req() req: Request
     ) {
         if (!req.user?.sub) {

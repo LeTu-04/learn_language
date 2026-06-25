@@ -61,6 +61,7 @@ export default function ProfilePage() {
 
     const [searchParams] = useSearchParams();
     const tab = searchParams.get('tab') || 'profile';
+    const isSetting = tab !== 'profile';
 
     const { data, isPending, isError } = UserTanstack.getUser();
     const { mutate: changeNameMutate } = UserTanstack.changeName();
@@ -122,6 +123,7 @@ export default function ProfilePage() {
             )}
 
             <ProfileComponent
+                isSetting={isSetting}
                 user={data}
                 onChangeAvatar={handleChangeAvatar}
                 isUploading={isChangeAvtPending}            >

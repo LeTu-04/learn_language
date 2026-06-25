@@ -57,7 +57,8 @@ export const ModelName = {
   Vocabulary: 'Vocabulary',
   RefreshToken: 'RefreshToken',
   Post: 'Post',
-  Comment: 'Comment'
+  Comment: 'Comment',
+  HeartEmoji: 'HeartEmoji'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -159,11 +160,22 @@ export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof Post
 export const CommentScalarFieldEnum = {
   id: 'id',
   content: 'content',
+  createdAt: 'createdAt',
   authorId: 'authorId',
   postId: 'postId'
 } as const
 
 export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
+
+
+export const HeartEmojiScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  authorId: 'authorId',
+  postId: 'postId'
+} as const
+
+export type HeartEmojiScalarFieldEnum = (typeof HeartEmojiScalarFieldEnum)[keyof typeof HeartEmojiScalarFieldEnum]
 
 
 export const SortOrder = {
