@@ -2,14 +2,20 @@ import { RotateCcw, Trash2 } from "lucide-react"
 import './trash.component.css'
 
 export interface cateTrashProps {
-    data: {
+    
         id: number,
         name: string,
         deletedAt: string
-    }[]
+    
 }
 
-export default function TrashComponent({ data }: cateTrashProps) {
+export interface TrashProps {
+    data : cateTrashProps[]
+    onDeletePermenenceCategory : (categoryId : number)=> void
+    onRestoreCategory : (categoryId : number)=> void
+}
+
+export default function TrashComponent({ data, onRestoreCategory, onDeletePermenenceCategory }: TrashProps) {
     if(data.length === 0) return (
         <div className="trash-empty-state">
             <Trash2 size={44} className="trash-empty-icon" />
@@ -17,6 +23,8 @@ export default function TrashComponent({ data }: cateTrashProps) {
             <p className="trash-empty-subtext">Không có danh mục nào đã bị xóa gần đây.</p>
         </div>
     )
+
+
     return (
         <div className="profile-container-trash">
             {
@@ -29,10 +37,10 @@ export default function TrashComponent({ data }: cateTrashProps) {
                             </span>
                         </div>
                         <div className="trash-actions">
-                            <button type="button" className="btn-restore" title="Khôi phục">
+                            <button type="button" className="btn-restore" title="Khôi phục" onClick={() => onRestoreCategory(crm.id)}>
                                 <RotateCcw size={16} />
                             </button>
-                            <button type="button" className="btn-delete-perm" title="Xóa vĩnh viễn">
+                            <button type="button" className="btn-delete-perm" title="Xóa vĩnh viễn" onClick={()=> onDeletePermenenceCategory(crm.id)}>
                                 <Trash2 size={16} />
                             </button>
                         </div>

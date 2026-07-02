@@ -13,6 +13,9 @@ interface SettingsComponentProps {
     onLogout: () => void;
     onRegainPassword: () => void;
     trashCategories: any[];
+
+    onRestoreCate : (categoryId : number)=> void
+    onDeletePerCate : (categoryId: number) => void
 }
 
 export default function SettingsComponent({
@@ -21,12 +24,15 @@ export default function SettingsComponent({
     onChangePass,
     onLogout,
     onRegainPassword,
-    trashCategories
+    trashCategories,
+    onRestoreCate,
+    onDeletePerCate
 }: SettingsComponentProps) {
     const [name, setName] = useState<string>('');
     const [oldPass, setOldPass] = useState<string>('');
     const [newPass, setNewPass] = useState<string>('');
 
+    
     const handleSubmitChangeName = () => {
         if (name.trim()) {
             onChangeName(name);
@@ -49,6 +55,7 @@ export default function SettingsComponent({
     const handleKeydownChangePassword = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") handleChangePassword();
     };
+
 
     return (
         <main className="action-change-info">
@@ -127,7 +134,7 @@ export default function SettingsComponent({
 
                     {typeSetting === 'trash' && (
                         <div className="animate-fade-in">
-                            <TrashComponent data={trashCategories || []} />
+                            <TrashComponent data={trashCategories || []} onRestoreCategory={onRestoreCate} onDeletePermenenceCategory={onDeletePerCate} />
                         </div>
                     )}
 

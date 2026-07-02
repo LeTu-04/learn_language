@@ -47,3 +47,21 @@ export const getCateRemoved = async () => {
     }>(`Category/removed`);
     return response.data.data;
 }
+
+export const restoreCategory =  async(categoryId : number) =>  {
+        try {
+            const response = await clientAPI.patch(`Category/restore/${categoryId}`);
+            return response.data.message
+        } catch (error) {
+            throw error
+        }
+    }
+
+export const deleteForeverCategory = async(categoryId : number) => {
+        try {
+            const response = await clientAPI.delete(`Category/delete-perm/${categoryId}`);
+            return response.data.message;
+        } catch (error) {
+            throw error;
+        }
+    }

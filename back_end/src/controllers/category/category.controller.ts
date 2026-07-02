@@ -68,4 +68,35 @@ export class CategoryController {
             data
         }
     }
+
+    @Patch('restore/:id')
+    async restoreCategory(
+        @Param('id', ParseIntPipe) id: number,
+        @Req() req: Request
+    ) {
+        if (!req.user?.sub) {
+            throw new UnauthorizedException();
+        }
+        await this.category.reStoreCategoryRemoved(id, req.user.sub);
+        return {
+            message: 'Khôi phục Category thành công!',
+            STATUS_CODES: 200
+        };
+    }
+
+    @Delete('delete-perm/:id')
+    async deletePerm(
+        @Param('id', ParseIntPipe) id: number,
+        @Req() req: Request
+    ) {
+        if (!req.user?.sub) {
+            throw new UnauthorizedException();
+        }
+        await this.category.deletePermCategory(id, req.user.sub);
+        return {
+            message: 'Xóa vĩnh viễn Category thành công!',
+            STATUS_CODES: 200
+        };
+    }
 }
+

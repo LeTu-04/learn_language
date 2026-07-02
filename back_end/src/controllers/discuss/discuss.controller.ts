@@ -1,4 +1,4 @@
-import { Body, Controller, Get, ParseIntPipe, Post, Query, Req, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, ParseIntPipe, Post, Query, Req, UnauthorizedException, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { CreatePostDto, DiscussService } from '../../services/discuss/discuss.service';
 import type { Request } from 'express';
 import { error } from 'console';
@@ -41,9 +41,11 @@ export class DiscussController {
 
     @Get()
     async fetch(
-        @Query('cursor', new ParseIntPipe({optional : true})) cursor? : number
+        @Query('cursor', new ParseIntPipe({optional : true})) cursor? : number,
+        @Req() req? : Request
     ) {
-        const {postData, cursor : nextcursor} =  await this.discuss.fetchAllPost(cursor);
+       const userId = req?.user?.sub; 
+        const {postData, cursor : nextcursor} =  await this.discuss.fetchAllPost(cursor,10,userId);
         return {
             message : 'SUCCESS',
             postData,

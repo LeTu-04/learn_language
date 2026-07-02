@@ -11,6 +11,8 @@ export const tantackService = {
         queryKey: ['posts'],
         // pageParam chính là biến cursor được TanStack Query truyền vào tự động
         queryFn: ({ pageParam = undefined }) => postService.getPosts(pageParam),
+        staleTime : 3 * 60 * 1000,
+        refetchOnWindowFocus : true,
         initialPageParam: undefined as number | undefined,
         // getNextPageParam giúp TanStack Query biết làm sao để lấy cursor cho trang tiếp theo
         getNextPageParam: (lastPage) => {

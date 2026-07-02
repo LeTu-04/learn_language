@@ -50,12 +50,17 @@ export class CategoryService {
             });
 
             if (totalVocabNeedtoRemove > 0) {
+                const user = await tx.user.findUnique({
+                    where: { id: userId },
+                    select: { totalVocabLearn: true }
+                });
+                const currentTotal = user?.totalVocabLearn ?? 0;
+                const newTotal = Math.max(0, currentTotal - totalVocabNeedtoRemove);
+
                 await tx.user.update({
                     where: { id: userId },
                     data: {
-                        totalVocabLearn: {
-                            decrement: totalVocabNeedtoRemove
-                        }
+                        totalVocabLearn: newTotal
                     }
                 });
             }
@@ -102,14 +107,41 @@ export class CategoryService {
 
     async reStoreCategoryRemoved(categoryId: number, userId: string) {
         try {
-            await this.prisma.category.update({
-                where: { userId, id: categoryId, isDeleted: true },
-                data: { isDeleted: false }
+            await this.prisma.$transaction(async (tx) => {
+                const totalVocabNeedtoRestore = await tx.vocabulary.count({
+                    where: { categoryId }
+                });
+
+                await tx.category.update({
+                    where: { userId, id: categoryId, isDeleted: true },
+                    data: { isDeleted: false }
+                });
+
+                if (totalVocabNeedtoRestore > 0) {
+                    await tx.user.update({
+                        where: { id: userId },
+                        data: {
+                            totalVocabLearn: {
+                                increment: totalVocabNeedtoRestore
+                            }
+                        }
+                    });
+                }
             });
         } catch (error) {
             throw error;
         }
     };
+
+    async deletePermCategory (categoryId : number, userId : string) {
+        try {
+            await this.prisma.category.delete({
+                where : {userId, id : categoryId}
+            });
+        } catch (error) {
+            throw error;
+        }
+    }
     
     async getDetailCategoryRemoved (categoryId : number, userId : string) {
         try {

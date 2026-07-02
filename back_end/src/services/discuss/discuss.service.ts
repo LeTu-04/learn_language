@@ -45,7 +45,7 @@ export class DiscussService {
         return data;
     }
 
-    async fetchAllPost(cursor: number | undefined, limit: number = 10) {
+    async fetchAllPost(cursor: number | undefined, limit: number = 10, userId? : string) {
 
         if (!cursor) {
             cursor = undefined
@@ -68,9 +68,36 @@ export class DiscussService {
                         email: true,
                         avatarUrl: true
                     }
-                }
+                },
+                _count : {
+                    select : {
+                        heartEmojis : true,
+                        comments : true
+                    },
+                    
+                },
+                ...(userId && {
+                    heartEmojis : {
+                        where : {authorId : userId},
+                        select : {authorId : true}
+                    }
+                })
+
             }
         });
+
+        const formatedPostData = postData.map((post) => {
+            const {heartEmojis, _count, ...postDetail} = post ;
+            return {
+                ...postDetail,
+                likecount : {
+                    heartCount : _count.heartEmojis,
+                    commentCount : _count.comments
+                },
+                isLiked : heartEmojis.length > 0
+            }
+        });
+
 
         let nextCursor : number | null = null;
         if(postData.length > limit) {
@@ -81,7 +108,7 @@ export class DiscussService {
 
 
         return {
-            postData,
+            postData : formatedPostData,
             cursor: nextCursor
         }
     }

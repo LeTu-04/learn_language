@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Post, Req, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Req, UnauthorizedException, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { UserService } from "./user.service";
 import type { Request } from "express";
 import { ChangeNameUserDto, ChangePasswordDto } from "./user.dto";
@@ -68,6 +68,21 @@ export class UserController {
         return {
             message : 'SUCCESS',
             postData : data
+        }
+    }
+
+    @Post('like/:postId')
+    async likePost(
+        @Param('postId', ParseIntPipe) postId: number,
+        @Req() req: Request
+    ) {
+        if (!req.user?.sub) {
+            throw new UnauthorizedException();
+        }
+        const data = await this.user.likePost(postId, req.user.sub);
+        return {
+            message: 'SUCCESS',
+            data
         }
     }
 }

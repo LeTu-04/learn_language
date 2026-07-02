@@ -11,6 +11,7 @@ import { ExpandableText } from "../common/post/post.component";
 
 import { useInView } from 'react-intersection-observer';
 import toast from "react-hot-toast";
+import { UserTanstack } from "../../utils/tanstack/user.tanstack";
 
 
 export default function Discuss() {
@@ -21,6 +22,7 @@ export default function Discuss() {
         file: null as File | null
     });
 
+    const { mutate: likePostMutate, isPending: likePostPending } = UserTanstack.likePost();
 
 
     const handleChangeFormData = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -84,6 +86,10 @@ export default function Discuss() {
             fetchNextPage();
         }
     }, [inView, hasNextPage, fetchNextPage]);
+
+    const handleClickLikePost = (postId: number) => {
+        likePostMutate(postId)
+    }
 
     return (
         <div className={`layout sidebarclose`}>
@@ -180,15 +186,13 @@ export default function Discuss() {
                                             </div>
                                         )}
                                         <div className="post-actions">
-                                            <button className="post-action-btn">
-                                                <Heart size={18} /> Yêu thích
+                                            <button className={`post-action-btn ${p.isLiked ? 'liked-btn-active' : ''}`} onClick={() => handleClickLikePost(p.id)}>
+                                                <Heart className={`heart-icon ${p.isLiked ? 'heart-active' : ''}`} size={18} color={p.isLiked ? '#ef4444' : 'currentColor'} fill={p.isLiked ? '#ef4444' : 'none'} /> {p.likecount.heartCount}
                                             </button>
                                             <button className="post-action-btn">
-                                                <MessageCircle size={18} /> Bình luận
+                                                <MessageCircle size={18} /> {p.likecount.commentCount}
                                             </button>
-                                            {/* <button className="post-action-btn">
-                                                <Share2 size={18} /> Chia sẻ
-                                            </button> */}
+
                                         </div>
                                     </div>
                                 })}

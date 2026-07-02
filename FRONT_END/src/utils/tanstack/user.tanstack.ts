@@ -53,16 +53,24 @@ export const UserTanstack = {
     changeAvatar() {
         const dispatch = useAppDispatch();
         return useMutation({
-            mutationFn: (data: ChangeAvatarDto) => UserService.changeAvatar(data),
+            mutationFn: (data: ChangeAvatarDto) =>{
+                const promise = UserService.changeAvatar(data);
+                toast.promise(promise, {
+                    loading : 'Đang thay đổi ảnh đại diện',
+                    success : 'Thay đổi ảnh đại diện thành công',
+                    error : 'Thay đổi ảnh đại diện thất bại'
+                });
+                return promise ;
+            } ,
             onSuccess: (newAvatarUrl) => {
-                toast.success('Đổi ảnh đại diện thành công!');
+                //toast.success('Đổi ảnh đại diện thành công!');
                 if (newAvatarUrl) {
                     dispatch(updateAvatar(newAvatarUrl));
                 }
                // queryClient.invalidateQueries({ queryKey: ['user'] });
             },
             onError: (error: any) => {
-                toast.error('Có lỗi xảy ra khi cập nhật ảnh!');
+              //  toast.error('Có lỗi xảy ra khi cập nhật ảnh!');
                 console.log(error.message);
             }
         });
@@ -115,6 +123,49 @@ export const UserTanstack = {
             queryKey : ['user','mypost'] ,
             queryFn : () => UserService.getPost(),
             enabled
+        })
+    },
+
+    likePost () {
+        const queryClient = useQueryClient();
+        return useMutation({
+            mutationFn : (postId : number)=> UserService.likePost(postId),
+            onMutate : async(postId : number)=> {
+                await queryClient.cancelQueries({queryKey : ['posts']});
+                const previousPosts = queryClient.getQueryData(['posts']);
+                queryClient.setQueryData(['posts'], (oldData : any) => {
+                    if(!oldData) return oldData ;
+                    return {
+                        ...oldData,
+                        pages : oldData.pages.map((page : any)=> ({
+                            ...page,
+                            postData : page.postData.map((post : any) => {
+                                if(post.id === postId) {
+                                    const willLike = !post.isLiked;
+                                    return {
+                                        ...post,
+                                        isLiked : willLike,
+                                        likecount : {
+                                            ...post.likecount,
+                                            heartCount: willLike ? post.likecount.heartCount + 1 : Math.max(0, post.likecount.heartCount - 1)
+                                        }
+                                    }
+                                }
+                                return post
+                            })
+                        }))
+                    }
+                })
+                return previousPosts;
+            },
+            onError : (err, postId, context : any) => {
+                if(context?.previousPosts) {
+                    queryClient.setQueryData(['posts'], context.previousPosts)
+                }
+            },
+            onSettled : () => {
+                
+            }
         })
     }
 

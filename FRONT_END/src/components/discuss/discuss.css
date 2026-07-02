@@ -2,6 +2,31 @@
     grid-area: content;
     overflow-y: auto;
     background: transparent;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(102, 126, 234, 0.3) transparent;
+}
+
+/* Custom Scrollbar for Main Discuss Content */
+.main-content-discuss::-webkit-scrollbar {
+    width: 8px;
+}
+
+.main-content-discuss::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.main-content-discuss::-webkit-scrollbar-thumb {
+    background: rgba(102, 126, 234, 0.35);
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    transition: background 0.3s ease;
+}
+
+.main-content-discuss::-webkit-scrollbar-thumb:hover {
+    background: rgba(102, 126, 234, 0.6);
+    border: 2px solid transparent;
+    background-clip: padding-box;
 }
 
 /* Container for the discuss section */
@@ -72,7 +97,27 @@
     min-height: 140px;
     resize: vertical;
     line-height: 1.5;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(102, 126, 234, 0.2) transparent;
 }
+
+.discuss-textarea::-webkit-scrollbar {
+    width: 6px;
+}
+
+.discuss-textarea::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.discuss-textarea::-webkit-scrollbar-thumb {
+    background: rgba(102, 126, 234, 0.25);
+    border-radius: 10px;
+}
+
+.discuss-textarea::-webkit-scrollbar-thumb:hover {
+    background: rgba(102, 126, 234, 0.5);
+}
+
 
 .discuss-submit-btn {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -188,7 +233,7 @@
     text-align: left;
     white-space: pre-wrap;
     overflow-wrap: break-word;
-    word-break: break-word; 
+    word-break: break-word;
 }
 
 .discuss-post-card .toggle-expand-btn {
@@ -286,7 +331,8 @@
 }
 
 /* Fix lỗi tỷ lệ và khoảng trắng của thư viện Zoom */
-[data-rmiz-wrap="visible"], [data-rmiz-wrap="hidden"] {
+[data-rmiz-wrap="visible"],
+[data-rmiz-wrap="hidden"] {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -363,4 +409,32 @@
 }
 
 
+.heart-icon {
+    transition: transform 0.2s ease, fill 0.2s ease, color 0.2s ease;
+}
 
+.heart-icon.heart-active {
+    animation: heartPop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+@keyframes heartPop {
+    0% {
+        transform: scale(1);
+    }
+
+    25% {
+        transform: scale(1.35);
+    }
+
+    50% {
+        transform: scale(0.85);
+    }
+
+    75% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}

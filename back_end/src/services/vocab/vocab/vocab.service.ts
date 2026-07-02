@@ -89,17 +89,25 @@ export class VocabService {
             if (!isCategoryExists || !isVocabularyExists) {
                 throw new NotFoundException('Không tìm thấy dữ liệu');
             }
-            await this.prisma.$transaction([
-                this.prisma.vocabulary.delete({
+            await this.prisma.$transaction(async (tx) => {
+                await tx.vocabulary.delete({
                     where: { id: vocabularyId, categoryId: categoryId }
-                }),
-                this.prisma.user.update({
-                    where : {id : userId},
-                    data : {
-                        totalVocabLearn : {decrement : 1}
+                });
+
+                const user = await tx.user.findUnique({
+                    where: { id: userId },
+                    select: { totalVocabLearn: true }
+                });
+                const currentTotal = user?.totalVocabLearn ?? 0;
+                const newTotal = Math.max(0, currentTotal - 1);
+
+                await tx.user.update({
+                    where: { id: userId },
+                    data: {
+                        totalVocabLearn: newTotal
                     }
-                })
-            ])
+                });
+            });
 
         } catch (error) {
             throw new Error('Có lỗi, không xóa được')

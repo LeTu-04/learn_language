@@ -1,3 +1,4 @@
+
 import { clientAPI } from "../utils/api/api"
 
 export type ChangeAvatarDto = FormData;
@@ -63,6 +64,17 @@ export const UserService = {
             console.log('Có lỗi trong quá trình lấy dữ liệu người dùng', error);
             throw error;
         }
+    },
+
+    async likePost (postId : number) {
+        try {
+            const response = await clientAPI.post(`user/like/${postId}`);
+            return response.data ;
+        } catch (error) {
+            throw error
+        }
     }
+
+
 
 }

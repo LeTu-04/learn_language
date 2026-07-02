@@ -71,13 +71,15 @@ export default function SideBar({ showAddCategory }: showAddCategoryProps) {
 
     }
 
-    const handleClickRemoveCategory = async (cat: getCat) => {
+    const handleClickRemoveCategory = async (cat: getCat, e: React.MouseEvent) => {
+        e.stopPropagation();
         const backup = cat
         dispatch(removeCategoryLocal(cat.id));
         try {
             await dispatch(softDeleteCategory(cat.id)).unwrap();
             queryClient.invalidateQueries({ queryKey: ['category/removed'] });
         } catch (error) {
+            console.error("Lỗi xóa danh mục:", error);
             dispatch(restoreCategory(backup))
         }
     }
@@ -138,8 +140,8 @@ export default function SideBar({ showAddCategory }: showAddCategoryProps) {
                             />
                                 : <h3> {cat.name} </h3>}
                             <div className="action">
-                                <Pencil size={18} onClick={() => handleClickEditCategory(cat.id)} className="pen" />
-                                <Trash size={18} onClick={() => handleClickRemoveCategory(cat)} className="trash" />
+                                <Pencil size={18} onClick={(e) => { e.stopPropagation(); handleClickEditCategory(cat.id); }} className="pen" />
+                                <Trash size={18} onClick={(e) => handleClickRemoveCategory(cat, e)} className="trash" />
                             </div>
                         </div>
                     )

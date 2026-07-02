@@ -7,6 +7,7 @@ import { RedisService } from "../redis/redis.service";
 import { GenerateHashService } from "../../utils/hash.utils";
 import { CloudinaryService } from "../upload/cloudinary.service";
 
+
 @Injectable()
 export class UserService {
     constructor(
@@ -140,9 +141,41 @@ export class UserService {
             throw error;
         }
     }
-
-    async removeTheirPost () {
-        
+async likePost (postId : number, userId : string) {
+    try {
+        return await this.prisma.$transaction( async(tx) => {
+            const isLiked = await tx.heartEmoji.findUnique({
+                where : {
+                    authorId_postId : {
+                        authorId : userId,
+                        postId
+                    }
+                }
+            });
+            if(isLiked) {
+                await tx.heartEmoji.delete({
+                    where : {
+                        authorId_postId : {
+                            authorId : userId,
+                            postId 
+                        }
+                    }
+                });
+                return { isLiked: false };
+            }else {
+                await tx.heartEmoji.create({
+                    data : {
+                        authorId : userId,
+                        postId
+                    }
+                });
+                return { isLiked: true };
+            }
+        })
+    } catch (error) {
+        throw error;
     }
+}
+    
 
 }
