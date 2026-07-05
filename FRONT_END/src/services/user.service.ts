@@ -59,19 +59,37 @@ export const UserService = {
     async getPost() {
         try {
             const response = await clientAPI.get('user/mypost');
-            return response.data.postData ;
+            return response.data.postData;
         } catch (error) {
             console.log('Có lỗi trong quá trình lấy dữ liệu người dùng', error);
             throw error;
         }
     },
 
-    async likePost (postId : number) {
+    async likePost(postId: number) {
         try {
             const response = await clientAPI.post(`user/like/${postId}`);
-            return response.data ;
+            return response.data;
         } catch (error) {
             throw error
+        }
+    },
+
+    async createComment(postId: number, content: string) {
+        try {
+            const response = await clientAPI.post(`user/comment/${postId}`, { content });
+            return response.data.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    async getComment(postId: number) {
+        try {
+            const response = await clientAPI.get(`user/comment/${postId}`);
+            return response.data.data;
+        } catch (error) {
+            throw error;
         }
     }
 

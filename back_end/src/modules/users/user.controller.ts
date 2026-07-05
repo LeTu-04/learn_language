@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Req, UnauthorizedException, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Req, UnauthorizedException, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { UserService } from "./user.service";
 import type { Request } from "express";
 import { ChangeNameUserDto, ChangePasswordDto } from "./user.dto";
@@ -80,6 +80,37 @@ export class UserController {
             throw new UnauthorizedException();
         }
         const data = await this.user.likePost(postId, req.user.sub);
+        return {
+            message: 'SUCCESS',
+            data
+        }
+    }
+
+    @Post('comment/:postId')
+    async createComment(
+        @Param('postId', ParseIntPipe) postId: number,
+        @Body('content') content: string,
+        @Req() req: Request
+    ) {
+        const userId = req.user?.sub;
+        if (!userId) {
+            throw new UnauthorizedException();
+        }
+        if (!content || !content.trim()) {
+            throw new BadRequestException('Nội dung bình luận không được để trống');
+        }
+        const data = await this.user.createComment(postId, userId, content);
+        return {
+            message: 'SUCCESS',
+            data
+        }
+    }
+
+    @Get('comment/:postId')
+    async getComment(
+        @Param('postId', ParseIntPipe) postId: number
+    ) {
+        const data = await this.user.getComment(postId);
         return {
             message: 'SUCCESS',
             data

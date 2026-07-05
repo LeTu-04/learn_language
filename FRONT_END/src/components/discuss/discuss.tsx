@@ -12,6 +12,9 @@ import { ExpandableText } from "../common/post/post.component";
 import { useInView } from 'react-intersection-observer';
 import toast from "react-hot-toast";
 import { UserTanstack } from "../../utils/tanstack/user.tanstack";
+import CommentInputComponent from "../commentinput/commentinput";
+import { useAppSelector } from "../../hooks/hook";
+
 
 
 export default function Discuss() {
@@ -22,7 +25,19 @@ export default function Discuss() {
         file: null as File | null
     });
 
+    const [activePostId, setActivePostId] = useState<number | null>(null);
+    const { data: commentsData } = UserTanstack.getComment(activePostId || 0, !!activePostId);
+
+    const handleToggleComment = (postId: number) => {
+        if (postId === activePostId) {
+            setActivePostId(null);
+        } else {
+            setActivePostId(postId);
+        }
+    };
     const { mutate: likePostMutate, isPending: likePostPending } = UserTanstack.likePost();
+
+    const primaryUserAvatar = useAppSelector((state) => state.Auth.user?.avatarUrl);
 
 
     const handleChangeFormData = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -90,6 +105,11 @@ export default function Discuss() {
     const handleClickLikePost = (postId: number) => {
         likePostMutate(postId)
     }
+
+    const { mutate: createCommentMutate } = UserTanstack.createComment();
+    const handleCreateComment = (postId: number, content: string) => {
+        createCommentMutate({ postId, content });
+    };
 
     return (
         <div className={`layout sidebarclose`}>
@@ -189,12 +209,32 @@ export default function Discuss() {
                                             <button className={`post-action-btn ${p.isLiked ? 'liked-btn-active' : ''}`} onClick={() => handleClickLikePost(p.id)}>
                                                 <Heart className={`heart-icon ${p.isLiked ? 'heart-active' : ''}`} size={18} color={p.isLiked ? '#ef4444' : 'currentColor'} fill={p.isLiked ? '#ef4444' : 'none'} /> {p.likecount.heartCount}
                                             </button>
-                                            <button className="post-action-btn">
+                                            <button className="post-action-btn" onClick={() => handleToggleComment(p.id)}>
                                                 <MessageCircle size={18} /> {p.likecount.commentCount}
                                             </button>
 
                                         </div>
+
+                                        {activePostId === p.id && (
+                                            <div style={{ marginTop: '16px', borderTop: '1px solid #edf2f7', paddingTop: '16px' }} onClick={(e) => e.stopPropagation()}>
+                                                <CommentInputComponent
+                                                    commentText=""
+                                                    comments={(commentsData || []).map((cmt: any) => ({
+                                                        id: cmt.id,
+                                                        authorId: cmt.authorId,
+                                                        authorName: cmt.author?.name || cmt.author?.email || "User",
+                                                        avatarUrl: cmt.author?.avatarUrl || "",
+                                                        content: cmt.content
+                                                    }))}
+                                                    avatarPrimaryUser={primaryUserAvatar || undefined}
+                                                    onPostComment={(content) => handleCreateComment(p.id, content)}
+                                                    onCancel={() => setActivePostId(null)}
+                                                />
+                                            </div>
+                                        )}
                                     </div>
+
+
                                 })}
                             </React.Fragment>
                         })}
@@ -210,5 +250,5 @@ export default function Discuss() {
 
             <div style={{ gridArea: 'right' }}></div>
         </div>
-    )
+    );
 }
