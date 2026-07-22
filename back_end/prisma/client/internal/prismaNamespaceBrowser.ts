@@ -58,7 +58,8 @@ export const ModelName = {
   RefreshToken: 'RefreshToken',
   Post: 'Post',
   Comment: 'Comment',
-  HeartEmoji: 'HeartEmoji'
+  HeartEmoji: 'HeartEmoji',
+  Notification: 'Notification'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -176,6 +177,19 @@ export const HeartEmojiScalarFieldEnum = {
 } as const
 
 export type HeartEmojiScalarFieldEnum = (typeof HeartEmojiScalarFieldEnum)[keyof typeof HeartEmojiScalarFieldEnum]
+
+
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  content: 'content',
+  isRead: 'isRead',
+  createdAt: 'createdAt',
+  userId: 'userId',
+  postId: 'postId'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
 export const SortOrder = {

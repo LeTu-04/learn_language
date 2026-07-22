@@ -76,7 +76,7 @@ export default function MainContent({ toogleSidebar }: MainContentProps) {
         <div className="main-content">
             <div className="headerofcard">
                 <button className="buttonToogleSidebar" onClick={toogleSidebar}>≡</button>
-                <h2 className="CategoryVocabName">Category : {getCategoryName()}</h2>
+                <h2 className="CategoryVocabName"> { isFavorite ? 'Từ vựng yêu thích': `Category : ${getCategoryName()}` } </h2>
             </div>
             <p className="totalwords">{`You have ${totalVocabulary} ${totalVocabulary > 1 ? 'words' : 'word'} `}</p>
             <div className="vocabulary-list">

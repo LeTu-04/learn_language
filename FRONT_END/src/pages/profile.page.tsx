@@ -8,12 +8,14 @@ import OtpPopup from "../components/popup/otp_popup";
 import { UserTanstack } from "../utils/tanstack/user.tanstack";
 import { CateTanStack } from "../utils/tanstack/category.tanstack";
 import PostComponent from "../components/common/post/post.component";
+import PostModalComponent from "../components/common/post_modal/post_modal";
 
 export default function ProfilePage() {
 
     const [searchParams] = useSearchParams();
     const tab = searchParams.get('tab') || 'profile';
     const isSetting = tab !== 'profile';
+    const [isActiveCommentList, setActiveCommentList] = useState<number | null>(null);
 
     const { data, isPending, isError } = UserTanstack.getUser();
     const { mutate: changeNameMutate } = UserTanstack.changeName();
@@ -22,12 +24,14 @@ export default function ProfilePage() {
     const { mutate: changeAvatarMutate, isPending: isChangeAvtPending } = UserTanstack.changeAvatar();
     const { mutate: requireOtpMutate } = UserTanstack.requireOtpRegain();
 
-    const {data : postData, isPending : isPostDataPending} = UserTanstack.getMyPost(tab === 'profile');
-
-
+    const { data: postData, isPending: isPostDataPending } = UserTanstack.getMyPost(tab === 'profile');
+    const { data: myPostCommentData } = UserTanstack.getCommentMyPost(isActiveCommentList || 0, !!isActiveCommentList)
     const { data: trashCategories } = CateTanStack.getCateDeleted(tab === 'trash');
-    const {mutate : deletePermMutate, isPending : deletePermCatePending} = CateTanStack.deletePermCate();
-    const {mutate : restoreMutate, isPending : restorePending} = CateTanStack.restoreCate();
+
+    const { mutate: deletePermMutate, isPending: deletePermCatePending } = CateTanStack.deletePermCate();
+    const { mutate: restoreMutate, isPending: restorePending } = CateTanStack.restoreCate();
+    const { mutate: likePostMutate } = UserTanstack.likePost();
+    const { mutate: createCommentMutate } = UserTanstack.createComment()
 
     const [isOtpOn, setIsOtpOn] = useState<boolean>(false);
 
@@ -53,11 +57,11 @@ export default function ProfilePage() {
         }
     };
 
-    const handleRestoreCate =  (categoryId : number) => {
+    const handleRestoreCate = (categoryId: number) => {
         restoreMutate(categoryId)
     }
 
-    const handleDeletePerCate = (categoryId : number) => {
+    const handleDeletePerCate = (categoryId: number) => {
         deletePermMutate(categoryId)
     }
 
@@ -68,13 +72,30 @@ export default function ProfilePage() {
         }
     };
 
+    const handleOnLike = (postId: number) => {
+        likePostMutate(postId);
+    }
+
+    const handleCommentClick = (postId: number) => {
+        if (isActiveCommentList !== null) {
+            setActiveCommentList(null);
+        } else {
+            setActiveCommentList(postId);
+        }
+
+
+    }
+
+    const handlePostComment = (postId: number, content: string) => {
+        createCommentMutate({ postId, content })
+    }
+
     if (isError) {
         return <div style={{ textAlign: 'center', marginTop: '50px' }}>Lỗi khi tải thông tin người dùng</div>;
     }
 
     return (
         <div className="main_layout_profile">
-            {/*OTP Popup tại đây */}
             {isOtpOn && data && (
                 <OtpPopup
                     type="regain"
@@ -92,7 +113,7 @@ export default function ProfilePage() {
                 {tab === 'profile' ? (
                     (isPostDataPending ? <div className="">
                         <p>Đang tải bài viết</p>
-                    </div> :  <PostComponent posts={postData.posts} avatarUrl={postData.avatarUrl} name={postData.name}/>)
+                    </div> : <PostComponent posts={postData.posts} avatarUrl={postData.avatarUrl} name={postData.name} onLike={handleOnLike} onCommentClick={handleCommentClick} />)
                 ) : (
                     <SettingsComponent
                         typeSetting={tab as 'settings' | 'trash' | 'history'}
@@ -106,6 +127,19 @@ export default function ProfilePage() {
                     />
                 )}
             </ProfileComponent>
+
+            {isActiveCommentList !== null && postData?.posts.find((p: any) => p.id === isActiveCommentList) && (
+                <PostModalComponent 
+                    post={postData.posts.find((p: any) => p.id === isActiveCommentList)} 
+                    comments={myPostCommentData || []} 
+                    avatarPrimaryUser={data?.avatarUrl || undefined} 
+                    onClose={() => setActiveCommentList(null)} 
+                    onLike={handleOnLike} 
+                    onPostComment={handlePostComment} 
+                />
+            )}
         </div>
+
+
     );
 }

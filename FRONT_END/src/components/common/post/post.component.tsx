@@ -3,26 +3,32 @@ import Zoom from 'react-medium-image-zoom'
 import { Heart, MessageCircle } from 'lucide-react'
 import 'react-medium-image-zoom/dist/styles.css'
 import './post.component.css'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 interface postProps {
     id: number,
     title: string,
     content: string,
     image_url: string,
-    createdAt: string
+    createdAt: string,
+    likecount: {
+        heartCount: number,
+        commentCount: number
+    },
+    isLiked: boolean
 }
 
 interface postDataProps {
     posts: postProps[],
     avatarUrl: string,
-    name: string
+    name: string,
+    onLike?: (postId: number) => void,
+    onCommentClick?: (postId: number) => void
 }
 
 export function ExpandableText({ text, maxLength = 180 }: { text: string; maxLength?: number }) {
 
     const [isExpanded, setIsExpanded] = useState(false);
-
     if (text.length <= maxLength) {
         return <p className="post-content">{text}</p>;
     }
@@ -41,8 +47,11 @@ export function ExpandableText({ text, maxLength = 180 }: { text: string; maxLen
     );
 }
 
-export default function PostComponent({ posts, avatarUrl, name }: postDataProps) {
-    const navigate = useNavigate()
+export default function PostComponent({ posts, avatarUrl, name, onLike, onCommentClick }: postDataProps) {
+    const navigate = useNavigate();
+
+
+
     const formatDate = (dateStr: string) => {
         try {
             const date = new Date(dateStr);
@@ -56,7 +65,7 @@ export default function PostComponent({ posts, avatarUrl, name }: postDataProps)
         }
     }
 
-    if(posts.length === 0) return (
+    if (posts.length === 0) return (
         <div className='post-container'>
             <div className='no-posts-card'>
                 <div className='no-posts-icon-wrapper'>
@@ -87,7 +96,7 @@ export default function PostComponent({ posts, avatarUrl, name }: postDataProps)
                             </div>
                         </div>
 
-                        {/* Body: Tiêu đề + Nội dung + Ảnh đính kèm (nếu có) */}
+                        {/* Body: Tiêu đề + Nội dung + Ảnh đính kèm  */}
                         <div className="post-body">
                             {p.title && <h3 className="post-title">{p.title}</h3>}
                             <ExpandableText text={p.content} />
@@ -101,18 +110,32 @@ export default function PostComponent({ posts, avatarUrl, name }: postDataProps)
                         </div>
                         {/* Actions: Thích & Bình luận */}
                         <div className="post-actions">
-                            <button className="post-action-btn" type="button">
-                                <Heart size={18} />
-                                <span>Thích</span>
+                            <button
+                                className={`post-action-btn ${p.isLiked ? 'liked-btn-active' : ''}`}
+                                type="button"
+                                onClick={() => onLike && onLike(p.id)}
+                            >
+                                <Heart
+                                    className={`heart-icon ${p.isLiked ? 'heart-active' : ''}`}
+                                    size={18}
+                                    color={p.isLiked ? '#ef4444' : 'currentColor'}
+                                    fill={p.isLiked ? '#ef4444' : 'none'}
+                                />
+                                <span>{p.likecount.heartCount}</span>
                             </button>
-                            <button className="post-action-btn" type="button">
+                            <button
+                                className="post-action-btn"
+                                type="button"
+                                onClick={() => onCommentClick && onCommentClick(p.id)}
+                            >
                                 <MessageCircle size={18} />
-                                <span>Bình luận</span>
+                                <span>{p.likecount.commentCount}</span>
                             </button>
                         </div>
                     </div>
                 ))
             }
+
         </div>
     )
 }

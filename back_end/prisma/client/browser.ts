@@ -57,3 +57,8 @@ export type Comment = Prisma.CommentModel
  * 
  */
 export type HeartEmoji = Prisma.HeartEmojiModel
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel

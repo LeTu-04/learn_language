@@ -243,6 +243,7 @@ export type PostWhereInput = {
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   comments?: Prisma.CommentListRelationFilter
   heartEmojis?: Prisma.HeartEmojiListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
 }
 
 export type PostOrderByWithRelationInput = {
@@ -257,6 +258,7 @@ export type PostOrderByWithRelationInput = {
   author?: Prisma.UserOrderByWithRelationInput
   comments?: Prisma.CommentOrderByRelationAggregateInput
   heartEmojis?: Prisma.HeartEmojiOrderByRelationAggregateInput
+  notifications?: Prisma.NotificationOrderByRelationAggregateInput
 }
 
 export type PostWhereUniqueInput = Prisma.AtLeast<{
@@ -274,6 +276,7 @@ export type PostWhereUniqueInput = Prisma.AtLeast<{
   author?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   comments?: Prisma.CommentListRelationFilter
   heartEmojis?: Prisma.HeartEmojiListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
 }, "id">
 
 export type PostOrderByWithAggregationInput = {
@@ -316,6 +319,7 @@ export type PostCreateInput = {
   author: Prisma.UserCreateNestedOneWithoutPostsInput
   comments?: Prisma.CommentCreateNestedManyWithoutPostInput
   heartEmojis?: Prisma.HeartEmojiCreateNestedManyWithoutPostInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutPostInput
 }
 
 export type PostUncheckedCreateInput = {
@@ -329,6 +333,7 @@ export type PostUncheckedCreateInput = {
   deletedAt?: Date | string | null
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutPostInput
   heartEmojis?: Prisma.HeartEmojiUncheckedCreateNestedManyWithoutPostInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type PostUpdateInput = {
@@ -341,6 +346,7 @@ export type PostUpdateInput = {
   author?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
   comments?: Prisma.CommentUpdateManyWithoutPostNestedInput
   heartEmojis?: Prisma.HeartEmojiUpdateManyWithoutPostNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateInput = {
@@ -354,6 +360,7 @@ export type PostUncheckedUpdateInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   comments?: Prisma.CommentUncheckedUpdateManyWithoutPostNestedInput
   heartEmojis?: Prisma.HeartEmojiUncheckedUpdateManyWithoutPostNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type PostCreateManyInput = {
@@ -443,6 +450,11 @@ export type PostScalarRelationFilter = {
   isNot?: Prisma.PostWhereInput
 }
 
+export type PostNullableScalarRelationFilter = {
+  is?: Prisma.PostWhereInput | null
+  isNot?: Prisma.PostWhereInput | null
+}
+
 export type PostCreateNestedManyWithoutAuthorInput = {
   create?: Prisma.XOR<Prisma.PostCreateWithoutAuthorInput, Prisma.PostUncheckedCreateWithoutAuthorInput> | Prisma.PostCreateWithoutAuthorInput[] | Prisma.PostUncheckedCreateWithoutAuthorInput[]
   connectOrCreate?: Prisma.PostCreateOrConnectWithoutAuthorInput | Prisma.PostCreateOrConnectWithoutAuthorInput[]
@@ -513,6 +525,22 @@ export type PostUpdateOneRequiredWithoutHeartEmojisNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.PostUpdateToOneWithWhereWithoutHeartEmojisInput, Prisma.PostUpdateWithoutHeartEmojisInput>, Prisma.PostUncheckedUpdateWithoutHeartEmojisInput>
 }
 
+export type PostCreateNestedOneWithoutNotificationsInput = {
+  create?: Prisma.XOR<Prisma.PostCreateWithoutNotificationsInput, Prisma.PostUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.PostCreateOrConnectWithoutNotificationsInput
+  connect?: Prisma.PostWhereUniqueInput
+}
+
+export type PostUpdateOneWithoutNotificationsNestedInput = {
+  create?: Prisma.XOR<Prisma.PostCreateWithoutNotificationsInput, Prisma.PostUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.PostCreateOrConnectWithoutNotificationsInput
+  upsert?: Prisma.PostUpsertWithoutNotificationsInput
+  disconnect?: Prisma.PostWhereInput | boolean
+  delete?: Prisma.PostWhereInput | boolean
+  connect?: Prisma.PostWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PostUpdateToOneWithWhereWithoutNotificationsInput, Prisma.PostUpdateWithoutNotificationsInput>, Prisma.PostUncheckedUpdateWithoutNotificationsInput>
+}
+
 export type PostCreateWithoutAuthorInput = {
   title?: string | null
   content: string
@@ -522,6 +550,7 @@ export type PostCreateWithoutAuthorInput = {
   deletedAt?: Date | string | null
   comments?: Prisma.CommentCreateNestedManyWithoutPostInput
   heartEmojis?: Prisma.HeartEmojiCreateNestedManyWithoutPostInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutPostInput
 }
 
 export type PostUncheckedCreateWithoutAuthorInput = {
@@ -534,6 +563,7 @@ export type PostUncheckedCreateWithoutAuthorInput = {
   deletedAt?: Date | string | null
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutPostInput
   heartEmojis?: Prisma.HeartEmojiUncheckedCreateNestedManyWithoutPostInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type PostCreateOrConnectWithoutAuthorInput = {
@@ -585,6 +615,7 @@ export type PostCreateWithoutCommentsInput = {
   deletedAt?: Date | string | null
   author: Prisma.UserCreateNestedOneWithoutPostsInput
   heartEmojis?: Prisma.HeartEmojiCreateNestedManyWithoutPostInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutPostInput
 }
 
 export type PostUncheckedCreateWithoutCommentsInput = {
@@ -597,6 +628,7 @@ export type PostUncheckedCreateWithoutCommentsInput = {
   createdAt?: Date | string
   deletedAt?: Date | string | null
   heartEmojis?: Prisma.HeartEmojiUncheckedCreateNestedManyWithoutPostInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type PostCreateOrConnectWithoutCommentsInput = {
@@ -624,6 +656,7 @@ export type PostUpdateWithoutCommentsInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   author?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
   heartEmojis?: Prisma.HeartEmojiUpdateManyWithoutPostNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateWithoutCommentsInput = {
@@ -636,6 +669,7 @@ export type PostUncheckedUpdateWithoutCommentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   heartEmojis?: Prisma.HeartEmojiUncheckedUpdateManyWithoutPostNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type PostCreateWithoutHeartEmojisInput = {
@@ -647,6 +681,7 @@ export type PostCreateWithoutHeartEmojisInput = {
   deletedAt?: Date | string | null
   author: Prisma.UserCreateNestedOneWithoutPostsInput
   comments?: Prisma.CommentCreateNestedManyWithoutPostInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutPostInput
 }
 
 export type PostUncheckedCreateWithoutHeartEmojisInput = {
@@ -659,6 +694,7 @@ export type PostUncheckedCreateWithoutHeartEmojisInput = {
   createdAt?: Date | string
   deletedAt?: Date | string | null
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutPostInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutPostInput
 }
 
 export type PostCreateOrConnectWithoutHeartEmojisInput = {
@@ -686,6 +722,7 @@ export type PostUpdateWithoutHeartEmojisInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   author?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
   comments?: Prisma.CommentUpdateManyWithoutPostNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateWithoutHeartEmojisInput = {
@@ -698,6 +735,73 @@ export type PostUncheckedUpdateWithoutHeartEmojisInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   comments?: Prisma.CommentUncheckedUpdateManyWithoutPostNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutPostNestedInput
+}
+
+export type PostCreateWithoutNotificationsInput = {
+  title?: string | null
+  content: string
+  image_public_id?: string | null
+  image_url?: string | null
+  createdAt?: Date | string
+  deletedAt?: Date | string | null
+  author: Prisma.UserCreateNestedOneWithoutPostsInput
+  comments?: Prisma.CommentCreateNestedManyWithoutPostInput
+  heartEmojis?: Prisma.HeartEmojiCreateNestedManyWithoutPostInput
+}
+
+export type PostUncheckedCreateWithoutNotificationsInput = {
+  id?: number
+  title?: string | null
+  content: string
+  authorId: string
+  image_public_id?: string | null
+  image_url?: string | null
+  createdAt?: Date | string
+  deletedAt?: Date | string | null
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutPostInput
+  heartEmojis?: Prisma.HeartEmojiUncheckedCreateNestedManyWithoutPostInput
+}
+
+export type PostCreateOrConnectWithoutNotificationsInput = {
+  where: Prisma.PostWhereUniqueInput
+  create: Prisma.XOR<Prisma.PostCreateWithoutNotificationsInput, Prisma.PostUncheckedCreateWithoutNotificationsInput>
+}
+
+export type PostUpsertWithoutNotificationsInput = {
+  update: Prisma.XOR<Prisma.PostUpdateWithoutNotificationsInput, Prisma.PostUncheckedUpdateWithoutNotificationsInput>
+  create: Prisma.XOR<Prisma.PostCreateWithoutNotificationsInput, Prisma.PostUncheckedCreateWithoutNotificationsInput>
+  where?: Prisma.PostWhereInput
+}
+
+export type PostUpdateToOneWithWhereWithoutNotificationsInput = {
+  where?: Prisma.PostWhereInput
+  data: Prisma.XOR<Prisma.PostUpdateWithoutNotificationsInput, Prisma.PostUncheckedUpdateWithoutNotificationsInput>
+}
+
+export type PostUpdateWithoutNotificationsInput = {
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  image_public_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  author?: Prisma.UserUpdateOneRequiredWithoutPostsNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutPostNestedInput
+  heartEmojis?: Prisma.HeartEmojiUpdateManyWithoutPostNestedInput
+}
+
+export type PostUncheckedUpdateWithoutNotificationsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  authorId?: Prisma.StringFieldUpdateOperationsInput | string
+  image_public_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutPostNestedInput
+  heartEmojis?: Prisma.HeartEmojiUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type PostCreateManyAuthorInput = {
@@ -719,6 +823,7 @@ export type PostUpdateWithoutAuthorInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   comments?: Prisma.CommentUpdateManyWithoutPostNestedInput
   heartEmojis?: Prisma.HeartEmojiUpdateManyWithoutPostNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateWithoutAuthorInput = {
@@ -731,6 +836,7 @@ export type PostUncheckedUpdateWithoutAuthorInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   comments?: Prisma.CommentUncheckedUpdateManyWithoutPostNestedInput
   heartEmojis?: Prisma.HeartEmojiUncheckedUpdateManyWithoutPostNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutPostNestedInput
 }
 
 export type PostUncheckedUpdateManyWithoutAuthorInput = {
@@ -751,11 +857,13 @@ export type PostUncheckedUpdateManyWithoutAuthorInput = {
 export type PostCountOutputType = {
   comments: number
   heartEmojis: number
+  notifications: number
 }
 
 export type PostCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   comments?: boolean | PostCountOutputTypeCountCommentsArgs
   heartEmojis?: boolean | PostCountOutputTypeCountHeartEmojisArgs
+  notifications?: boolean | PostCountOutputTypeCountNotificationsArgs
 }
 
 /**
@@ -782,6 +890,13 @@ export type PostCountOutputTypeCountHeartEmojisArgs<ExtArgs extends runtime.Type
   where?: Prisma.HeartEmojiWhereInput
 }
 
+/**
+ * PostCountOutputType without action
+ */
+export type PostCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificationWhereInput
+}
+
 
 export type PostSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -795,6 +910,7 @@ export type PostSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   comments?: boolean | Prisma.Post$commentsArgs<ExtArgs>
   heartEmojis?: boolean | Prisma.Post$heartEmojisArgs<ExtArgs>
+  notifications?: boolean | Prisma.Post$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.PostCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["post"]>
 
@@ -838,6 +954,7 @@ export type PostInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   comments?: boolean | Prisma.Post$commentsArgs<ExtArgs>
   heartEmojis?: boolean | Prisma.Post$heartEmojisArgs<ExtArgs>
+  notifications?: boolean | Prisma.Post$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.PostCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PostIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -853,6 +970,7 @@ export type $PostPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     author: Prisma.$UserPayload<ExtArgs>
     comments: Prisma.$CommentPayload<ExtArgs>[]
     heartEmojis: Prisma.$HeartEmojiPayload<ExtArgs>[]
+    notifications: Prisma.$NotificationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1260,6 +1378,7 @@ export interface Prisma__PostClient<T, Null = never, ExtArgs extends runtime.Typ
   author<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   comments<T extends Prisma.Post$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Post$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   heartEmojis<T extends Prisma.Post$heartEmojisArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Post$heartEmojisArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HeartEmojiPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notifications<T extends Prisma.Post$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Post$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1743,6 +1862,30 @@ export type Post$heartEmojisArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.HeartEmojiScalarFieldEnum | Prisma.HeartEmojiScalarFieldEnum[]
+}
+
+/**
+ * Post.notifications
+ */
+export type Post$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Notification
+   */
+  select?: Prisma.NotificationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Notification
+   */
+  omit?: Prisma.NotificationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationInclude<ExtArgs> | null
+  where?: Prisma.NotificationWhereInput
+  orderBy?: Prisma.NotificationOrderByWithRelationInput | Prisma.NotificationOrderByWithRelationInput[]
+  cursor?: Prisma.NotificationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
 }
 
 /**

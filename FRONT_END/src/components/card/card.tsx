@@ -33,7 +33,7 @@ export default function Card ({vocab, onDelete, speak, ready, toogleButtonFavori
                 
                 {/* Khu vực chứa các nút icon bên góc phải */}
                 <div className="action-icons">
-                    <button className="buttonStar" onClick={()=> toogleButtonFavorite(vocab.id)} title="Thêm vào yêu thích">
+                    <button className="buttonStar" onClick={()=> toogleButtonFavorite(vocab.id)} title="Thêm vào yêu thích" disabled = {vocab.isLoading} >
                         <Star fill={vocab.isFavorite ? "#fbbf24" : "transparent"} color={vocab.isFavorite ? "#fbbf24" : "#9ca3af"} size={22} className="starIcon"/>
                     </button>
 

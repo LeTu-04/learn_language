@@ -6,9 +6,10 @@ import { MailModule } from '../mail/mail.module';
 import { RedisModule } from '../redis/redis.module';
 import { GenerateHashService } from '../../utils/hash.utils';
 import { CloudinaryModule } from '../upload/cloudinary.module';
+import { TicketModule } from '../notifications/ticket.module';
 
 @Module({
-  imports : [MailModule, RedisModule, CloudinaryModule],
+  imports : [MailModule, RedisModule, CloudinaryModule, TicketModule],
   controllers: [UserController],
   providers: [UserService,GenerateHashService],
   exports: [UserService],

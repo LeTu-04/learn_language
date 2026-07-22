@@ -35,7 +35,7 @@ export default function Panel () {
 
 
 
-    const handleSubmit = (e : React.FormEvent) => {
+    const handleSubmit = async (e : React.FormEvent) => {
         e.preventDefault();
 
         // speak('apple')
@@ -58,7 +58,7 @@ export default function Panel () {
 
        
         try {
-            dispatch(postVocabularyByCategory({id : selectedCategory, data : vocabulary_data })).unwrap()
+            await dispatch(postVocabularyByCategory({id : selectedCategory, data : vocabulary_data })).unwrap()
             toast.success('Thêm thành công');
         } catch (error) {
             toast.error("Thêm thất bại")

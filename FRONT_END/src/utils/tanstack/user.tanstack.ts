@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { UserService, type ChangeAvatarDto } from "../../services/user.service"
 import { useAppDispatch, useAppSelector } from "../../hooks/hook"
 import toast from "react-hot-toast";
@@ -132,7 +132,9 @@ export const UserTanstack = {
             mutationFn: (postId: number) => UserService.likePost(postId),
             onMutate: async (postId: number) => {
                 await queryClient.cancelQueries({ queryKey: ['posts'] });
+                await queryClient.cancelQueries({ queryKey: ['user', 'mypost'] });
                 const previousPosts = queryClient.getQueryData(['posts']);
+                const previousMyPosts = queryClient.getQueryData(['user', 'mypost']);
                 queryClient.setQueryData(['posts'], (oldData: any) => {
                     if (!oldData) return oldData;
                     return {
@@ -155,15 +157,39 @@ export const UserTanstack = {
                             })
                         }))
                     }
-                })
-                return previousPosts;
+                });
+                queryClient.setQueryData(['user', 'mypost'], (oldData: any) => {
+                    if (!oldData) return oldData;
+                    return {
+                        ...oldData,
+                        posts: oldData.posts.map((post: any) => {
+                            if (post.id === postId) {
+                                const willLike = !post.isLiked;
+                                return {
+                                    ...post,
+                                    isLiked: willLike,
+                                    likecount: {
+                                        ...post.likecount,
+                                        heartCount: willLike ? post.likecount.heartCount + 1 : Math.max(0, post.likecount.heartCount - 1)
+                                    }
+                                }
+                            }
+                            return post;
+                        })
+                    }
+                });
+
+                return { previousPosts, previousMyPosts };
             },
-            onError: (err, postId, context: any) => {
+            onError: (_err, _postId, context: any) => {
                 if (context?.previousPosts) {
                     queryClient.setQueryData(['posts'], context.previousPosts)
                 }
+                if (context?.previousMyPosts) {
+                    queryClient.setQueryData(['user', 'mypost'], context.previousMyPosts)
+                }
             },
-            onSettled: () => {
+            onSettled: (_data, _error, postId) => {
 
             }
         })
@@ -176,8 +202,11 @@ export const UserTanstack = {
                 UserService.createComment(postId, content),
             onMutate: async ({ postId, content }) => {
                 await queryClient.cancelQueries({ queryKey: ['comments', postId] });
+                await queryClient.cancelQueries({ queryKey: ['user', 'mypost'] });
+                await queryClient.cancelQueries({ queryKey: ['posts'] });
                 const previousComment = queryClient.getQueryData<any[]>(['comments', postId]);
                 const previousPosts = queryClient.getQueryData(['posts']);
+                const previousMyPosts = queryClient.getQueryData(['user', ['mypost']]);
                 const currentUser = queryClient.getQueryData<any>(['user']);
                 const mockNewComment = {
                     id: -Date.now(),
@@ -185,49 +214,74 @@ export const UserTanstack = {
                     createdAt: new Date().toISOString(),
                     author: {
                         id: currentUser?.id || "temp-id",
-                        name: currentUser?.name || currentUser?.email ,
+                        name: currentUser?.name || currentUser?.email,
                         avatarUrl: currentUser?.avatarUrl || null
                     }
                 }
                 queryClient.setQueryData(['comments', postId], (old: any[] | undefined) => {
                     return old ? [...old, mockNewComment] : [mockNewComment];
                 });
-                queryClient.setQueryData(['posts'], (oldData : any) => {
-                    if(!oldData) return oldData;
+                queryClient.setQueryData(['posts'], (oldData: any) => {
+                    if (!oldData) return oldData;
                     return {
-                        ...oldData, 
-                        pages : oldData.pages.map((page : any) => ({
+                        ...oldData,
+                        pages: oldData.pages.map((page: any) => ({
                             ...page,
-                            postData : page.postData.map((post : any) => {
-                                if(post.id === postId) {
+                            postData: page.postData.map((post: any) => {
+                                if (post.id === postId) {
                                     return {
                                         ...post,
-                                        likecount : {
+                                        likecount: {
                                             ...post.likecount,
-                                            commentCount : (post.likecount.commentCount || 0) + 1 
+                                            commentCount: (post.likecount.commentCount || 0) + 1
                                         }
                                     }
                                 }
-                                return post; 
+                                return post;
                             })
                         }))
-                    } 
-                })
+                    }
+                });
 
-                return { previousComment, previousPosts }
+                queryClient.setQueryData(['user', 'mypost'], (oldData: any) => {
+                    if (!oldData) return oldData;
+                    return {
+                        ...oldData,
+                        posts: oldData.posts.map((post: any) => {
+                            if (post.id === postId) {
+                                return {
+                                    ...post,
+                                    likecount: {
+                                        ...post.likecount,
+                                        commentCount: (post.likecount.commentCount || 0) + 1
+                                    }
+                                };
+                            }
+                            return post;
+                        })
+                    };
+                });
+
+                return { previousComment, previousPosts, previousMyPosts }
             },
-            onError: (err, { postId }, context) => {
+            onError: (_err, { postId }, context) => {
                 if (context?.previousComment) {
                     queryClient.setQueryData(['comments', postId], context.previousComment)
                 }
+                if (context?.previousPosts) {
+                    queryClient.setQueryData(['posts'], context.previousPosts)
+                }
+                if (context?.previousMyPosts) {
+                    queryClient.setQueryData(['user', 'mypost'], context.previousMyPosts)
+                }
             },
             onSuccess: (realComment, { postId }) => {
-
                 queryClient.setQueryData(['comments', postId], (old: any[] | undefined) => {
                     if (!old) return [realComment];
-
                     return old.map(c => c.id < 0 ? realComment : c);
                 });
+            },
+            onSettled: (_data, _error, { postId }) => {
 
             }
         });
@@ -238,6 +292,51 @@ export const UserTanstack = {
             queryKey: ['comments', postId],
             queryFn: () => UserService.getComment(postId),
             enabled: enabled && !!postId
+        });
+    },
+    getCommentMyPost(postId: number, enabled: boolean) {
+        return useQuery({
+            queryKey: ['mypost', 'comment', postId],
+            queryFn: () => UserService.getCommentMyPost(postId),
+            enabled: enabled
+        })
+    },
+
+    getNotifications() {
+        return useInfiniteQuery({
+            queryKey: ['notifications'],
+            queryFn: ({ pageParam }) => {
+                return UserService.getNotification(pageParam)
+            },
+            initialPageParam: undefined as string | undefined,
+            getNextPageParam: (lastPage) => {
+                if (!lastPage || !lastPage.nextCursor) {
+                    return undefined;
+                } else {
+                    return lastPage.nextCursor
+                }
+            }
+        })
+    },
+
+    useMarkNotificationAsRead() {
+        const queryClient = useQueryClient();
+        return useMutation({
+            mutationFn: (id: string) => UserService.markNotificationAsRead(id),
+            onSuccess: (_, id) => {
+                queryClient.setQueryData(['notifications'], (oldData: any) => {
+                    if (!oldData) return oldData;
+                    return {
+                        ...oldData,
+                        pages: oldData.pages.map((page: any) => ({
+                            ...page,
+                            data: page.data.map((notify: any) =>
+                                notify.id === id ? { ...notify, isRead: true } : notify
+                            )
+                        }))
+                    };
+                });
+            }
         });
     }
 }

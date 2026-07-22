@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 import { UserTanstack } from "../../utils/tanstack/user.tanstack";
 import CommentInputComponent from "../commentinput/commentinput";
 import { useAppSelector } from "../../hooks/hook";
+import PostModalComponent from "../common/post_modal/post_modal";
 
 
 
@@ -27,6 +28,9 @@ export default function Discuss() {
 
     const [activePostId, setActivePostId] = useState<number | null>(null);
     const { data: commentsData } = UserTanstack.getComment(activePostId || 0, !!activePostId);
+
+
+
 
     const handleToggleComment = (postId: number) => {
         if (postId === activePostId) {
@@ -92,7 +96,7 @@ export default function Discuss() {
 
 
     const { data, isPending, isError, hasNextPage, isFetchingNextPage, fetchNextPage } = tantackService.usePosts()
-
+    const activePost = data?.pages.flatMap((page) => page.postData).find((post) => post.id === activePostId);
 
     const { ref, inView } = useInView()
 
@@ -191,7 +195,7 @@ export default function Discuss() {
                                     return <div key={p.id} className="discuss-post-card">
                                         <div className="post-meta">
                                             <div className="post-avatar"> {p.author.avatarUrl ? <img className="post-avatar-image" src={p.author.avatarUrl} /> : <User />} </div>
-                                            <div className="posth-author-info">
+                                            <div className="post-author-info">
                                                 <span> {p.author.name ? p.author.name : p.author.email} </span>
                                                 <span className="post-time"> {new Date(p.createdAt).toLocaleDateString()} </span>
                                             </div>
@@ -215,23 +219,8 @@ export default function Discuss() {
 
                                         </div>
 
-                                        {activePostId === p.id && (
-                                            <div style={{ marginTop: '16px', borderTop: '1px solid #edf2f7', paddingTop: '16px' }} onClick={(e) => e.stopPropagation()}>
-                                                <CommentInputComponent
-                                                    commentText=""
-                                                    comments={(commentsData || []).map((cmt: any) => ({
-                                                        id: cmt.id,
-                                                        authorId: cmt.authorId,
-                                                        authorName: cmt.author?.name || cmt.author?.email || "User",
-                                                        avatarUrl: cmt.author?.avatarUrl || "",
-                                                        content: cmt.content
-                                                    }))}
-                                                    avatarPrimaryUser={primaryUserAvatar || undefined}
-                                                    onPostComment={(content) => handleCreateComment(p.id, content)}
-                                                    onCancel={() => setActivePostId(null)}
-                                                />
-                                            </div>
-                                        )}
+
+
                                     </div>
 
 
@@ -248,7 +237,22 @@ export default function Discuss() {
                 </div>
             </div>
 
+            {activePost && (
+                <PostModalComponent
+                    post={activePost}
+                    comments={commentsData || []}
+                    avatarPrimaryUser={primaryUserAvatar || undefined}
+                    onClose={() => setActivePostId(null)}
+                    onLike={handleClickLikePost}
+                    onPostComment={handleCreateComment}
+                />
+            )}
+
             <div style={{ gridArea: 'right' }}></div>
         </div>
     );
 }
+
+
+
+

@@ -9,65 +9,65 @@ import { FileInterceptor } from "@nestjs/platform-express";
 
 export class UserController {
     constructor(
-        private readonly user : UserService
-    ){}
+        private readonly user: UserService
+    ) { }
 
     @Get('profile')
-    async getDetailUser (
-        @Req()req : Request
+    async getDetailUser(
+        @Req() req: Request
     ) {
-        const userId = req.user?.sub ;
+        const userId = req.user?.sub;
         const data = await this.user.getDetailUser(userId!);
         return {
-            message : 'SUCCESS',
+            message: 'SUCCESS',
             data
         }
     }
 
     @Patch('change-name')
-    async changeName (
-        @Body() dto : ChangeNameUserDto,
-        @Req () req : Request
+    async changeName(
+        @Body() dto: ChangeNameUserDto,
+        @Req() req: Request
     ) {
         const data = await this.user.UpdateNameProfile(req.user?.sub!, dto.newName);
         return {
-            message : 'SUCCESS',
+            message: 'SUCCESS',
             data
         }
     }
     @Patch('change-pass')
-    async changePassword (
-        @Body() dto : ChangePasswordDto,
-        @Req () req : Request
+    async changePassword(
+        @Body() dto: ChangePasswordDto,
+        @Req() req: Request
     ) {
-        const data = await this.user.changePassword(dto.oldPass,dto.newPass,req.user?.sub!);
+        const data = await this.user.changePassword(dto.oldPass, dto.newPass, req.user?.sub!);
         return {
-            message : 'SUCCESS',
+            message: 'SUCCESS',
             data
         }
     }
 
     @Patch('change_avatar')
     @UseInterceptors(FileInterceptor('file'))
-    async changeAvatar (
-        @UploadedFile() file : Express.Multer.File,
-        @Req()req : Request
+    async changeAvatar(
+        @UploadedFile() file: Express.Multer.File,
+        @Req() req: Request
     ) {
         const data = await this.user.changeAvatar(file, req.user?.sub!);
         return {
-            message : 'Thay ảnh đại diện thành công',
+            message: 'Thay ảnh đại diện thành công',
             data
         }
     }
 
     @Get('mypost')
-    async getPost (
-        @Req() req : Request
+    async getPost(
+        @Req() req: Request
     ) {
         const data = await this.user.getALlPostOfUser(req.user?.sub!);
         return {
-            message : 'SUCCESS',
-            postData : data
+            message: 'SUCCESS',
+            postData: data
         }
     }
 
@@ -111,6 +111,17 @@ export class UserController {
         @Param('postId', ParseIntPipe) postId: number
     ) {
         const data = await this.user.getComment(postId);
+        return {
+            message: 'SUCCESS',
+            data
+        }
+    }
+
+    @Get('mypost/comment/:postId')
+    async getCommentOfMyPost(
+        @Param('postId', ParseIntPipe) postId: number
+    ) {
+        const data = await this.user.getCommentMyPost(postId);
         return {
             message: 'SUCCESS',
             data

@@ -320,19 +320,27 @@
   transform: translateX(2px);
 }
 
+.header-icon-btn {
+  position: relative;
+}
+
 @keyframes header-heartbeat {
   0% {
     transform: scale(1);
   }
+
   25% {
     transform: scale(1.12);
   }
+
   50% {
     transform: scale(1);
   }
+
   75% {
     transform: scale(1.12);
   }
+
   100% {
     transform: scale(1);
   }

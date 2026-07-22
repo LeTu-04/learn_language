@@ -25,10 +25,6 @@ interface ProfileComponentProps {
     isUploading: boolean;
     onChangeAvatar: (file: File) => void;
     isSetting: boolean
-    // onChangeName: (newName: string) => void;
-    // onChangePass: (olePass: string, newPass: string) => void;
-    // onLogout: () => void;
-    // onSubmitOtpAndRegainPassword: (email: string, otp: string, newPassword: string) => void;
     children?: React.ReactNode
 }
 
@@ -44,7 +40,7 @@ export default function ProfileComponent({ user, onChangeAvatar, isUploading, is
     const [isOtpOn, setOtpOn] = useState<boolean>(false);
 
     const [isDropdownMenu, setIsDropDownMenu] = useState<boolean>(false);
-    //  const [typeSetting, setTypeSetting] = useState<'settings' | 'trash' | 'history'>('settings')
+  
 
     const handleChangFile = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;

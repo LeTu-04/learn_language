@@ -111,12 +111,12 @@
     max-height: 380px;
     object-fit: contain;
     display: block;
-    }
+}
 
 .post-container .post-content .toggle-expand-btn {
     background: transparent;
     border: none;
-    color:#3b82f6;
+    color: #3b82f6;
     font-weight: 600;
     cursor: pointer;
     font-size: 0.9rem;
@@ -127,12 +127,12 @@
 }
 
 .post-container .post-content .toggle-expand-btn:hover {
-    color:  #7c3aed;
+    color: #7c3aed;
     text-decoration: underline;
 }
 
 
-.post-container [data-rmiz-wrap="visible"], 
+.post-container [data-rmiz-wrap="visible"],
 .post-container [data-rmiz-wrap="hidden"] {
     display: flex;
     justify-content: center;

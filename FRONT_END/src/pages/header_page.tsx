@@ -5,6 +5,7 @@ import type React from 'react';
 import { setSearchVocabulary } from "../features/vocabulary/vocabularySlice";
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import NotificationPopupComponent from '../components/notification/popup/notification.component';
 
 interface ShowSearchProps {
     showSearch?: boolean
@@ -12,18 +13,28 @@ interface ShowSearchProps {
 
 
 export default function HeaderPage({ showSearch }: ShowSearchProps) {
-    const navigate = useNavigate();
+
     const [searchParams, setSearchParams] = useSearchParams();
+    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+    const [isNotificationAreOn, setNotification] = useState<boolean>(false);
+
     const isFavorite = searchParams.get('view') === 'favorite';
 
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const user = useAppSelector((state) => state.Auth.user);
     const searchValue = useAppSelector((state) => state.Vocabulary.search);
+
     const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(setSearchVocabulary(e.target.value));
     }
 
-    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+    const handleClickAvatar = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setIsMenuOpen(!isMenuOpen);
+    }
+
+
 
     useEffect(() => {
         if (!isMenuOpen) return;
@@ -32,14 +43,12 @@ export default function HeaderPage({ showSearch }: ShowSearchProps) {
         return () => window.removeEventListener('click', closeMenu);
     }, [isMenuOpen])
 
-    const handleClickAvatar = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        setIsMenuOpen(!isMenuOpen);
-    }
+
 
 
     return (
         <div className="header">
+            {isNotificationAreOn && <NotificationPopupComponent />}
             <div className='header-left'>
                 <div className="header-logo" onClick={() => navigate('/home')} title="Về trang chủ">
                     <span className="logo-text">L4</span>
@@ -60,25 +69,28 @@ export default function HeaderPage({ showSearch }: ShowSearchProps) {
 
             <div className="header-actions">
                 <div className={`header-favorite-wrapper ${isFavorite ? 'is-active' : ''}`}>
-                    <button 
+                    <button
                         type="button"
-                        className="header-favorite-btn" 
-                        title="Từ vựng yêu thích" 
+                        className="header-favorite-btn"
+                        title="Từ vựng yêu thích"
                         onClick={() => setSearchParams(isFavorite ? {} : { view: 'favorite' })}
                     >
                         <Heart size={20} />
                     </button>
-                    <button 
+                    <button
                         type="button"
-                        className="header-favorite-back-btn" 
-                        title="Quay lại học tập" 
+                        className="header-favorite-back-btn"
+                        title="Quay lại học tập"
                         onClick={() => setSearchParams({})}
                     >
                         Quay lại
                     </button>
                 </div>
 
-                <button className="header-icon-btn" title="Thông báo">
+                <button className="header-icon-btn" title="Thông báo" onClick={(e) => {
+                    e.stopPropagation();
+                    setNotification(!isNotificationAreOn)
+                }} >
                     <Bell size={20} />
                     <span className="header-notification-dot"></span>
                 </button>

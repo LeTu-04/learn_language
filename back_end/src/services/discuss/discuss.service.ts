@@ -87,7 +87,7 @@ export class DiscussService {
         });
 
         const formatedPostData = postData.map((post) => {
-            const {heartEmojis, _count, ...postDetail} = post ;
+            const {heartEmojis, _count,image_public_id, ...postDetail} = post ;
             return {
                 ...postDetail,
                 likecount : {

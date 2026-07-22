@@ -91,6 +91,37 @@ export const UserService = {
         } catch (error) {
             throw error;
         }
+    },
+
+    async getCommentMyPost(postId: number) {
+        try {
+            const response = await clientAPI.get(`user/mypost/comment/${postId}`);
+            return response.data.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    async getNotification(cursor?: string) {
+        try {
+            const response = await clientAPI.get('notification/list', {
+                params: {
+                    limit: 20,
+                    cursor: cursor
+                }
+            });
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    async markNotificationAsRead(id: string) {
+        try {
+            const response = await clientAPI.patch(`notification/read/${id}`);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
     }
 
 

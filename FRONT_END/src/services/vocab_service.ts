@@ -41,10 +41,20 @@ export const deleteVocabularyByCategory = createAsyncThunk<{categoryId : number,
 export const flushPendingFavorite = async() => {
     const pending = JSON.parse(localStorage.getItem('favoritepending') || '{}');
     if(Object.keys(pending).length === 0) return ;
-    const changes = Object.entries(pending).map(([id, isFavorite]) => ({
-        id : Number(id),
-        isFavorite
-    }));
+    
+    //Lọc bỏ các ID tạm thời (ID âm)
+    const changes = Object.entries(pending)
+        .filter(([id]) => Number(id) > 0) // Chỉ giữ lại các ID thật (số dương)
+        .map(([id, isFavorite]) => ({
+            id : Number(id),
+            isFavorite
+        }));
+
+    // Nếu sau khi lọc không còn ID thật nào cần lưu, chỉ cần xóa localStorage và thoát
+    if (changes.length === 0) {
+        localStorage.removeItem('favoritepending');
+        return;
+    }
 
     try {
         await clientAPI.patch('/Category/vocabularies/favorite', {changes}) ;

@@ -4,9 +4,12 @@ import HeaderPage from "../pages/header_page";
 
 import './mainlayout.css'
 import { useState } from "react";
+import { useNotification } from "../hooks/useNotification";
 
 export default function MainLayout() {
     const location = useLocation();
+
+    useNotification();
 
     const [isSidebarOpen, setIsSideBarOpen] = useState<boolean>(true);
     const isShowSearch = location.pathname === '/course/add_vocab' || location.pathname === '/course/discuss';
