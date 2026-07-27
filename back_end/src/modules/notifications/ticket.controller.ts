@@ -44,7 +44,7 @@ export class TicketController {
     async getNotifications(
         @Req() req: Request,
         @Query('limit') limit?: number,
-        @Query('cursor') cursor?: string 
+        @Query('cursor') cursor?: string
     ) {
         if (!req.user?.sub) {
             throw new UnauthorizedException();
@@ -55,6 +55,14 @@ export class TicketController {
             data,
             nextCursor
         }
+    }
+
+    @Patch('read-all')
+    async markAllAsRead(
+        @Req() req: Request
+    ) {
+        if (!req.user?.sub) throw new UnauthorizedException();
+        return this.notification.makeAllAsRead(req.user.sub);
     }
 
     @Patch('read/:id')

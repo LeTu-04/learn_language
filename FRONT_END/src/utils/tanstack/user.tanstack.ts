@@ -7,7 +7,7 @@ import { logger } from "../../../utils/logger";
 import { clearDataAfterLogout, updateAvatar } from "../../features/auth/auth.slice";
 import { clearCategoryState } from "../../features/Category/categorySlice";
 import { clearVocabularyState } from "../../features/vocabulary/vocabularySlice";
-import { useNavigate } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
 
 export const UserTanstack = {
     getUser() {
@@ -338,5 +338,27 @@ export const UserTanstack = {
                 });
             }
         });
+    },
+
+    makeAllAsRead() {
+        const queryCient = useQueryClient();
+        return useMutation({
+            mutationFn: () => UserService.markAllAsRead(),
+            onSuccess: () => {
+                queryCient.setQueryData(['notifications'], (oldData: any) => {
+                    if (!oldData) return oldData;
+                    return {
+                        ...oldData,
+                        pages: oldData.pages.map((page: any) => ({
+                            ...page,
+                            data: page.data.map((notify: any) => ({
+                                ...notify,
+                                isRead: true
+                            }))
+                        }))
+                    }
+                })
+            }
+        })
     }
 }

@@ -165,6 +165,16 @@ html {
     border: 1px solid rgba(0, 0, 0, 0.04);
     transition: all 0.3s ease;
     cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+
+.discuss-post-card.hightlight-post {
+    background-color: #f0f7ff;
+    border-color: #3b82f6;
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.25);
+    transform: scale(1.01);
 }
 
 .discuss-post-card:hover {
@@ -205,7 +215,8 @@ html {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 8px; /* Khoảng cách nhỏ giữa tên và ngày tháng */
+    gap: 8px;
+    /* Khoảng cách nhỏ giữa tên và ngày tháng */
 }
 
 .post-author {

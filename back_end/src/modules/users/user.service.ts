@@ -274,18 +274,20 @@ export class UserService {
                             avatarUrl: true
                         }
                     },
-                    post : {
-                        select : {authorId : true}
+                    post: {
+                        select: { authorId: true }
                     }
                 }
             });
-            
+
             if (comment.post.authorId !== userId) {
+                const { post, ...commentData } = comment;
                 await this.notification.pushNotification(
                     comment.post.authorId,
                     'Bạn có một bình luận mới',
                     `${comment.author.name || comment.author.email} đã bình luận : ${content.slice(0, 30)}...`,
-                    postId
+                    postId,
+                    commentData
                 )
             }
             return comment;
@@ -317,6 +319,8 @@ export class UserService {
             throw error;
         }
     }
+
+
 
 
 }

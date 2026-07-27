@@ -122,7 +122,16 @@ export const UserService = {
         } catch (error) {
             throw error;
         }
+    },
+
+    async markAllAsRead() {
+        try {
+            await clientAPI.patch('notification/read-all');
+        } catch (error) {
+            throw error;
+        }
     }
+
 
 
 

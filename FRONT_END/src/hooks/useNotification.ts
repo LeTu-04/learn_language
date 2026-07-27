@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAppSelector } from "./hook";
 import { clientAPI } from "../utils/api/api";
 import { useQueryClient } from "@tanstack/react-query";
@@ -10,7 +10,19 @@ export interface NotifiCationData {
     content: string;
     isRead: boolean;
     createdAt: string;
-    postId: number
+    postId: number;
+    extraData?: {
+        id: number;
+        content: string;
+        createdAt: string;
+        authorId: string;
+        author: {
+            id: string;
+            name?: string;
+            email: string;
+            avatarUrl?: string
+        }
+    }
 }
 export interface notificationPayload {
 
@@ -54,9 +66,16 @@ export function useNotification() {
                             pages: newPages
                         }
 
-                    })
+                    });
+
+                    if (newNotify.extraData) {
+                        queryClient.setQueryData(['comments', newNotify.postId], (oldComment: any) => {
+                            if(!oldComment) return oldComment;
+                            return [newNotify.extraData, ...oldComment]
+                        })
+                    }
                 };
-                eventSource.addEventListener('ping', (event) => { });
+                eventSource.addEventListener('ping', () => { });
                 eventSource.onerror = (err) => {
                     console.log('Lỗi khi kết nối SSE, đang thử kết nối lại', err);
                     eventSource?.close();

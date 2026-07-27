@@ -15,10 +15,13 @@ import { UserTanstack } from "../../utils/tanstack/user.tanstack";
 import CommentInputComponent from "../commentinput/commentinput";
 import { useAppSelector } from "../../hooks/hook";
 import PostModalComponent from "../common/post_modal/post_modal";
+import { useSearchParams } from "react-router-dom";
 
 
 
 export default function Discuss() {
+
+    const [searchParam] = useSearchParams();
 
     const [formData, setFormData] = useState({
         title: '',
@@ -26,7 +29,10 @@ export default function Discuss() {
         file: null as File | null
     });
 
+
     const [activePostId, setActivePostId] = useState<number | null>(null);
+    const targetPostId = Number(searchParam.get('postId'));
+
     const { data: commentsData } = UserTanstack.getComment(activePostId || 0, !!activePostId);
 
 
@@ -115,6 +121,19 @@ export default function Discuss() {
         createCommentMutate({ postId, content });
     };
 
+    useEffect(() => {
+        if (targetPostId) {
+            const postElement = document.getElementById(`post-${targetPostId}`);
+            postElement?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            postElement?.classList.add('hightlight-post');
+            const timer = setTimeout(() => {
+                postElement?.classList.remove('hightlight-post')
+            }, (2000));
+            setActivePostId(targetPostId);
+            return () => clearTimeout(timer);
+        }
+    }, [targetPostId])
+
     return (
         <div className={`layout sidebarclose`}>
 
@@ -192,7 +211,7 @@ export default function Discuss() {
                         {data?.pages.map((post, index) => {
                             return <React.Fragment key={index}>
                                 {post.postData.map((p) => {
-                                    return <div key={p.id} className="discuss-post-card">
+                                    return <div key={p.id} id={`post-${p.id}`} className="discuss-post-card">
                                         <div className="post-meta">
                                             <div className="post-avatar"> {p.author.avatarUrl ? <img className="post-avatar-image" src={p.author.avatarUrl} /> : <User />} </div>
                                             <div className="post-author-info">
