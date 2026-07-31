@@ -1,5 +1,5 @@
 
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, Req, UnauthorizedException } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseBoolPipe, ParseIntPipe, Patch, Post, Query, Req, UnauthorizedException } from '@nestjs/common';
 import type { Request} from "express";
 
 import { VocabService } from '../../../services/vocab/vocab/vocab.service.js';
@@ -90,9 +90,10 @@ export class VocabController {
     @Get(':CategoryId/exam')
     async exam(
         @Param('CategoryId', ParseIntPipe) CategoryId : number,
-        @Query('limit') limit : number ,
+        @Query('limit', new ParseIntPipe({optional : true})) limit : number ,
+        @Query('view', ) view : string, 
         @Req()req : Request
     ) {
-        return this.vocab.getVocabForExam(CategoryId, limit, req.user?.sub!);
+        return this.vocab.getVocabForExam(CategoryId, req.user?.sub!, limit, view );
     }
 }

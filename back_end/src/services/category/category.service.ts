@@ -87,7 +87,7 @@ export class CategoryService {
     async getAllCategoryRemoved(userId: string) {
         try {
             const categoryRemoved = await this.prisma.category.findMany({
-                where: {  userId, isDeleted: true },
+                where: { userId, isDeleted: true },
             });
             return categoryRemoved.map(({ userId: __, ...categoryData }) => categoryData);
         } catch (error) {
@@ -133,40 +133,40 @@ export class CategoryService {
         }
     };
 
-    async deletePermCategory (categoryId : number, userId : string) {
+    async deletePermCategory(categoryId: number, userId: string) {
         try {
             await this.prisma.category.delete({
-                where : {userId, id : categoryId}
+                where: { userId, id: categoryId }
             });
         } catch (error) {
             throw error;
         }
     }
-    
-    async getDetailCategoryRemoved (categoryId : number, userId : string) {
+
+    async getDetailCategoryRemoved(categoryId: number, userId: string) {
         try {
             const vocabularyDataDeledted = await this.prisma.category.findUnique(
-            {
-                where : {id : categoryId, userId},
-                select : {
-                    id : true,
-                    name : true,
-                    deletedAt : true,
-                    vocabulary : {
-                        select : {
-                            word : true,
-                            mean : true,
-                            example : true
+                {
+                    where: { id: categoryId, userId },
+                    select: {
+                        id: true,
+                        name: true,
+                        deletedAt: true,
+                        vocabulary: {
+                            select: {
+                                word: true,
+                                mean: true,
+                                example: true
+                            }
                         }
                     }
-                }
-            },
-        )
-        return vocabularyDataDeledted;
+                },
+            )
+            return vocabularyDataDeledted;
         } catch (error) {
             throw error;
         }
-            
-        }
+
     }
+}
 

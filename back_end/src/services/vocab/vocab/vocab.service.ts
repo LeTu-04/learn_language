@@ -138,59 +138,80 @@ export class VocabService {
     //     )
     // }
 
-    async getVocabForExam(categoryId: number, limit: number, userId: string) {
+
+    shuffleArray<T>(array: T[]) {
+        const shuffleArray = [...array];
+        for (let i = shuffleArray.length - 1; i >= 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffleArray[i], shuffleArray[j]] = [shuffleArray[j], shuffleArray[i]]
+        }
+        return shuffleArray;
+    }
+
+    async getVocabForExam(categoryId: number, userId: string, limit?: number, view?: string) {
         if (!userId) {
             throw new UnauthorizedException()
         }
         this.logger.log(`CategoryId [${categoryId}], ${typeof (categoryId)}`)
         this.logger.log(userId);
-        const allVocabofCat = await this.prisma.category.findFirst({
-            where: { id: categoryId, isDeleted: false, userId },
-            select: {
-                vocabulary: {
-                    select: {
-                        id: true,
-                        word: true,
-                        mean: true
+        let allVocabofCat: { vocabulary: { id: number, word: string, mean: string }[] } | null = { vocabulary: [] }
+
+        if (view?.toString() !== 'favorite') {
+            allVocabofCat = await this.prisma.category.findFirst({
+                where: { id: categoryId, isDeleted: false, userId },
+                select: {
+                    vocabulary: {
+                        select: {
+                            id: true,
+                            word: true,
+                            mean: true
+                        }
                     }
                 }
+            });
+        } else if(view.toString() === 'favorite') {
+            const result = await this.prisma.vocabulary.findMany({
+                where: { isFavorite: true }
+            });
+            allVocabofCat = {
+                vocabulary: result
+            }
+        }
+
+        if (!allVocabofCat || !allVocabofCat.vocabulary || allVocabofCat.vocabulary.length === 0) {
+            throw new BadRequestException('Không tìm thấy danh sách từ vựng trong mục này')
+        }
+
+
+        const questions = limit ? this.shuffleArray(allVocabofCat.vocabulary).slice(0, limit) : this.shuffleArray(allVocabofCat.vocabulary);
+        let extraMeanQuestion: string[] = []
+        if (questions.length < 4) {
+            const extraVocab = await this.prisma.vocabulary.findMany({
+                where: { categoryId: { not: categoryId } },
+                select: { mean: true },
+                take: 10
+            });
+            extraMeanQuestion = extraVocab.map((v) => v.mean);
+        }
+
+        return questions.map((q) => {
+            let wrongAnswer = this.shuffleArray(allVocabofCat.vocabulary.filter((v) => v.id !== q.id).map((v) => v.mean)).slice(0, 3);
+            if (wrongAnswer.length < 3) {
+                const extra = extraMeanQuestion.filter((m) => m !== q.mean && !wrongAnswer.includes(m)).slice(0, 3 - wrongAnswer.length);
+                wrongAnswer.push(...extra)
+            }
+            const options = this.shuffleArray([...wrongAnswer, q.mean])
+
+            return {
+                id: q.id,
+                question: q.word,
+                options,
+                correctAnswer: q.mean
+
             }
         });
-        if (!allVocabofCat) {
-            throw new BadRequestException('Category Not Found')
-        }
-        if (!allVocabofCat?.vocabulary) {
-            throw new BadRequestException('Không đủ để tạo thành bộ câu hỏi trắc nghiệm');
-        }
 
 
-        const storeRandom = allVocabofCat?.vocabulary.sort(() => Math.random() - 0.5);
-        const question = storeRandom?.slice(0, limit);
-        //Cần Promise.all() để đợi tất cả Promise hoàn thành rồi mới trả kết quả cuối cùng.
-        return Promise.all(
-            question?.map(async (q) => {
-                const wrongAnswer = allVocabofCat?.vocabulary.filter((v) => v.id !== q.id)
-                    .sort(() => Math.random() - 0.5)
-                    .slice(0, 3)
-                    .map((v) => v.mean);
-                if (wrongAnswer.length < 3) {
-                    const extraVocab = await this.prisma.vocabulary.findMany({
-                        where: { categoryId: { not: categoryId } },
-                        select: { mean: true },
-                        take: 3 - wrongAnswer.length
-                    })
-                    wrongAnswer.push(...extraVocab.map((v) => v.mean));
-                }
-                const options = [...wrongAnswer, q.mean];
-
-                return {
-                    id: q.id,
-                    question: q.word,
-                    options,
-                    correctAnswer: q.mean
-                }
-            })
-        )
 
 
     }

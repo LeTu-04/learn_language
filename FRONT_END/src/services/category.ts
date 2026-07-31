@@ -36,8 +36,13 @@ export const editCategory = createAsyncThunk('Category/editCategory',
 )
 
 
-export const getQuizzExam = async (categoryId: number, limit: number) => {
-    const response = await clientAPI.get(`Category/${categoryId}/exam`);
+export const getQuizzExam = async (categoryId: number, limit?: number, view?: string) => {
+    const response = await clientAPI.get(`Category/${categoryId}/exam`, {
+        params: {
+            limit,
+            view
+        }
+    });
     return response.data
 }
 
@@ -48,20 +53,20 @@ export const getCateRemoved = async () => {
     return response.data.data;
 }
 
-export const restoreCategory =  async(categoryId : number) =>  {
-        try {
-            const response = await clientAPI.patch(`Category/restore/${categoryId}`);
-            return response.data.message
-        } catch (error) {
-            throw error
-        }
+export const restoreCategory = async (categoryId: number) => {
+    try {
+        const response = await clientAPI.patch(`Category/restore/${categoryId}`);
+        return response.data.message
+    } catch (error) {
+        throw error
     }
+}
 
-export const deleteForeverCategory = async(categoryId : number) => {
-        try {
-            const response = await clientAPI.delete(`Category/delete-perm/${categoryId}`);
-            return response.data.message;
-        } catch (error) {
-            throw error;
-        }
+export const deleteForeverCategory = async (categoryId: number) => {
+    try {
+        const response = await clientAPI.delete(`Category/delete-perm/${categoryId}`);
+        return response.data.message;
+    } catch (error) {
+        throw error;
     }
+}
