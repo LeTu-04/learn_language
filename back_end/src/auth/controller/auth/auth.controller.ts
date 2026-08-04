@@ -9,12 +9,7 @@ import { JwtRefreshGuard } from '../../guards/jwt.refresh.guard';
 
 import { JwtAuthGuard } from '../../guards/jwtaccess.guard';
 import { JwtService } from '../../service/jwt/jwt.service';
-import { ReGainPasswordDto, SignInDto, SignUpDto } from '../../service/auth/local/local.types';
-
-
-interface SendOtpDto {
-    email : string
-}
+import { ReGainPasswordDto, SendOtpDto, SignInDto, SignUpDto } from '../../service/auth/local/local.types';
 
 @Controller('auth')
 export class AuthController {
@@ -23,18 +18,6 @@ export class AuthController {
         private readonly jwt : JwtService
     ){}
 
-    // @Public()
-    // @Get('spam')
-    // async Spam() {
-    //     const data = await this.local.testScale();
-    //     return {
-    //         time : data,
-    //     }
-    // }
-
-
-
-
     @Public()
     @Post('google') 
     async loginGoole (
@@ -42,10 +25,11 @@ export class AuthController {
         @Res({ passthrough: true }) res: Response
     ) {
         const data = await this.google.loginWithgoogle(tokenId);
+        const isProd = process.env.NODE_ENV === 'production';
         res.cookie('refreshToken', data.refreshToken,({
             httpOnly : true,
-            secure : false, // true nếu https
-            sameSite  : 'lax', // strict '1', lax'chung', none 'nhiều/danger'
+            secure : isProd,
+            sameSite  : isProd ? 'none' : 'lax',
             maxAge : 30 * 24 * 60 * 60 * 1000
         }));
         return {
@@ -58,7 +42,7 @@ export class AuthController {
     @Public()
     @Post('sendotp')
     async checkAndSendOtp(
-        @Body() data : {email : string}
+        @Body() data : SendOtpDto
     ) {
         const otp = await this.local.checkAndGenOtpForClient(data.email);
         return {
@@ -74,10 +58,11 @@ export class AuthController {
         @Res({passthrough : true})res : Response
     ){
         const data = await this.local.signUp(body);
+        const isProd = process.env.NODE_ENV === 'production';
         res.cookie('refreshToken', data.tokens.refreshToken, ({
             httpOnly : true, 
-            secure : false,
-            sameSite : 'lax',
+            secure : isProd,
+            sameSite : isProd ? 'none' : 'lax',
             maxAge : 30 * 24 * 60 * 60 * 1000
 
         })) ;
@@ -95,11 +80,12 @@ export class AuthController {
         @Res({passthrough : true}) res : Response
     ){
         const data = await this.local.SignIn(body);
+        const isProd = process.env.NODE_ENV === 'production';
 
         res.cookie('refreshToken', data?.tokens.refreshToken, ({
             httpOnly : true,
-            secure : false,
-            sameSite : 'lax',
+            secure : isProd,
+            sameSite : isProd ? 'none' : 'lax',
             maxAge : 30 * 24 * 60 * 60 * 1000
         }))    
         return {
@@ -133,10 +119,11 @@ export class AuthController {
         @Req()req : Request
     ) {
         const data = await this.jwt.refreshToken(req.cookies.refreshToken);
+        const isProd = process.env.NODE_ENV === 'production';
         res.cookie('refreshToken', data.refreshToken, {
             httpOnly : true,
-            secure : false,
-            sameSite : 'lax',
+            secure : isProd,
+            sameSite : isProd ? 'none' : 'lax',
             maxAge : 30 * 24 * 60 * 60 * 1000
         })
         return {

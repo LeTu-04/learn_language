@@ -1,4 +1,11 @@
-import { IsEmail, IsNotEmpty, IsString, Length, max, MaxLength, min, MinLength } from "class-validator";
+import { IsEmail, IsNotEmpty, IsString, MinLength } from "class-validator";
+
+export class SendOtpDto {
+    @IsString()
+    @IsNotEmpty()
+    @IsEmail()
+    email!: string;
+}
 
 export class SignInDto {
     @IsString()
