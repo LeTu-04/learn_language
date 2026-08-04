@@ -135,7 +135,9 @@ export default function ProfilePage() {
                     avatarPrimaryUser={data?.avatarUrl || undefined} 
                     onClose={() => setActiveCommentList(null)} 
                     onLike={handleOnLike} 
+                    name={postData.name}
                     onPostComment={handlePostComment} 
+                    
                 />
             )}
         </div>

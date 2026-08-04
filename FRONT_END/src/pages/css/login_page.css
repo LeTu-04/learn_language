@@ -1,97 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 .login-page {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100%;
+    min-height: 100vh;
     width: 100%;
     overflow-y: auto;
-    background: #f1f5f9;
+    background-color: #f8fafc;
+    padding: 20px;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 .login-card {
-    background: #fff;
-    border-radius: 12px;
-    padding: 40px 36px;
+    position: relative;
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 44px 44px 44px 280px;
     width: 100%;
-    max-width: 400px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    max-width: 660px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.07), 0 0 1px rgba(15, 23, 42, 0.1);
+}
+
+.login-mascot-img {
+    position: absolute;
+    left: -115px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 370px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 15px 25px rgba(15, 23, 42, 0.12));
+    z-index: 10;
+    pointer-events: none;
 }
 
 .login-card h2 {
     margin: 0 0 24px;
     text-align: center;
-    font-size: 1.5rem;
-    color: #1e293b;
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 .login-form {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 16px;
 }
 
 .login-form input {
-    padding: 12px 14px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    font-size: 0.95rem;
+    padding: 12.5px 16px;
+    background-color: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.925rem;
+    color: #0f172a;
+    font-family: inherit;
     outline: none;
-    transition: border-color 0.2s;
+    transition: all 0.2s ease;
+}
+
+.login-form input::placeholder {
+    color: #94a3b8;
 }
 
 .login-form input:focus {
-    border-color: #3b82f6;
+    border-color: #4f46e5;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+.forgot-password-link {
+    text-align: right;
+    margin-top: -6px;
+    margin-bottom: 2px;
+}
+
+.forgot-password-link span {
+    font-size: 0.825rem;
+    color: #4f46e5;
+    cursor: pointer;
+    font-weight: 500;
+    transition: color 0.15s ease;
+}
+
+.forgot-password-link span:hover {
+    color: #3730a3;
+    text-decoration: underline;
 }
 
 .login-form button {
-    padding: 12px;
-    background: #3b82f6;
-    color: #fff;
+    padding: 12.5px 16px;
+    background-color: #4f46e5;
+    color: #ffffff;
     border: none;
-    border-radius: 8px;
-    font-size: 1rem;
+    border-radius: 10px;
+    font-size: 0.95rem;
     font-weight: 600;
+    font-family: inherit;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.15s ease;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
 }
 
 .login-form button:hover {
-    background: #2563eb;
+    background-color: #4338ca;
+    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
+}
+
+.login-form button:active {
+    transform: scale(0.99);
 }
 
 .login-form button:disabled {
-    background: #94a3b8;
+    background-color: #cbd5e1;
+    color: #94a3b8;
+    box-shadow: none;
     cursor: not-allowed;
 }
 
 .login-error {
-    color: #ef4444;
+    color: #dc2626;
     font-size: 0.85rem;
     margin: 0;
     text-align: center;
+    font-weight: 500;
 }
 
 .login-switch {
     text-align: center;
-    margin: 16px 0 0;
-    font-size: 0.9rem;
+    margin: 20px 0 0;
+    font-size: 0.875rem;
     color: #64748b;
 }
 
 .login-switch span {
-    color: #3b82f6;
+    color: #4f46e5;
     cursor: pointer;
     font-weight: 600;
+    margin-left: 4px;
+    transition: color 0.15s ease;
 }
 
 .login-switch span:hover {
+    color: #3730a3;
     text-decoration: underline;
 }
 
 .login-divider {
     display: flex;
     align-items: center;
-    margin: 20px 0;
+    margin: 22px 0;
     gap: 12px;
 }
 
@@ -100,12 +163,14 @@
     content: '';
     flex: 1;
     height: 1px;
-    background: #e2e8f0;
+    background-color: #e2e8f0;
 }
 
 .login-divider span {
     color: #94a3b8;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: lowercase;
 }
 
 .login-google {

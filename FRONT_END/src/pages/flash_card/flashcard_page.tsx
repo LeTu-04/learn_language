@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/hook";
 
 
 import FlashCard from "../../components/flashcard/flash_card_component";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { fetchCategory } from "../../services/category";
 import { setSelectedCategory } from "../../features/Category/categorySlice";
 import { fetchVocabularyByCategory } from "../../services/vocab_service";
@@ -12,9 +12,11 @@ import SideBar from "../sidebar";
 import EmptyFlashcard from "../../components/flashcard/EmptyFlashcard";
 import NavTabs from "../../components/navigation/nav_tabs";
 import { useOutletContext } from "react-router-dom";
+import { useSpeech } from "../../components/voices/voice";
 
 export default function FlashCard_Page() {
     const dispatch = useAppDispatch();
+    const {speak, ready} = useSpeech();
 
     const { isSidebarOpen, toggleSidebar } = useOutletContext<{ isSidebarOpen: boolean; toggleSidebar: () => void }>();
 
@@ -41,6 +43,10 @@ export default function FlashCard_Page() {
             setIndex(prev => prev - 1);
         }
     }
+
+    // const onClickSpeak = (word : string) => {
+    //     speak(word);
+    // }
 
     useEffect(() => {
         if (categories.length === 0) {
@@ -146,7 +152,7 @@ export default function FlashCard_Page() {
                         </button>
 
                         <div key={index} className={`flashcard-animation-wrapper ${direction === 'next' ? 'flashcard-slide-next' : 'flashcard-slide-prev'}`}>
-                            <FlashCard vocabulary={currentV} />
+                            <FlashCard handleSpeak={(word) => speak(word)} vocabulary={currentV} />
                         </div>
 
                         <button className="button-next" onClick={handleClickNext}>

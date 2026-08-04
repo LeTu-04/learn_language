@@ -29,7 +29,7 @@ export default function MainContent({ toogleSidebar }: MainContentProps) {
     const category = useAppSelector((state) => state.Category.Category);
 
     const getCategoryName = () => {
-        return category.find((c) => c.id === selectedCategory)?.name;
+        return category.find((c) => c.id === selectedCategory)?.name || '';
     }
     useEffect(() => {
         let promise: any;

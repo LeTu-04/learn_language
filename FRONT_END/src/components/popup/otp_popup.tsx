@@ -29,14 +29,14 @@ export default function OtpPopup({ type, handleClickTurnOffOtp, email, onResendO
     const [formPass, setFormPass] = useState<formPassItf>({ newpass: "", renewpass: "" });
 
     const otpIsCompleted = (inputValue.join('')).length === 6;
-    
-    const passwordIsNotSufficient = (password : string, repassword : string) => {
-        if(!password || !repassword) return true;
-        if(password.length < 6 || repassword.length < 6) return true;
-        if(password !== repassword) return true ;
+
+    const passwordIsNotSufficient = (password: string, repassword: string) => {
+        if (!password || !repassword) return true;
+        if (password.length < 6 || repassword.length < 6) return true;
+        if (password !== repassword) return true;
         return false;
     }
-    
+
     const { mutate: regainMutate } = UserTanstack.RegainPassword();
 
     useEffect(() => {
@@ -86,7 +86,7 @@ export default function OtpPopup({ type, handleClickTurnOffOtp, email, onResendO
                 newPassword: formPass.newpass
             }, {
                 onSuccess: () => {
-                    handleClickTurnOffOtp(); 
+                    handleClickTurnOffOtp();
                 }
             });
         }
@@ -154,7 +154,7 @@ export default function OtpPopup({ type, handleClickTurnOffOtp, email, onResendO
                     </div>
 
                     <div className={`OTP_type-password ${(type === 'regain' && otpIsCompleted) ? 'show' : ''}`}>
-                        <input type="password" placeholder="nhập mật khẩu mới" name="newpass" value={formPass.newpass} onChange={handleChangePass}  />
+                        <input type="password" placeholder="nhập mật khẩu mới" name="newpass" value={formPass.newpass} onChange={handleChangePass} />
                         <input type="password" placeholder="xác nhận lại mật khẩu" name="renewpass" value={formPass.renewpass} onChange={handleChangePass} />
                     </div>
 
@@ -171,15 +171,15 @@ export default function OtpPopup({ type, handleClickTurnOffOtp, email, onResendO
                             </button>
                         )}
                     </div>
-                                                                                                               
+
                     <div className="container_otp_action">
-                        <button 
-                            className="button_signup" 
-                            type="button" 
-                            onClick={handleConfirm} 
+                        <button
+                            className="button_signup"
+                            type="button"
+                            onClick={handleConfirm}
                             disabled={
-                                type === 'signup' 
-                                    ? !otpIsCompleted 
+                                type === 'signup'
+                                    ? !otpIsCompleted
                                     : (!otpIsCompleted || passwordIsNotSufficient(formPass.newpass, formPass.renewpass))
                             }
                         >

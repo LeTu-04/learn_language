@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Zoom from 'react-medium-image-zoom'
-import { Heart, MessageCircle } from 'lucide-react'
+import { Heart, MessageCircle, User } from 'lucide-react'
 import 'react-medium-image-zoom/dist/styles.css'
 import './post.component.css'
 import { useNavigate } from 'react-router-dom'
@@ -88,7 +88,7 @@ export default function PostComponent({ posts, avatarUrl, name, onLike, onCommen
                         {/* Header: Avatar + Tên + Ngày đăng */}
                         <div className="post-header">
                             <div className="image-wrapper">
-                                <img src={avatarUrl} alt="avatar" />
+                                {avatarUrl ? <img src={avatarUrl} alt="avatar" /> : <User/>}
                             </div>
                             <div className="post-meta">
                                 <h4 className="post-author-name">{name}</h4>

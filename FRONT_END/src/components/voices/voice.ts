@@ -1,33 +1,33 @@
 import { useEffect, useState } from "react";
 
-export function useSpeech () {
-    const [voice, setVoice] = useState<SpeechSynthesisVoice |null >(null);
+export function useSpeech() {
+    const [voice, setVoice] = useState<SpeechSynthesisVoice | null>(null);
     const [ready, setReady] = useState(false);
 
     useEffect(() => {
-    const loadVoices = () => {
-      const voices = speechSynthesis.getVoices();
+        const loadVoices = () => {
+            const voices = speechSynthesis.getVoices();
 
-      const preferred =
-        voices.find(v => v.lang === "en-US" && v.name.includes("Google")) ||
-        voices.find(v => v.lang === "en-US");
+            const preferred =
+                voices.find(v => v.lang === "en-US" && v.name.includes("Google")) ||
+                voices.find(v => v.lang === "en-US");
 
-      if (preferred) {
-        setVoice(preferred);
-        setReady(true);
-      }
-    };
+            if (preferred) {
+                setVoice(preferred);
+                setReady(true);
+            }
+        };
 
-    loadVoices();
+        loadVoices();
 
-    speechSynthesis.onvoiceschanged = loadVoices;
+        speechSynthesis.onvoiceschanged = loadVoices;
 
-    return () => {
-      speechSynthesis.onvoiceschanged = null;
-    };
-  }, []);
+        return () => {
+            speechSynthesis.onvoiceschanged = null;
+        };
+    }, []);
 
-    const speak = (text : string) => {
+    const speak = (text: string) => {
         if (!ready || !voice) return;
         speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(text);
@@ -39,7 +39,7 @@ export function useSpeech () {
         speechSynthesis.speak(utterance);
     }
     return {
-        speak, 
+        speak,
         ready
     }
 }

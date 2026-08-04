@@ -2,6 +2,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    position: relative;
+}
+
+.button_voice {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
 }
 
 /* 1. Vùng chứa không gian 3D */

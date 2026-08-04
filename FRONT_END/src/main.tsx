@@ -12,6 +12,7 @@ import "@fontsource/inter/600.css";
 import "@fontsource/inter/700.css";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { BrowserRouter } from 'react-router-dom';
 
 
 class RootErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
@@ -45,11 +46,11 @@ class RootErrorBoundary extends Component<{ children: ReactNode }, { hasError: b
 
 
 const queryClient = new QueryClient({
-  defaultOptions : {
-    queries : {
-      staleTime :  60000,
-      retry : 2,
-      refetchOnWindowFocus : true
+  defaultOptions: {
+    queries: {
+      staleTime: 60000,
+      retry: 2,
+      refetchOnWindowFocus: true
     }
   }
 });
@@ -57,15 +58,16 @@ const queryClient = new QueryClient({
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <RootErrorBoundary>
-    <Provider store={store}>
+      <Provider store={store}>
         <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
-        <QueryClientProvider client={queryClient}>
-        <App/>
-        <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </GoogleOAuthProvider>
-    </Provider>
+          <QueryClientProvider client={queryClient}>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
+        </GoogleOAuthProvider>
+      </Provider>
     </RootErrorBoundary>
   </StrictMode>,
 )
-  

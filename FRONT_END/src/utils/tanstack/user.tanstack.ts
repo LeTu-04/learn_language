@@ -92,7 +92,7 @@ export const UserTanstack = {
         })
     },
 
-    requireOtpRegain() {
+    requireOtpRegain(email?: string) {
         return useMutation({
             mutationFn: (email: string) => UserService.requireOtpRegainPass(email),
             onSuccess: () => {

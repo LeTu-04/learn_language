@@ -47,12 +47,12 @@ export default function Review_Page() {
         setCountRetry((prev) => prev + 1);
         setIsFinished(false);
     }
-    const handleChangeLimit =  (e : React.ChangeEvent<HTMLSelectElement>) => {
-        const value = e.target.value ;
+    const handleChangeLimit = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const value = e.target.value;
         const newParams = new URLSearchParams(searchParams);
-        if(value === 'all') {
+        if (value === 'all') {
             newParams.delete('limit');
-        }else {
+        } else {
             newParams.set('limit', value)
         }
         setSearchParams(newParams);
@@ -67,7 +67,8 @@ export default function Review_Page() {
                         <button className="buttonToogleSidebar" onClick={toggleSidebar}>≡</button>
                     </div>
                     <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-                        <p style={{ textAlign: 'center' }}>Bạn chưa có danh mục nào để ôn tập!</p>
+                        {/* <p style={{ textAlign: 'center' }}>Bạn chưa có danh mục nào để ôn tập!</p> */}
+                        <EmptyFlashcard categoryId={null} />
                     </div>
                 </main>
                 <aside><SideBar showAddCategory={false} /></aside>

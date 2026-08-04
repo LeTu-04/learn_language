@@ -4,12 +4,15 @@ import { Heart, MessageCircle, User } from "lucide-react";
 import "react-medium-image-zoom/dist/styles.css";
 import CommentInputComponent from "../../commentinput/commentinput";
 import { ExpandableText } from "../post/post.component";
+import { useSelector } from "react-redux";
+import { useAppSelector } from "../../../hooks/hook";
 
 
 interface PostModalProps {
     post: any;                                                  
     comments: any[];                                            
-    avatarPrimaryUser?: string;                                 
+    avatarPrimaryUser?: string;     
+    name? : string;                         
     onClose: () => void;                                       
     onLike: (postId: number) => void;                         
     onPostComment: (postId: number, content: string) => void;   
@@ -19,10 +22,13 @@ export default function PostModalComponent({
     post,
     comments,
     avatarPrimaryUser,
+    name, 
     onClose,
     onLike,
     onPostComment
 }: PostModalProps) {
+
+    const email = useAppSelector((state) => state.Auth.user?.email);
 
     useEffect(() => {
         document.body.style.overflow = "hidden";
@@ -41,14 +47,14 @@ export default function PostModalComponent({
                     <div className="discuss-post-card" style={{ boxShadow: 'none', border: 'none', padding: 0, background: 'transparent' }}>
                         <div className="post-meta">
                             <div className="post-avatar">
-                                {post.author?.avatarUrl ? (
-                                    <img className="post-avatar-image" src={post.author.avatarUrl} alt="avatar" />
+                                {(post.author?.avatarUrl || avatarPrimaryUser) ? (
+                                    <img className="post-avatar-image" src={post.author?.avatarUrl || avatarPrimaryUser} alt="avatar" />
                                 ) : (
                                     <User />
                                 )}
                             </div>
                             <div className="post-author-info">
-                                <span>{post.author?.name || post.author?.email || "User"}</span>
+                                <span>{post.author?.name || post.author?.email ||  name|| email||   "User"}</span>
                                 <span className="post-time">{new Date(post.createdAt).toLocaleDateString()}</span>
                             </div>
                         </div>

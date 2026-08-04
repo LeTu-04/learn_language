@@ -1,5 +1,5 @@
 
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import './App.css'
 
 import Homepage from './pages/homepage'
@@ -9,7 +9,7 @@ import LoginPage from './pages/login'
 import ProtectedRoute from './protect/protectedRoute'
 import { useDispatch, } from 'react-redux'
 import type { AppDispatch } from './redux/store'
-import { useEffect, useRef, } from 'react'
+import { useEffect, useRef, useState, } from 'react'
 import { refresh } from './services/auth_service'
 import FlashCard_Page from './pages/flash_card/flashcard_page'
 import { flushPendingFavorite, } from './services/vocab_service'
@@ -23,17 +23,19 @@ import MainLayout from './layouts/mainlayout'
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
-  //const token = useSelector((state : RootState) => state.Auth.token);
   const refreshCalled = useRef(false);
+  const [isChecking, setChecking] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  useEffect(() => {
-    if (refreshCalled.current) return;
-    refreshCalled.current = true
+  // useEffect(() => {
+  //   if (refreshCalled.current) return;
+  //   refreshCalled.current = true
 
-    dispatch(refresh());
-  }, [])
+  //   dispatch(refresh());
+  // }, [])
 
-  //  if (authLoading && !token) return null;
+
 
   useEffect(() => {
     flushPendingFavorite();
@@ -55,8 +57,31 @@ function App() {
       // window.removeEventListener('beforeunload', hadnleUnload);
     }
   }, [])
+
+  useEffect(() => {
+    if (refreshCalled.current) return;
+    refreshCalled.current = true;
+    const autoLogin = async () => {
+      try {
+        setChecking(true);
+        const res = await dispatch(refresh()).unwrap();
+        if (res && res.newAccessToken) {
+          if (location.pathname === '/login' || location.pathname === '/') {
+            navigate('/home', { replace: true });
+          }
+
+        }
+      } catch (error) {
+        setChecking(false);
+      } finally {
+        setChecking(false);
+      }
+    }
+    autoLogin();
+  }, [dispatch, navigate])
   return (
-    <BrowserRouter>
+
+    <>
       <Toaster position="top-right" containerStyle={{ zIndex: 999999 }} />
       <Routes>
 
@@ -75,7 +100,8 @@ function App() {
           </Route>
         </Route>
       </Routes>
-    </BrowserRouter>
+
+    </>
 
   )
 }
