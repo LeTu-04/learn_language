@@ -43,6 +43,7 @@ export class ResendService {
                     service_id: serviceId,
                     template_id: templateId,
                     user_id: publicKey,
+                    accessToken: process.env.EMAILJS_PRIVATE_KEY,
                     template_params: {
                         email: toEmail,
                         passcode: otp,
