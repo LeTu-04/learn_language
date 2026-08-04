@@ -3,7 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { CategoryPostResponse, CategoryResponse, getCat, postCat } from "../features/Category/category.type";
 import { clientAPI } from "../utils/api/api";
 
-export const baseUrl = 'http://localhost:3000';
+export const baseUrl = import.meta.env.VITE_API_URL ||'http://localhost:3000';
 
 
 export const fetchCategory = createAsyncThunk('Category/fetchCategory',

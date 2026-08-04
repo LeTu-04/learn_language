@@ -42,7 +42,8 @@ export function useNotification() {
                 const ticket = response.data.data;
 
                 if (isCancelled) { return }
-                eventSource = new EventSource(`http://localhost:3000/notification/stream?ticket=${ticket}`);
+                // eventSource = new EventSource(`http://localhost:3000/notification/stream?ticket=${ticket}`);
+                eventSource = new EventSource(`${import.meta.env.VITE_API_URL || "http://localhost:3000"}/notification/stream?ticket=${ticket}`);
                 eventSource.onmessage = (event) => {
                     const newNotify: NotifiCationData = JSON.parse(event.data);
                     //setNotifications((prev) => [newNotify, ...prev]);

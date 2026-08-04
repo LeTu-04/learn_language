@@ -11,11 +11,12 @@ async function bootstrap() {
     origin: [
       'http://localhost:5173',
       'http://127.0.0.1:5173',
-      'https://learning-language-frontend-gamma.vercel.app',
-      /\.vercel\.app$/
+      'http://172.19.0.5:5173',
+      'https://learning-language-frontend-gamma.vercel.app'
     ],
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    // allowedHeaders: ['Content-Type', 'Authorization'],
   });
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe({
