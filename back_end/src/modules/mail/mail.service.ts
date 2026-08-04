@@ -16,27 +16,33 @@ export class MailService implements OnModuleInit {
     onModuleInit() {
         this.transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
-            port: 465,
-            secure: true,
+            port: 587,
+            secure: false,
             auth: {
                 user: this.mailCfg.mail_user,
                 pass: this.mailCfg.mail_pass,
             },
-            connectionTimeout: 10000,
-            greetingTimeout: 10000,
-            socketTimeout: 10000,
+            tls: {
+                rejectUnauthorized: false
+            }
         });
     }
 
     async sendOtp(toEmail: string, otp: string) {
-        const mailsOption = {
-            from: `"Learning Language" <${this.mailCfg.mail_user}>`,
-            to: toEmail,
-            subject: 'Mã xác thực OTP của bạn',
-            text: `Mã OTP của bạn là : ${otp}. Mã này sẽ hết hạn sau 3 phút`,
-            html: `<h3>Mã OTP của bạn là: <b style="color:red;">${otp}</b></h3><p>Mã này sẽ hết hạn trong 3 phút.</p>`,
-        };
-        await this.transporter.sendMail(mailsOption);
+        try {
+            const mailsOption = {
+                from: `"Learning Language" <${this.mailCfg.mail_user}>`,
+                to: toEmail,
+                subject: 'Mã xác thực OTP của bạn',
+                text: `Mã OTP của bạn là : ${otp}. Mã này sẽ hết hạn sau 3 phút`,
+                html: `<h3>Mã OTP của bạn là: <b style="color:red;">${otp}</b></h3><p>Mã này sẽ hết hạn trong 3 phút.</p>`,
+            };
+            const result = await this.transporter.sendMail(mailsOption);
+            console.log('SEND MAIL SUCCESS:', result.messageId);
+            return result;
+        } catch (error) {
+            console.error('SEND MAIL FAILED ERROR:', error);
+        }
     }
 }
 
