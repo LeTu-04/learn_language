@@ -14,9 +14,9 @@ export class MailService implements OnModuleInit {
     ) { }
 
     onModuleInit() {
-        const mailUser = this.mailCfg?.mail_user || process.env.MAIL_USER || 'ntu81778@gmail.com';
-        const mailPass = this.mailCfg?.mail_pass || process.env.MAIL_PASS || 'aoavqxkstvsveawn';
-        console.log('INIT MAIL SERVICE USER:', mailUser);
+        const mailUser = this.mailCfg?.mail_user || process.env.MAIL_USER;
+        const mailPass = this.mailCfg?.mail_pass || process.env.MAIL_PASS;
+        console.log('INIT MAIL SERVICE USER:', mailUser ? mailUser : 'NOT_FOUND');
 
         this.transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -32,7 +32,7 @@ export class MailService implements OnModuleInit {
 
     async sendOtp(toEmail: string, otp: string) {
         try {
-            const mailUser = this.mailCfg?.mail_user || process.env.MAIL_USER || 'ntu81778@gmail.com';
+            const mailUser = this.mailCfg?.mail_user || process.env.MAIL_USER;
             const mailsOption = {
                 from: `"Learning Language" <${mailUser}>`,
                 to: toEmail,
