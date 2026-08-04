@@ -8,7 +8,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: true,
+    // origin: [
+    //   'http://localhost:5173',
+    //   'http://127.0.0.1:5173',
+    //   'http://172.19.0.5:5173',
+    //   'https://learning-language-frontend-gamma.vercel.app'
+    // ],
+    origin : true,
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     // allowedHeaders: ['Content-Type', 'Authorization'],

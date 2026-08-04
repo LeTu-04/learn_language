@@ -14,6 +14,7 @@ import { JwtRefreshStrategy } from '../strategies/jwt.refresh.strategy';
 import { GenerateHashService } from '../../utils/hash.utils';
 import { RedisModule } from '../../modules/redis/redis.module';
 import { MailModule } from '../../modules/mail/mail.module';
+import { ResendModule } from '../../modules/resend/resend.module';
 
 @Module({
     imports : [
@@ -22,7 +23,8 @@ import { MailModule } from '../../modules/mail/mail.module';
         ConfigModule.forFeature(jwtConfig),
         JwtModule.register({}),
         RedisModule,
-        MailModule
+        MailModule,
+        ResendModule
     ],
     controllers : [AuthController],
     providers : [GoogleService, Token, JwtStrategy, JwtService, LocalService, JwtRefreshStrategy, GenerateHashService],

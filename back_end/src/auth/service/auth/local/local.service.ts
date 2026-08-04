@@ -6,6 +6,7 @@ import { GenerateHashService } from '../../../../utils/hash.utils';
 import { RedisService } from '../../../../modules/redis/redis.service';
 import { MailService } from '../../../../modules/mail/mail.service';
 import { ReGainPasswordDto, SignInDto, SignUpDto } from './local.types';
+import { ResendService } from '../../../../modules/resend/resend.service';
 
 @Injectable()
 export class LocalService {
@@ -14,7 +15,7 @@ export class LocalService {
         private token : Token,
         private readonly hash : GenerateHashService,
         private readonly redis : RedisService,
-        private readonly mail : MailService
+        private readonly mail : ResendService
     ){}
 
         // async testScale () {

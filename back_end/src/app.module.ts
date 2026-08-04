@@ -29,6 +29,7 @@ import redisConfig from './auth/config/redis.config.js';
 import hashConfig from './auth/config/hash.config.js';
 import mailConfig from './auth/config/mail.config.js';
 import { StreakInterCeptor } from './utils/streak/streak.interceptor.js';
+import { ResendModule } from './modules/resend/resend.module.js';
 
 
 
@@ -45,7 +46,8 @@ import { StreakInterCeptor } from './utils/streak/streak.interceptor.js';
     RedisModule,
     MailModule,
     UserModule,
-    TicketModule
+    TicketModule,
+    ResendModule
   ],
   controllers: [VocabController, CategoryController, DiscussController,],
   providers: [VocabService, CategoryService,
