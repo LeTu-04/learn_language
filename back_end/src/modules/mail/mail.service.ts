@@ -15,11 +15,16 @@ export class MailService implements OnModuleInit {
 
     onModuleInit() {
         this.transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
             auth: {
                 user: this.mailCfg.mail_user,
                 pass: this.mailCfg.mail_pass,
-            }
+            },
+            connectionTimeout: 10000,
+            greetingTimeout: 10000,
+            socketTimeout: 10000,
         });
     }
 

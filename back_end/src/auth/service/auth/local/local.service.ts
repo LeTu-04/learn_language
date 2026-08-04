@@ -37,9 +37,8 @@ export class LocalService {
             throw new BadRequestException('Email đã tồn tại');
         }
         const otp = this.hash.generateOtp();
-        //const valueHashed = this.hash.createHmacForOtpValue(email, otp);
         await this.redis.setEmailOtp(email, otp);
-        await this.mail.sendOtp(email, otp);
+        this.mail.sendOtp(email, otp).catch(err => console.error('Error sending OTP mail:', err));
 
     }
     
