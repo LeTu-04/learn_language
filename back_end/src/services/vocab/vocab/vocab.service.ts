@@ -169,7 +169,7 @@ export class VocabService {
                     }
                 }
             });
-        } else if(view.toString() === 'favorite') {
+        } else if (view.toString() === 'favorite') {
             const result = await this.prisma.vocabulary.findMany({
                 where: { isFavorite: true }
             });
@@ -179,7 +179,8 @@ export class VocabService {
         }
 
         if (!allVocabofCat || !allVocabofCat.vocabulary || allVocabofCat.vocabulary.length === 0) {
-            throw new BadRequestException('Không tìm thấy danh sách từ vựng trong mục này')
+            // throw new BadRequestException('Không tìm thấy danh sách từ vựng trong mục này')
+            return []
         }
 
 
