@@ -80,3 +80,27 @@
     border-color: #2563eb;
     box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
 }
+
+
+@media (max-width: 768px) {
+  .review-page-container,
+  .review-page-container.sidebarclose {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    width: 100% !important;
+  }
+
+  .review-page-container main {
+    overflow-y: auto !important;
+    align-items: center !important;
+    padding: 10px 8px !important;
+    box-sizing: border-box !important;
+  }
+
+  .review-top-bar {
+    padding: 8px 12px !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+}

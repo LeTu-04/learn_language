@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Zoom from 'react-medium-image-zoom';
 import 'react-medium-image-zoom/dist/styles.css';
 
-import { Send, Heart, MessageCircle, Share2, Sparkles, User, Image as ImageIcon } from "lucide-react";
+import { Send, Heart, MessageCircle, Share2, Sparkles, User, Image as ImageIcon, Plus } from "lucide-react";
 import '../../pages/css/addvocab.css';
 import './discuss.css';
 import { tantackService } from "../../utils/tanstack/tanstackquery";
@@ -67,6 +67,8 @@ export default function Discuss() {
 
     const { mutate, isPending: isCreatePostPending } = tantackService.createPost()
 
+    const [isMobileCreateOpen, setIsMobileCreateOpen] = useState<boolean>(false);
+
     const handleClickPost = () => {
         const newformData = new FormData();
         const titleTrimmed = formData.title.trim();
@@ -93,7 +95,8 @@ export default function Discuss() {
                         title: '',
                         content: '',
                         file: null
-                    })
+                    });
+                    setIsMobileCreateOpen(false);
                 }
             }
         )
@@ -137,14 +140,29 @@ export default function Discuss() {
     return (
         <div className={`layout sidebarclose`}>
 
+           
+            <button type="button" className="mobile-discuss-fab" onClick={() => setIsMobileCreateOpen(true)}>
+                <Plus size={18} />
+                <span>Đăng bài</span>
+            </button>
+
+        
+            {isMobileCreateOpen && (
+                <div className="mobile-discuss-backdrop" onClick={() => setIsMobileCreateOpen(false)} />
+            )}
+
             <div className="main-content-discuss">
                 <div className="discuss-container">
 
                     {/* Form tạo bài viết mới */}
-                    <div className="discuss-form-card">
-                        <div className="discuss-header">
-                            <Sparkles className="text-yellow-500" size={24} color="#f59e0b" />
-                            Tạo cuộc thảo luận mới
+                    <div className={`discuss-form-card ${isMobileCreateOpen ? 'mobile-open' : ''}`}>
+                        <div className="discuss-mobile-header">
+                            <div className="discuss-header" style={{ margin: 0 }}>
+                                Tạo cuộc thảo luận mới
+                            </div>
+                            <button type="button" className="discuss-close-btn" onClick={() => setIsMobileCreateOpen(false)}>
+                                ×
+                            </button>
                         </div>
                         <input
                             type="text"
@@ -213,9 +231,9 @@ export default function Discuss() {
                                 {post.postData.map((p) => {
                                     return <div key={p.id} id={`post-${p.id}`} className="discuss-post-card">
                                         <div className="post-meta">
-                                            <div className="post-avatar"> {p.author.avatarUrl ? <img className="post-avatar-image" src={p.author.avatarUrl} /> : <User />} </div>
+                                            <div className="post-avatar"> {p.author.avatarUrl ? <img className="post-avatar-image" src={p.author.avatarUrl} /> : <User size={20} />} </div>
                                             <div className="post-author-info">
-                                                <span> {p.author.name ? p.author.name : p.author.email} </span>
+                                                <span className="post-author-name"> {p.author.name ? p.author.name : p.author.email} </span>
                                                 <span className="post-time"> {new Date(p.createdAt).toLocaleDateString()} </span>
                                             </div>
                                         </div>

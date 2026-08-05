@@ -9,7 +9,7 @@ export const getQuizz = (categoryId : number | null, limit? : number, view? : st
             staleTime : Infinity,
             enabled : !!categoryId,
             refetchOnMount  : false ,
-            refetchOnWindowFocus : false 
+          //  refetchOnWindowFocus : false 
         }
     )
 }

@@ -134,3 +134,27 @@
 .flashcard-navtab {
     height: 20px;
 }
+
+
+@media (max-width: 768px) {
+    .flashcard-container {
+        width: 70vw;
+        max-width: 260px;
+        height: 175px;
+        min-height: 160px;
+        font-size: 1.3rem;
+    }
+
+    .flashcard-front h2,
+    .flashcard-back h2 {
+        font-size: 1.3rem !important;
+        font-weight: 600 !important;
+        font-family: 'Inter', sans-serif !important;
+        color: #ffffff !important;
+        max-width: 90% !important;
+        margin: 0 !important;
+        line-height: 1.35 !important;
+        word-break: break-word !important;
+        hyphens: none !important;
+    }
+}

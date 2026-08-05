@@ -145,3 +145,64 @@
         transform: translateY(0);
     }
 }
+
+
+@media (max-width: 768px) {
+  .review-result-wrapper {
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 85px; 
+  }
+
+  .result-card {
+    padding: 24px 16px !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    border-radius: 20px !important;
+  }
+
+  .icon-wrapper {
+    width: 56px !important;
+    height: 56px !important;
+    font-size: 1.8rem !important;
+    margin-bottom: 12px !important;
+  }
+
+  .result-header h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .result-header .subtitle {
+    font-size: 0.875rem !important;
+  }
+
+  .score-board {
+    margin: 16px 0 !important;
+  }
+
+  .score-circle {
+    width: 110px !important;
+    height: 110px !important;
+    border-width: 6px !important;
+  }
+
+  .score-number {
+    font-size: 2.2rem !important;
+  }
+
+  .score-message {
+    margin-top: 10px !important;
+    font-size: 0.95rem !important;
+  }
+
+  .result-actions {
+    margin-top: 16px !important;
+    gap: 10px !important;
+  }
+
+  .result-actions button {
+    padding: 10px 16px !important;
+    font-size: 0.875rem !important;
+    border-radius: 12px !important;
+  }
+}

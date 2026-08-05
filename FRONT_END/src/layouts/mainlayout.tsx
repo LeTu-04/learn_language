@@ -28,6 +28,7 @@ export default function MainLayout() {
                     <Outlet context={{ isSidebarOpen, toggleSidebar }} />
                 </main>
             </div>
+            {isSidebarOpen && hasSidebar && <div className="mobile-sidebar-backdrop" onClick={toggleSidebar} />}
         </div>
     );
 }

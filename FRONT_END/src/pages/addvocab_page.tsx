@@ -26,7 +26,7 @@ export default function AddVocabPage() {
 
         <div className={`layout ${isSidebarOpen ? "sidebaropen" : "sidebarclose"}`} >
 
-            <SideBar showAddCategory={true} />
+            <SideBar showAddCategory={true} toggleSidebar={toggleSidebar} />
             <MainContent toogleSidebar={toggleSidebar}></MainContent>
             <Panel />
         </div>

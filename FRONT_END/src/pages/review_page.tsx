@@ -88,7 +88,7 @@ export default function Review_Page() {
                 </div>
             </main>
             <aside>
-                <SideBar showAddCategory={false} />
+                <SideBar showAddCategory={false} toggleSidebar={toggleSidebar} />
             </aside>
         </div>
     }

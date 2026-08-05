@@ -223,7 +223,7 @@
     color: #1f2937;
 }
 
-/* --- CỘT PHẢI: SETTINGS CARD --- */
+/* CỘT PHẢI: SETTINGS CARD  */
 .action-change-info {
     display: block;
     border: none;
@@ -259,7 +259,7 @@
     letter-spacing: 0.5px;
 }
 
-/* Style cho Input có chứa Icon bên trái */
+
 .input-with-icon {
     position: relative;
     width: 100%;
@@ -278,7 +278,6 @@
     width: 100%;
     height: 44px;
     padding: 10px 14px 10px 42px;
-    /* Chừa khoảng trống bên trái cho icon */
     border-radius: 10px;
     border: 1.5px solid #e5e7eb;
     background-color: #f9fafb;
@@ -319,13 +318,13 @@
     transition: all 0.2s ease;
     flex-shrink: 0;
     width: auto !important;
-    /* Ghi đè CSS cũ */
+
 }
 
 .btn-save-name:hover {
     background-color: #e5e7eb;
     opacity: 1 !important;
-    /* Ghi đè CSS cũ */
+  
 }
 
 /* Form đổi mật khẩu */
@@ -386,14 +385,14 @@
     gap: 8px;
     transition: all 0.2s ease;
     width: auto !important;
-    /* Ghi đè CSS cũ */
+ 
 }
 
 .btn-forgot-pass:hover {
     background-color: #f9fafb;
     border-color: #d1d5db;
     opacity: 1 !important;
-    /* Ghi đè CSS cũ */
+    
 }
 
 .btn-logout {
@@ -412,21 +411,20 @@
     gap: 8px;
     transition: all 0.2s ease;
     width: auto !important;
-    /* Ghi đè CSS cũ */
+    
 }
 
 .btn-logout:hover {
     background-color: rgba(239, 68, 68, 0.06);
     border-color: rgba(239, 68, 68, 0.35);
     opacity: 1 !important;
-    /* Ghi đè CSS cũ */
+   
 }
 
 
 .profile-dropdown-setting {
     position: absolute;
     top: 56px;
-    /* Cách bánh răng một khoảng */
     right: 16px;
     width: 200px;
     background: rgba(255, 255, 255, 0.95);
@@ -469,7 +467,7 @@
     background-color: rgba(124, 58, 237, 0.06);
 }
 
-/* Keyframes hiệu ứng */
+
 @keyframes slideUp {
     0% {
         opacity: 0;
@@ -482,28 +480,80 @@
     }
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
+    .user-container {
+        margin: 10px auto 90px auto !important;
+        padding: 0 12px !important;
+    }
+
     .profile-grid {
         grid-template-columns: 1fr;
     }
 
     .user-info {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 16px !important;
+        position: static !important; /* Hủy sticky trên Mobile để bài viết không đè lên thông tin user */
     }
 
     .user-info-card {
         margin-bottom: 0;
+        padding: 18px 16px !important;
+    }
+
+    .settings-card {
+        padding: 20px 16px !important;
+        margin-bottom: 85px !important;
+    }
+
+    .settings-title {
+        font-size: 1.25rem !important;
+        margin-bottom: 18px !important;
+        padding-bottom: 12px !important;
+    }
+
+    .setting-section {
+        margin-bottom: 20px !important;
+    }
+
+    .action-change-name {
+        gap: 8px !important;
+    }
+
+    .btn-save-name {
+        background-color: #4f46e5 !important;
+        color: #ffffff !important;
+        padding: 0 16px !important;
+    }
+
+    .action-change-password {
+        align-items: stretch !important;
+        width: 100% !important;
+    }
+
+    .btn-change-pass {
+        width: 100% !important;
+        background: #4f46e5 !important;
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25) !important;
+        margin-top: 4px !important;
+    }
+
+    .action-buttons-row {
+        flex-direction: row !important;
+        gap: 10px !important;
+    }
+
+    .btn-forgot-pass,
+    .btn-logout {
+        height: 42px !important;
+        font-size: 0.85rem !important;
+        padding: 0 12px !important;
     }
 }
 
 @media (max-width: 520px) {
-    .user-info {
-        grid-template-columns: 1fr;
-    }
-
     .action-buttons-row {
         flex-direction: column;
     }

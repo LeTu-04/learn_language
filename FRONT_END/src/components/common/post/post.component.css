@@ -268,3 +268,15 @@
 .post-container .no-posts-action-btn:active {
     transform: scale(0.98);
 }
+
+
+@media (max-width: 768px) {
+  .post-container {
+    padding-bottom: 85px !important;
+  }
+
+  .post-container .each-post-container {
+    padding: 16px 14px !important;
+    border-radius: 16px !important;
+  }
+}

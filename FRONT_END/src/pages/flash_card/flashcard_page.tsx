@@ -72,13 +72,13 @@ export default function FlashCard_Page() {
         return (
             <div className={`container-flashcard ${isSidebarOpen ? 'sidebaropen':'sidebarclose'}`}>
                 <div className="sidebar-flashcard">
-                    <SideBar showAddCategory={false} />
+                    <SideBar showAddCategory={false} toggleSidebar={toggleSidebar} />
                 </div>
                 <div className="container_vocab_page" style={{ justifyContent: 'flex-start', paddingTop: '20px' }}>
                     <div style={{ display: 'flex', width: '100%', alignItems: 'center', padding: '0 20px', gap: '15px', minHeight: '36px' }}>
                         <button className="buttonToogleSidebar" onClick={toggleSidebar}>≡</button>
                     </div>
-                    <NavTabs />
+                    {/* <NavTabs /> */}
                     <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
                         <div className="data-loading">
                             Đang tải dữ liệu...
@@ -96,7 +96,7 @@ export default function FlashCard_Page() {
         return (
             <div className={`container-flashcard ${isSidebarOpen ? 'sidebaropen' : 'sidebarclose'}`}>
                 <div className="sidebar-flashcard">
-                    <SideBar showAddCategory={false} />
+                    <SideBar showAddCategory={false} toggleSidebar={toggleSidebar} />
                 </div>
                 <div className="container_vocab_page" style={{ justifyContent: 'flex-start', paddingTop: '20px' }}>
                     <div style={{ display: 'flex', width: '100%', alignItems: 'center', padding: '0 20px', gap: '15px', minHeight: '36px' }}>

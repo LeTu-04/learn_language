@@ -177,3 +177,30 @@
     display: flex;
     justify-content: center;
 }
+
+
+@media (max-width: 768px) {
+    .login-page {
+        padding: 16px;
+        align-items: center;
+    }
+
+    .login-card {
+        padding: 28px 20px;
+        max-width: 100%;
+        border-radius: 16px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .login-mascot-img {
+        position: relative; 
+        left: 0;
+        top: 0;
+        transform: none;
+        width: 150px;
+        height: auto;
+        margin: 0 auto 16px;
+        display: block;
+    }
+}

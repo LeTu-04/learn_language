@@ -241,3 +241,36 @@
     cursor: pointer;
     opacity: 0.6;
 }
+
+
+
+@media (max-width: 768px) {
+  .main-content {
+    margin: 10px 8px !important;
+    margin-right: 8px !important;
+    width: auto !important;
+    max-width: calc(100% - 16px) !important;
+    box-sizing: border-box !important;
+    flex: 1 !important;
+  }
+
+  .vocabulary-list {
+    max-height: none !important;
+    overflow-y: auto !important;
+    padding-bottom: 90px !important;
+  }
+
+  .headerofcard {
+    margin-bottom: 12px;
+  }
+
+  .totalwords {
+    margin-bottom: 12px;
+  }
+
+  .card {
+    padding: 12px;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}

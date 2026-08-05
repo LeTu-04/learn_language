@@ -1,25 +1,35 @@
 import { useEffect, useState } from "react"
 import Popup from "../components/popup/popup";
-import { Pencil, Trash, Home } from "lucide-react";
+import { Pencil, Trash, Home, X } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../hooks/hook";
 import { editCategory, fetchCategory, softDeleteCategory } from "../services/category";
 import './css/sidebar.css'
 import { editCategoryLocal, removeCategoryLocal, restoreCategory, setSelectedCategory, } from "../features/Category/categorySlice.ts";
 import type { getCat } from "../features/Category/category.type.ts";
 import { logger } from '../../utils/logger.ts'
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, useOutletContext } from "react-router-dom";
 import { flushPendingFavorite } from "../services/vocab_service.ts";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface showAddCategoryProps {
-    showAddCategory: boolean
+    showAddCategory: boolean;
+    toggleSidebar?: () => void;
 }
 
-export default function SideBar({ showAddCategory }: showAddCategoryProps) {
+export default function SideBar({ showAddCategory, toggleSidebar }: showAddCategoryProps) {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const [queryParams, setQueryParams] = useSearchParams();
     const queryClient = useQueryClient();
+    const outletContext = useOutletContext<{ toggleSidebar?: () => void }>() || {};
+
+    const handleCloseSidebar = (e?: React.MouseEvent) => {
+        if (e) e.stopPropagation();
+        const closeFunc = toggleSidebar || outletContext.toggleSidebar;
+        if (closeFunc) {
+            closeFunc();
+        }
+    };
 
     useEffect(() => {
         const categoryIdParams = queryParams.get('category');
@@ -91,11 +101,17 @@ export default function SideBar({ showAddCategory }: showAddCategoryProps) {
         if (queryParams.get('view')) {
             setQueryParams({});
         }
+        if (toggleSidebar && window.innerWidth <= 768) {
+            toggleSidebar();
+        }
     }
 
     const handleClickHome = () => {
         flushPendingFavorite()
         navigate('/home')
+        if (toggleSidebar && window.innerWidth <= 768) {
+            toggleSidebar();
+        }
     }
 
     useEffect(() => {
@@ -113,7 +129,12 @@ export default function SideBar({ showAddCategory }: showAddCategoryProps) {
     console.log(category);
     return (
         <div className="sidebar">
-            <h3 className="headtitle">📒 My Vocabulary</h3>
+            <div className="sidebar-header">
+                <h3 className="headtitle" style={{ margin: 0 }}>📒 My Vocabulary</h3>
+                <button type="button" className="sidebar-close-mobile-btn" onClick={handleCloseSidebar} title="Đóng menu">
+                    <X size={20} />
+                </button>
+            </div>
             {showAddCategory && <button className="buttonSidebar" onClick={handleClickAddCategory}>+ New Category</button>}
             <button className="buttonHome" onClick={handleClickHome}>
                 <Home size={18} />

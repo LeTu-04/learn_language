@@ -4,9 +4,10 @@ import { logger } from "../../utils/logger";
 import { useAppDispatch, useAppSelector } from "../hooks/hook";
 import { postVocabularyByCategory } from "../services/vocab_service";
 import toast from "react-hot-toast";
+import { Plus, X } from "lucide-react";
 
 import './css/panel.css'
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { apiNoAuth } from "../utils/api/api2";
 import type { DictionaryEntry } from "../features/vocabulary/vocabulary.type";
@@ -14,6 +15,8 @@ import { useDebounce } from "../hooks/debound";
 
 export default function Panel () {
 
+    const [isMobileOpen, setIsMobileOpen] = useState<boolean>(false);
+    const queryClient = useQueryClient();
     const selectedCategory =  useAppSelector((state) => state.Category.selectedCategory);
     const [formData, setFormData] = useState({
         word : '',
@@ -38,7 +41,6 @@ export default function Panel () {
     const handleSubmit = async (e : React.FormEvent) => {
         e.preventDefault();
 
-        // speak('apple')
 
         if(selectedCategory === null) {
             toast.error('Không có category nào được chọn')
@@ -59,7 +61,9 @@ export default function Panel () {
        
         try {
             await dispatch(postVocabularyByCategory({id : selectedCategory, data : vocabulary_data })).unwrap()
+            queryClient.invalidateQueries({queryKey : ['quizz']})
             toast.success('Thêm thành công');
+            setIsMobileOpen(false);
         } catch (error) {
             toast.error("Thêm thất bại")
         }
@@ -97,22 +101,41 @@ export default function Panel () {
 
 
     return (
-        <div className="addwordpanel">
-            <form className="formsubmit" onSubmit={handleSubmit} >
-                <div className="form-group">
-                    <label htmlFor="word">Word</label>
-                    <input type="text" name="word" id="word" value={formData.word} onChange={handleChangeInput} autoComplete="off"/>
+        <>
+            {/* Nút FAB Nổi mở Form trên Mobile */}
+            <button type="button" className="mobile-add-vocab-fab" onClick={() => setIsMobileOpen(true)}>
+                <Plus size={18} />
+                <span>Thêm từ</span>
+            </button>
+
+        
+            {isMobileOpen && (
+                <div className="mobile-panel-backdrop" onClick={() => setIsMobileOpen(false)} />
+            )}
+
+            <div className={`addwordpanel ${isMobileOpen ? 'mobile-open' : ''}`}>
+                <div className="panel-mobile-header">
+                    <h3>Thêm từ vựng mới</h3>
+                    <button type="button" className="panel-close-btn" onClick={() => setIsMobileOpen(false)}>
+                        <X size={20} />
+                    </button>
                 </div>
-                <div className="form-group">
-                    <label htmlFor="meaning">Meaning</label>
-                    <input type="text" name="mean" id="meaning" value={formData.mean} onChange={handleChangeInput} autoComplete="off"/>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="example">Example</label>
-                    <input type="text" name="example" id="example" value={formData.example}onChange={handleChangeInput} placeholder={data!} autoComplete="off"/>
-                </div>
-                <button type="submit"  className="buttonSubmit"  >Add word</button>
-            </form>
-        </div>
+                <form className="formsubmit" onSubmit={handleSubmit} >
+                    <div className="form-group">
+                        <label htmlFor="word">Word</label>
+                        <input type="text" name="word" id="word" value={formData.word} onChange={handleChangeInput} autoComplete="off"/>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="meaning">Meaning</label>
+                        <input type="text" name="mean" id="meaning" value={formData.mean} onChange={handleChangeInput} autoComplete="off"/>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="example">Example</label>
+                        <input type="text" name="example" id="example" value={formData.example}onChange={handleChangeInput} placeholder={data!} autoComplete="off"/>
+                    </div>
+                    <button type="submit" className="buttonSubmit" >Add word</button>
+                </form>
+            </div>
+        </>
     )
 }

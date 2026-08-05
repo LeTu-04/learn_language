@@ -13,4 +13,24 @@
     overflow: hidden;
 
     flex: 1;
-}   
+}
+
+
+.mobile-sidebar-backdrop {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-sidebar-backdrop {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(4px);
+        z-index: 1500; /* Nằm ngay dưới Sidebar (z-index: 2000) */
+        cursor: pointer;
+    }
+}
