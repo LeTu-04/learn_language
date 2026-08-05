@@ -46,14 +46,14 @@ export default function FlashCard({ vocabulary, handleSpeak }: VocabFlashCardPro
                         <button onClick={handleWordVoiceClick} className="button_voice">
                             <Volume2Icon size={22} />
                         </button>
-                        <h2 style={{ fontSize: getFontSize(vocabulary.word.length) }} > {vocabulary.word} </h2>
+                        <h2 style={{ fontSize: getFontSize(vocabulary?.word?.length || 0) }} > {vocabulary?.word || ''} </h2>
                     </div>
 
                     <div className="flashcard-back" >
                         <button onClick={handleMeanVoiceClick} className="button_voice">
                             <Volume2Icon size={22} />
                         </button>
-                        <h2 style={{ fontSize: getFontSize(vocabulary.mean.length) }}> {vocabulary.mean} </h2>
+                        <h2 style={{ fontSize: getFontSize(vocabulary?.mean?.length || 0) }}> {vocabulary?.mean || ''} </h2>
                     </div>
                 </div>
             </div>
