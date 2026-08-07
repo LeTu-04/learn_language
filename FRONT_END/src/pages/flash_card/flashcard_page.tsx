@@ -102,7 +102,7 @@ export default function FlashCard_Page() {
                     <div style={{ display: 'flex', width: '100%', alignItems: 'center', padding: '0 20px', gap: '15px', minHeight: '36px' }}>
                         <button className="buttonToogleSidebar" onClick={toggleSidebar}>≡</button>
                     </div>
-                    <NavTabs />
+                    {/* <NavTabs /> */}
     
                     <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
                         <EmptyFlashcard categoryId={selectedCategory} categoryName={categories.find(c => c.id === selectedCategory)?.name} />
@@ -129,7 +129,7 @@ export default function FlashCard_Page() {
                 <div style={{ display: 'flex', width: '100%', alignItems: 'center', padding: '0 20px', gap: '15px', minHeight: '36px' }}>
                     <button className="buttonToogleSidebar" onClick={toggleSidebar}>≡</button>
                 </div>
-                <NavTabs />
+                {/* <NavTabs /> */}
 
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
                     {/* 1. Thanh tiến trình và bộ đếm (Progress Bar & Counter) */}

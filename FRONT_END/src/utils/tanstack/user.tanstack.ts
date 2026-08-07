@@ -9,6 +9,16 @@ import { clearCategoryState } from "../../features/Category/categorySlice";
 import { clearVocabularyState } from "../../features/vocabulary/vocabularySlice";
 import { data, useNavigate } from "react-router-dom";
 
+export interface notificationData {
+    pageParams: [],
+    pages: {
+        data: {
+            isRead: boolean
+        }[],
+        nextCursor: string
+    }[]
+}
+
 export const UserTanstack = {
     getUser() {
         const initialUser = useAppSelector((state) => state.Auth.user);
@@ -359,6 +369,33 @@ export const UserTanstack = {
                     }
                 })
             }
+        })
+    },
+
+    deleteNotIsReaded() {
+        const queryCient = useQueryClient();
+        return useMutation({
+            mutationFn: () => UserService.deleteAllnotIsReaed(),
+            onMutate: () => {
+                queryCient.cancelQueries({ queryKey: ['notifications'] });
+                const previousNotifications = queryCient.getQueryData(['notifications']);
+                queryCient.setQueryData(['notifications'], (oldData: notificationData) => {
+                    if (!oldData) return;
+                    return {
+                        ...oldData,
+                        pages: oldData.pages.map((page: any) => ({
+                            ...page,
+                            data: page.data.filter((not: any) => not.isRead === false)
+                        }))
+                    }
+                });
+                return { previousNotifications }
+            },
+            onError: (_error, _variables, context) => {
+                if (context?.previousNotifications) {
+                    queryCient.setQueryData(['notifications'], context.previousNotifications);
+                }
+            },
         })
     }
 }

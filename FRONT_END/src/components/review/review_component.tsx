@@ -69,11 +69,11 @@ export default function ReviewComponent({ quiz, handleFinished }: quizData) {
                 <div className="option">
                     {currentQuizz.options.map((o) => {
                         let className = '';
-                        if (o === selectedAnswer) {
-                            if (selectedAnswer === currentQuizz.correctAnswer) {
-                                className = 'right';
-                            } else {
+                        if (selectedAnswer) {
+                            if (o === selectedAnswer && selectedAnswer !== currentQuizz.correctAnswer) {
                                 className = 'wrong';
+                            } else if (o === currentQuizz.correctAnswer) {
+                                className = 'right';
                             }
                         }
                         return (

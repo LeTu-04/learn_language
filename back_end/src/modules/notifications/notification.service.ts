@@ -134,4 +134,15 @@ export class NotifiCationService {
             throw error;
         }
     }
+
+    async deleteNotIsReaded (userId : string) {
+        try {
+            await this.prisma.notification.deleteMany({
+                where : {userId, isRead : true},
+            });
+        } catch (error) {
+            console.log('Lỗi khi xóa thông báo', error) ;
+            throw error;
+        }
+    }
 }

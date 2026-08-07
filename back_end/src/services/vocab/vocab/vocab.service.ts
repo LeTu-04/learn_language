@@ -190,15 +190,19 @@ export class VocabService {
             const extraVocab = await this.prisma.vocabulary.findMany({
                 where: { categoryId: { not: categoryId } },
                 select: { mean: true },
-                take: 10
+                take: 20
             });
-            extraMeanQuestion = extraVocab.map((v) => v.mean);
+
+            const extra = extraVocab.map((v) => v.mean);
+            extraMeanQuestion = [...new Set(extra)];
+
+
         }
 
         return questions.map((q) => {
-            let wrongAnswer = this.shuffleArray(allVocabofCat.vocabulary.filter((v) => v.id !== q.id).map((v) => v.mean)).slice(0, 3);
+            let wrongAnswer = this.shuffleArray(allVocabofCat.vocabulary.filter((v) => v.id !== q.id && v.mean.trim().toLocaleLowerCase() !== q.mean.trim().toLocaleLowerCase()).map((v) => v.mean)).slice(0, 3);
             if (wrongAnswer.length < 3) {
-                const extra = extraMeanQuestion.filter((m) => m !== q.mean && !wrongAnswer.includes(m)).slice(0, 3 - wrongAnswer.length);
+                const extra = extraMeanQuestion.filter((m) => m.trim().toLocaleLowerCase() !== q.mean.trim().toLocaleLowerCase() && !wrongAnswer.some((w) => w.trim().toLocaleLowerCase() === m.trim().toLocaleLowerCase())).slice(0, 3 - wrongAnswer.length);
                 wrongAnswer.push(...extra)
             }
             const options = this.shuffleArray([...wrongAnswer, q.mean])

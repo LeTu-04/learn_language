@@ -8,7 +8,7 @@ export const getQuizz = (categoryId : number | null, limit? : number, view? : st
             queryFn : ()=> getQuizzExam(categoryId!, limit, view),
             staleTime : Infinity,
             enabled : !!categoryId,
-            refetchOnMount  : false ,
+            refetchOnMount  : true ,
           //  refetchOnWindowFocus : false 
         }
     )

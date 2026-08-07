@@ -88,6 +88,7 @@ export default function SideBar({ showAddCategory, toggleSidebar }: showAddCateg
         try {
             await dispatch(softDeleteCategory(cat.id)).unwrap();
             queryClient.invalidateQueries({ queryKey: ['category/removed'] });
+            queryClient.invalidateQueries({ queryKey: ['quizz'] });
         } catch (error) {
             console.error("Lỗi xóa danh mục:", error);
             dispatch(restoreCategory(backup))

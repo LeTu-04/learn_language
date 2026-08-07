@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Patch, Query, Req, Sse, UnauthorizedException } from "@nestjs/common";
+import { Controller, Delete, Get, Param, Patch, Query, Req, Sse, UnauthorizedException } from "@nestjs/common";
 import { TicketService } from "./ticket.service";
 import type { Request } from "express";
 import { NotifiCationService } from "./notification.service";
@@ -22,6 +22,20 @@ export class TicketController {
         return {
             message: 'SUCCESS',
             data: ticket
+        }
+    }
+
+    @Delete('delete-all')
+    async deleteNotIsReaded(
+        @Req() req: Request
+    ) {
+        if (!req.user?.sub) {
+            throw new UnauthorizedException();
+        }
+
+        await this.notification.deleteNotIsReaded(req.user.sub) ;
+        return {
+            message : 'SUCCESS'
         }
     }
 

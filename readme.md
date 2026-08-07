@@ -1,74 +1,44 @@
-# Learn Language
+# Learn Language — Nền tảng học từ vựng Fullstack
 
-A fullstack language learning platform designed to help users improve vocabulary, conversational skills.
-
----
-
-## 📌 Project Overview
-
-Learn Language is a web-based application that allows users to study languages through:
-
-- Vocabulary practice
-- Interactive quizzes
-- Progress tracking
-
-The goal of this project is to build a scalable and maintainable fullstack system using modern web technologies.
+Ứng dụng web fullstack hỗ trợ học từ vựng cá nhân, luyện trắc nghiệm, theo dõi streak và diễn đàn cộng đồng.
 
 ---
 
 ## 🛠 Tech Stack
 
-### Backend
-- NestJS
-- Prisma ORM
-- PostgreSQL
-- JWT Authentication
+## Backend — NestJS 11 · TypeScript · PostgreSQL 16 · Prisma ORM 7
 
-### Frontend
-- ReactJS
-- Vite
+- **JWT Authentication** với Refresh Token Rotation — Access Token ngắn hạn, Refresh Token hash bằng Argon2 lưu PostgreSQL
+- **Redis** lưu trữ OTP email (đăng ký, quên mật khẩu) với TTL tự hết hạn
+- **Cloudinary** lưu trữ hình ảnh bài đăng
+- **Resend** gửi email OTP
 
+## Frontend — React 19 · TypeScript · Vite
 
----
-
-## 🏗 Planned Architecture
-
-Client (ReactJS)  
-↓ REST API  
-NestJS Server  
-↓ Prisma ORM  
-PostgreSQL Database  
+- **Redux Toolkit** quản lý UI state phía client
+- **TanStack React Query v5** quản lý server state — caching, background refetch, mutation
 
 ---
 
-## ✨ Core Features (Planned)
+## ⚡ Chạy dự án
 
-- User registration & login
-- Role-based access (Admin / User)
-- Vocabulary management
-- Quiz system
-- Progress tracking
+```bash
+git clone <repository-url>
+cd LEARNING_LANGUAGE
 
----
+Thêm các biến môi trường
 
-## 📂 Project Structure (Initial)
+docker compose up 
+```
 
-server/  
-client/  
+| Frontend | http://localhost:5173 |
+| Backend API | http://localhost:3000 |
 
----
-
-## 🚀 Development Status
-
-Project initialization phase.  
-Core modules are currently under development.
+```bash
+docker compose stop
+```
 
 ---
 
-## 🔮 Future Improvements
-
-- Add speaking practice feature
-- Implement spaced repetition algorithm
-- Add leaderboard system
-- Docker deployment
-- Unit and integration tests
+### Hướng phát triển thêm : 
+- Thêm tính năng tạo đoạn văn, tạo đoạn hội thoại

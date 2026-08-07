@@ -2,6 +2,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { ConvertDatetime } from "../../../helper/datetime_helper";
 import { UserTanstack } from "../../../utils/tanstack/user.tanstack"
 import './notification.component.css';
+import { useMemo } from "react";
 
 export interface NotificationItemProps {
     id: string,
@@ -22,6 +23,7 @@ export default function NotificationPopupComponent() {
 
     const { data: notData, hasNextPage, fetchNextPage, isLoading, isError } = UserTanstack.getNotifications();
     const { mutate: MarkAllAsReadMutate } = UserTanstack.makeAllAsRead();
+    const { mutate: DeleteAllNotMutate } = UserTanstack.deleteNotIsReaded();
 
     const handleClickMarkAllAsRead = () => {
         MarkAllAsReadMutate();
@@ -35,9 +37,19 @@ export default function NotificationPopupComponent() {
     }
     const notificationList = notData?.pages.flatMap((page) => page.data || []) || [];
     const hasUnread = notificationList.some((item) => item.isRead === false);
+    const hasReaded = useMemo(() => {
+        return notificationList.some((not) => not.isRead === true);
+    }, [notificationList]);
     return (
         <div className="notify-popup-container">
-            {hasUnread && <button className="mark-all-read-btn" onClick={() => handleClickMarkAllAsRead()} >Mark all as read</button>}
+            <div className="notify-popup-header-actions">
+                {hasReaded &&
+                    <button className="button-delete-all" onClick={() => DeleteAllNotMutate()}>
+                        Delete all
+                    </button>
+                }
+                {hasUnread && <button className="mark-all-read-btn" onClick={() => handleClickMarkAllAsRead()} >Mark all as read</button>}
+            </div>
             {
                 notificationList.length === 0 ? <p>Không có thông báo nào</p> :
                     notificationList.map((not) => <NotificationItem key={not.id} dataItem={not} />)

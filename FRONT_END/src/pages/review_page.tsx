@@ -9,11 +9,13 @@ import { logger } from "../../utils/logger";
 import ReviewResult_Component from "../components/common/ReviewResult/Review_result";
 import { useNavigate, useOutletContext, useSearchParams } from "react-router-dom";
 import EmptyFlashcard from "../components/flashcard/EmptyFlashcard";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 export default function Review_Page() {
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
+    const queryClient = useQueryClient();
 
     const { isSidebarOpen, toggleSidebar } = useOutletContext<{ isSidebarOpen: boolean; toggleSidebar: () => void }>();
     const [isFinished, setIsFinished] = useState<boolean>(false);
@@ -46,6 +48,7 @@ export default function Review_Page() {
     const handleRetry = () => {
         setCountRetry((prev) => prev + 1);
         setIsFinished(false);
+        queryClient.invalidateQueries({ queryKey: ['quizz'] });
     }
     const handleChangeLimit = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const value = e.target.value;

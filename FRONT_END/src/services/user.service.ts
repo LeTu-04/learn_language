@@ -130,6 +130,15 @@ export const UserService = {
         } catch (error) {
             throw error;
         }
+    },
+
+    async deleteAllnotIsReaed () {
+        try {
+            const response = await clientAPI.delete('notification/delete-all') ;
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
     }
 
 

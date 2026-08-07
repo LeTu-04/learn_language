@@ -4,8 +4,9 @@ import { useAppDispatch, useAppSelector } from '../hooks/hook';
 import type React from 'react';
 import { setSearchVocabulary } from "../features/vocabulary/vocabularySlice";
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import NotificationPopupComponent from '../components/notification/popup/notification.component';
+import { UserTanstack } from '../utils/tanstack/user.tanstack';
 
 interface ShowSearchProps {
     showSearch?: boolean
@@ -13,6 +14,8 @@ interface ShowSearchProps {
 
 
 export default function HeaderPage({ showSearch }: ShowSearchProps) {
+
+    const { data: notificationData } = UserTanstack.getNotifications();
 
     const [searchParams, setSearchParams] = useSearchParams();
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -22,6 +25,7 @@ export default function HeaderPage({ showSearch }: ShowSearchProps) {
 
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+
     const user = useAppSelector((state) => state.Auth.user);
     const searchValue = useAppSelector((state) => state.Vocabulary.search);
 
@@ -43,6 +47,13 @@ export default function HeaderPage({ showSearch }: ShowSearchProps) {
         return () => window.removeEventListener('click', closeMenu);
     }, [isMenuOpen])
 
+    const notifications = useMemo(() => {
+        return notificationData?.pages.flatMap((not) => not.data);
+    }, [notificationData])
+
+    const hasUnread = useMemo(() => {
+        return notifications?.some((not) => !not.isRead);
+    }, [notificationData])
 
 
 
@@ -92,7 +103,7 @@ export default function HeaderPage({ showSearch }: ShowSearchProps) {
                     setNotification(!isNotificationAreOn)
                 }} >
                     <Bell size={20} />
-                    <span className="header-notification-dot"></span>
+                    {hasUnread && <span className="header-notification-dot"></span>}
                 </button>
 
                 <div className="header-avatar-container" onClick={handleClickAvatar}>

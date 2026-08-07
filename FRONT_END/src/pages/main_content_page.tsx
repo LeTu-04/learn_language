@@ -9,6 +9,7 @@ import { selectedFilteredVocabulary, favoriteVocabulary } from "../features/voca
 import { localStorageHelper } from "../helper/localStorage_helper";
 import { toogleFavorite } from "../features/vocabulary/vocabularySlice";
 import { useSearchParams } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface MainContentProps {
     toogleSidebar: () => void
@@ -18,6 +19,7 @@ export default function MainContent({ toogleSidebar }: MainContentProps) {
     const { speak, ready } = useSpeech();
 
     const dispatch = useAppDispatch();
+    const queryClient = useQueryClient();
     const [searchParams, setSearchParams] = useSearchParams();
 
     const isFavorite = searchParams.get('view') === 'favorite';
@@ -51,7 +53,8 @@ export default function MainContent({ toogleSidebar }: MainContentProps) {
 
     const handleClickRemoveVocabulary = async (categoryId: number, vocabularyId: number) => {
         try {
-            await dispatch(deleteVocabularyByCategory({ categoryId, vocabularyId }))
+            await dispatch(deleteVocabularyByCategory({ categoryId, vocabularyId }));
+            queryClient.invalidateQueries({ queryKey: ['quizz'] });
         } catch (error) {
             toast.error('Xóa thất bại');
         }
@@ -76,7 +79,7 @@ export default function MainContent({ toogleSidebar }: MainContentProps) {
         <div className="main-content">
             <div className="headerofcard">
                 <button className="buttonToogleSidebar" onClick={toogleSidebar}>≡</button>
-                <h2 className="CategoryVocabName"> { isFavorite ? 'Từ vựng yêu thích': `Category : ${getCategoryName()}` } </h2>
+                <h2 className="CategoryVocabName"> {isFavorite ? 'Từ vựng yêu thích' : `Category : ${getCategoryName()}`} </h2>
             </div>
             <p className="totalwords">{`You have ${totalVocabulary} ${totalVocabulary > 1 ? 'words' : 'word'} `}</p>
             <div className="vocabulary-list">

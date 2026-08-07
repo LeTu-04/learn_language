@@ -36,8 +36,15 @@
     background-color: #94a3b8;
 }
 
+.notify-popup-header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
 .mark-all-read-btn {
-    align-self: flex-end;
+    margin-left: auto;
     background: transparent;
     border: none;
     color: #2563eb;
@@ -51,6 +58,23 @@
 
 .mark-all-read-btn:hover {
     background-color: #eff6ff;
+}
+
+.button-delete-all {
+    background: transparent;
+    border: none;
+    color: #ef4444;
+    font-size: 0.775rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 3px 8px;
+    border-radius: 6px;
+    transition: all 0.15s ease;
+}
+
+.button-delete-all:hover {
+    background-color: #fef2f2;
+    color: #dc2626;
 }
 
 
