@@ -13,55 +13,55 @@ import { apiNoAuth } from "../utils/api/api2";
 import type { DictionaryEntry } from "../features/vocabulary/vocabulary.type";
 import { useDebounce } from "../hooks/debound";
 
-export default function Panel () {
+export default function Panel() {
 
     const [isMobileOpen, setIsMobileOpen] = useState<boolean>(false);
     const queryClient = useQueryClient();
-    const selectedCategory =  useAppSelector((state) => state.Category.selectedCategory);
+    const selectedCategory = useAppSelector((state) => state.Category.selectedCategory);
     const [formData, setFormData] = useState({
-        word : '',
-        mean : '',
-        example : ''
+        word: '',
+        mean: '',
+        example: ''
 
     });
 
     const dispatch = useAppDispatch();
 
-    const handleChangeInput = (e : React.ChangeEvent<HTMLInputElement>) => {
-        const {name, value} = e.target ;
+    const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
-            [name] : value
+            [name]: value
         }));
         logger.log(formData);
     }
 
 
 
-    const handleSubmit = async (e : React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
 
-        if(selectedCategory === null) {
+        if (selectedCategory === null) {
             toast.error('Không có category nào được chọn')
             return;
         }
-        
+
         const vocabulary_data = {
-            word : formData.word.trim(),
-            mean : formData.mean.trim(),
-            example : formData.example?.trim() || undefined
-        }
-        
-        if(vocabulary_data.word === '' || vocabulary_data.mean === '') {
-            toast.error('Không được để trống word và meaning');
-            return ;
+            word: formData.word.trim(),
+            mean: formData.mean.trim(),
+            example: formData.example?.trim() || undefined
         }
 
-       
+        if (vocabulary_data.word === '' || vocabulary_data.mean === '') {
+            toast.error('Không được để trống word và meaning');
+            return;
+        }
+
+
         try {
-            await dispatch(postVocabularyByCategory({id : selectedCategory, data : vocabulary_data })).unwrap()
-            queryClient.invalidateQueries({queryKey : ['quizz']})
+            await dispatch(postVocabularyByCategory({ id: selectedCategory, data: vocabulary_data })).unwrap()
+            queryClient.invalidateQueries({ queryKey: ['quizz'] })
             toast.success('Thêm thành công');
             setIsMobileOpen(false);
         } catch (error) {
@@ -69,34 +69,34 @@ export default function Panel () {
         }
 
         setFormData({
-            word : '',
-            mean : '',
-            example : ''
+            word: '',
+            mean: '',
+            example: ''
         });
-        
+
     }
 
 
-    const fetchExamplefromDictionary = async (word : string) => {
-        const response = await apiNoAuth.get<DictionaryEntry[]>(`${word}`) ;
-        const example = response.data[0].meanings.flatMap((meaning) => 
-        meaning.definitions.filter((df) => df.example).map(
-            (df) => df.example
-        )) ;
+    const fetchExamplefromDictionary = async (word: string) => {
+        const response = await apiNoAuth.get<DictionaryEntry[]>(`${word}`);
+        const example = response.data[0].meanings.flatMap((meaning) =>
+            meaning.definitions.filter((df) => df.example).map(
+                (df) => df.example
+            ));
 
 
-        return example.length > 0? example[0] : null;
+        return example.length > 0 ? example[0] : null;
 
     }
 
     const debouncedValue = useDebounce(formData.word);
 
-    const {data} = useQuery({
-        queryKey : ['example', debouncedValue],
-        queryFn : () => fetchExamplefromDictionary(debouncedValue),
-        enabled : !! formData.word,
-        
-    }) ;
+    const { data } = useQuery({
+        queryKey: ['example', debouncedValue],
+        queryFn: () => fetchExamplefromDictionary(debouncedValue),
+        enabled: !!formData.word,
+
+    });
 
 
 
@@ -108,7 +108,7 @@ export default function Panel () {
                 <span>Thêm từ</span>
             </button>
 
-        
+
             {isMobileOpen && (
                 <div className="mobile-panel-backdrop" onClick={() => setIsMobileOpen(false)} />
             )}
@@ -123,15 +123,21 @@ export default function Panel () {
                 <form className="formsubmit" onSubmit={handleSubmit} >
                     <div className="form-group">
                         <label htmlFor="word">Word</label>
-                        <input type="text" name="word" id="word" value={formData.word} onChange={handleChangeInput} autoComplete="off"/>
+                        <input type="text" name="word" id="word" value={formData.word} onChange={handleChangeInput} autoComplete="off" />
                     </div>
                     <div className="form-group">
                         <label htmlFor="meaning">Meaning</label>
-                        <input type="text" name="mean" id="meaning" value={formData.mean} onChange={handleChangeInput} autoComplete="off"/>
+                        <input type="text" name="mean" id="meaning" value={formData.mean} onChange={handleChangeInput} autoComplete="off" />
                     </div>
                     <div className="form-group">
                         <label htmlFor="example">Example</label>
-                        <input type="text" name="example" id="example" value={formData.example}onChange={handleChangeInput} placeholder={data!} autoComplete="off"/>
+                        <input type="text" name="example" id="example" value={formData.example} onChange={handleChangeInput} placeholder={data!}
+                            onKeyDown={(e) => {
+                                if ((e.key === 'Tab' || e.key === 'Enter') && !formData.example && data) {
+                                    setFormData(prev => ({ ...prev, example: data }));
+                                }
+                            }}
+                            autoComplete="off" />
                     </div>
                     <button type="submit" className="buttonSubmit" >Add word</button>
                 </form>
