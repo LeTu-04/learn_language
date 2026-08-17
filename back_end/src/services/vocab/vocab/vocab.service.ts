@@ -171,7 +171,7 @@ export class VocabService {
             });
         } else if (view.toString() === 'favorite') {
             const result = await this.prisma.vocabulary.findMany({
-                where: { isFavorite: true }
+                where: { isFavorite: true, category: { userId, isDeleted: false } }
             });
             allVocabofCat = {
                 vocabulary: result
