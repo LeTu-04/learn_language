@@ -26,7 +26,6 @@ export class DiscussController {
     ): Promise<{ message: string; data: CreatePostDto; }> {
         const userId = req.user?.sub;
         if(!userId) {
-            console.log('userId undefined')
             throw error;
         }
         if(file) {

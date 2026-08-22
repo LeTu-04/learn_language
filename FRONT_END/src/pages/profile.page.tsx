@@ -53,7 +53,7 @@ export default function ProfilePage() {
             formData.append('file', file);
             changeAvatarMutate(formData);
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     };
 

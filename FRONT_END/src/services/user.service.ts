@@ -33,7 +33,7 @@ export const UserService = {
             });
             return response.data.data;
         } catch (error) {
-            console.log(error);
+            console.error(error);
             throw error;
         }
     },
@@ -61,7 +61,6 @@ export const UserService = {
             const response = await clientAPI.get('user/mypost');
             return response.data.postData;
         } catch (error) {
-            console.log('Có lỗi trong quá trình lấy dữ liệu người dùng', error);
             throw error;
         }
     },
@@ -112,7 +111,7 @@ export const UserService = {
             });
             return response.data;
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     },
     async markNotificationAsRead(id: string) {

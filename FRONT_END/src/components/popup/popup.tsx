@@ -28,7 +28,6 @@ export default function Popup ({pop, setpopUp} : popUpProps) {
     const handleChangeInputCategory = (e :React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value ;
         setNewCategory(value);
-        console.log(value);
     }
 
     const handleSubmitNewCategory = async(e : React.FormEvent) => {
@@ -39,13 +38,11 @@ export default function Popup ({pop, setpopUp} : popUpProps) {
             }else {
                
                await dispatch(postCategory({name : newcategory})).unwrap();
-                console.log('Success upload new Category');
                 setNewCategory('');
                 setpopUp(false); 
             }
             
         } catch (error: any) {
-            console.log('Fail in upload new Category:', error.response?.data);
             alert('Thêm category mới thất bại')
         }
     }

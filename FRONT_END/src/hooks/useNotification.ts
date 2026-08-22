@@ -71,20 +71,20 @@ export function useNotification() {
 
                     if (newNotify.extraData) {
                         queryClient.setQueryData(['comments', newNotify.postId], (oldComment: any) => {
-                            if(!oldComment) return oldComment;
+                            if (!oldComment) return oldComment;
                             return [newNotify.extraData, ...oldComment]
                         })
                     }
                 };
                 eventSource.addEventListener('ping', () => { });
                 eventSource.onerror = (err) => {
-                    console.log('Lỗi khi kết nối SSE, đang thử kết nối lại', err);
+
                     eventSource?.close();
                     setTimeout(connectSSE, 5000)
                 }
 
             } catch (error) {
-                console.log('Không lấy được ticket', error)
+
                 setTimeout(connectSSE, 5000);
             }
         }

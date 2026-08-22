@@ -1,4 +1,4 @@
-const isDev = import.meta.env.DEV   // tự động có khi dùng vite
+const isDev = import.meta.env.DEV
 
 
 export const logger = {

@@ -33,7 +33,6 @@ export default function SideBar({ showAddCategory, toggleSidebar }: showAddCateg
 
     useEffect(() => {
         const categoryIdParams = queryParams.get('category');
-        console.log(categoryIdParams)
         if (categoryIdParams) {
             dispatch(setSelectedCategory(Number(categoryIdParams)));
         }
@@ -127,7 +126,7 @@ export default function SideBar({ showAddCategory, toggleSidebar }: showAddCateg
         }
     }, [category, selectedCategoryId, dispatch])
 
-    console.log(category);
+
     return (
         <div className="sidebar">
             <div className="sidebar-header">

@@ -67,7 +67,7 @@ export default function LoginPage() {
                 setLoading(false);
 
             } catch (error: any) {
-                console.log('Lỗi khi gửi OTP')
+
                 toast.error(getErrorMessage(error, 'Lỗi khi gửi OTP'));
             } finally {
                 setLoading(false)

@@ -55,7 +55,7 @@ export const UserTanstack = {
             },
             onError: (error) => {
                 toast.error('Đổi mật khẩu thất bại');
-                console.log(error.message)
+                console.error(error.message)
             }
         })
     },
@@ -77,11 +77,9 @@ export const UserTanstack = {
                 if (newAvatarUrl) {
                     dispatch(updateAvatar(newAvatarUrl));
                 }
-                // queryClient.invalidateQueries({ queryKey: ['user'] });
             },
             onError: (error: any) => {
-                //  toast.error('Có lỗi xảy ra khi cập nhật ảnh!');
-                console.log(error.message);
+                console.error(error.message);
             }
         });
     },

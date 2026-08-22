@@ -62,7 +62,6 @@ export default function Discuss() {
             [name]: inputValue
         }));
 
-        console.log(formData);
     }
 
     const { mutate, isPending: isCreatePostPending } = tantackService.createPost()

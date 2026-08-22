@@ -10,12 +10,6 @@ import { useOutletContext } from "react-router-dom";
 
 
 export default function AddVocabPage() {
-    // const [isSidebarOpen, setIsSideBarOpen] = useState(true);
-
-    // const handleToogleSideBar = () => {
-    //     setIsSideBarOpen(!isSidebarOpen)
-    //     console.log(isSidebarOpen);
-    // }
 
     const { isSidebarOpen, toggleSidebar } = useOutletContext<{
         isSidebarOpen: boolean;

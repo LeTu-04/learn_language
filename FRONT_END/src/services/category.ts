@@ -16,7 +16,6 @@ export const fetchCategory = createAsyncThunk('Category/fetchCategory',
 export const postCategory = createAsyncThunk('Category/postCategory',
     async (data: postCat) => {
         const response = await clientAPI.post<CategoryPostResponse>('Category', data);
-        console.log('Data Post', response.data);
         return response.data.data;
     }
 );

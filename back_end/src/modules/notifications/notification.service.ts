@@ -141,7 +141,7 @@ export class NotifiCationService {
                 where : {userId, isRead : true},
             });
         } catch (error) {
-            console.log('Lỗi khi xóa thông báo', error) ;
+            console.error('Lỗi khi xóa thông báo', error) ;
             throw error;
         }
     }

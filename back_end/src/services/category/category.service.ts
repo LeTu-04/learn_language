@@ -31,7 +31,7 @@ export class CategoryService {
                 createdAt: 'desc'
             }
         });
-        console.log(data);
+
         return data;
     }
 

@@ -4,20 +4,20 @@ import toast from "react-hot-toast"
 import { useAppDispatch } from "../../hooks/hook"
 
 export const CateTanStack = {
-    getCateDeleted(enabled : boolean) {
+    getCateDeleted(enabled: boolean) {
         return useQuery(
             {
-                queryKey : ['category/removed', ],
-                queryFn : () => getCateRemoved(),
-                enabled : enabled
+                queryKey: ['category/removed',],
+                queryFn: () => getCateRemoved(),
+                enabled: enabled
             }
         )
     },
 
     deletePermCate() {
         const queryClient = useQueryClient();
-        return useMutation ({
-            mutationFn : (categoryId: number) => {
+        return useMutation({
+            mutationFn: (categoryId: number) => {
                 const promise = deleteForeverCategory(categoryId);
                 toast.promise(promise, {
                     loading: 'Đang tiến hành xóa vĩnh viễn...',
@@ -26,19 +26,19 @@ export const CateTanStack = {
                 });
                 return promise;
             },
-            onSuccess : () => {
+            onSuccess: () => {
                 queryClient.invalidateQueries({ queryKey: ['category/removed'] });
             },
-            onError : (error) => {
-                console.log(error)
+            onError: (error) => {
+                console.error(error)
             }
         })
     },
-    restoreCate () {
+    restoreCate() {
         const queryClient = useQueryClient();
         const dispatch = useAppDispatch();
-        return useMutation ({
-            mutationFn : (categoryId: number) => {
+        return useMutation({
+            mutationFn: (categoryId: number) => {
                 const promise = restoreCategory(categoryId);
                 toast.promise(promise, {
                     loading: 'Đang tiến hành khôi phục...',
@@ -47,12 +47,12 @@ export const CateTanStack = {
                 });
                 return promise;
             },
-            onSuccess : () => {
+            onSuccess: () => {
                 queryClient.invalidateQueries({ queryKey: ['category/removed'] });
                 dispatch(fetchCategory());
             },
-            onError : (error) => {
-                console.log(error)
+            onError: (error) => {
+                console.error(error)
             }
         })
     }

@@ -4,57 +4,57 @@ import type { CategoryState } from "./category.type"
 
 
 
-let init_Category :CategoryState = {
-    Category : [],
-    loading : false,
-    selectedCategory : null,
-    error : undefined
+let init_Category: CategoryState = {
+    Category: [],
+    loading: false,
+    selectedCategory: null,
+    error: undefined
 }
 
 const CategorySlice = createSlice({
-    name : 'Category',
-    initialState : init_Category,
-    reducers : {
-        removeCategoryLocal : (state, action) => {
+    name: 'Category',
+    initialState: init_Category,
+    reducers: {
+        removeCategoryLocal: (state, action) => {
             state.Category = state.Category.filter(
                 (cat) => cat.id !== action.payload
             )
         },
-        restoreCategory : (state,action) => {
+        restoreCategory: (state, action) => {
             state.Category.push(action.payload)
         },
-        editCategoryLocal : (state, action : PayloadAction<{id : number, name : string}>) => {
+        editCategoryLocal: (state, action: PayloadAction<{ id: number, name: string }>) => {
             const category = state.Category.find((cat) => cat.id === action.payload.id);
-            if(category) {
+            if (category) {
                 category.name = action.payload.name
             }
         },
-        setSelectedCategory : (state, action) => {
+        setSelectedCategory: (state, action) => {
             state.selectedCategory = action.payload;
         },
-        clearCategoryState : (state) => {
+        clearCategoryState: (state) => {
             state.Category = [];
             state.selectedCategory = null;
             state.loading = false;
             state.error = undefined;
         }
     },
-    extraReducers : (builder) => {
+    extraReducers: (builder) => {
         builder.addCase(fetchCategory.pending, (state) => {
             state.loading = true;
         }).addCase(fetchCategory.fulfilled, (state, action) => {
             state.loading = false
             state.Category = action.payload
-            console.log(action.payload)
+
         }).addCase(fetchCategory.rejected, (state, action) => {
-            state.loading = false 
-            state.error = action.error.message 
+            state.loading = false
+            state.error = action.error.message
         }).addCase(postCategory.pending, (state) => {
             state.loading = true
         }).addCase(postCategory.fulfilled, (state, action) => {
             state.loading = false,
-            state.Category.unshift(action.payload)
-            console.log(action.payload)
+                state.Category.unshift(action.payload)
+
         }).addCase(postCategory.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message;
@@ -62,5 +62,5 @@ const CategorySlice = createSlice({
     }
 })
 
-export default CategorySlice.reducer; 
+export default CategorySlice.reducer;
 export const { editCategoryLocal, removeCategoryLocal, restoreCategory, setSelectedCategory, clearCategoryState } = CategorySlice.actions

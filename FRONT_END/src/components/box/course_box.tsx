@@ -16,7 +16,7 @@ export default function Course_Card ({thumbnail, title, courseId} : CourseProps)
         try {
             navigate(`/course/${courseId}`)
         } catch (error) {
-            console.log(`Fail to load course ${error}`)
+            console.error(`Fail to load course ${error}`)
         }
     }
 

@@ -16,7 +16,7 @@ export class MailService implements OnModuleInit {
     onModuleInit() {
         const mailUser = this.mailCfg?.mail_user || process.env.MAIL_USER;
         const mailPass = this.mailCfg?.mail_pass || process.env.MAIL_PASS;
-        console.log('INIT MAIL SERVICE USER:', mailUser ? mailUser : 'NOT_FOUND');
+
 
         this.transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -41,7 +41,6 @@ export class MailService implements OnModuleInit {
                 html: `<h3>Mã OTP của bạn là: <b style="color:red;">${otp}</b></h3><p>Mã này sẽ hết hạn trong 3 phút.</p>`,
             };
             const result = await this.transporter.sendMail(mailsOption);
-            console.log('SEND MAIL SUCCESS TO', toEmail, 'ID:', result.messageId);
             return result;
         } catch (error) {
             console.error('SEND MAIL FAILED ERROR FOR', toEmail, ':', error);
