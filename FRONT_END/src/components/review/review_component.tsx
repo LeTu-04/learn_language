@@ -2,6 +2,7 @@ import { useState } from "react"
 
 import './review_component.css'
 import ProgressBar from "../common/ProgressBar/progress";
+import { playCorrectSound, playWrongSound } from "../../helper/sound.helper";
 
 
 interface quizProps {
@@ -21,7 +22,6 @@ interface quizData {
 export default function ReviewComponent({ quiz, handleFinished }: quizData) {
     const [currentQuizzIndex, setCurrentQuizIndex] = useState(0);
     const [answer, setAnswer] = useState<Record<number, string>>({})
-    // const [selectedAnswer, setSelectedAnswer] = useState<string|null >(null);
     if (!quiz || quiz.length === 0) return;
     const currentQuizz = quiz[currentQuizzIndex]
 
@@ -30,7 +30,11 @@ export default function ReviewComponent({ quiz, handleFinished }: quizData) {
         if (selectedAnswer) return;
         setAnswer(prev => ({ ...prev, [currentQuizzIndex]: selected }));
 
-
+        if (selected === currentQuizz.correctAnswer) {
+            playCorrectSound()
+        } else {
+            playWrongSound()
+        }
     }
 
     const handlePrev = () => {

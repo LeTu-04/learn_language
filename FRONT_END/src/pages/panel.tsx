@@ -102,7 +102,6 @@ export default function Panel() {
 
     return (
         <>
-            {/* Nút FAB Nổi mở Form trên Mobile */}
             <button type="button" className="mobile-add-vocab-fab" onClick={() => setIsMobileOpen(true)}>
                 <Plus size={18} />
                 <span>Thêm từ</span>

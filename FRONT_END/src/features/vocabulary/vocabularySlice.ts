@@ -3,36 +3,36 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { VocabularyState } from "./vocabulary.type";
 import { deleteVocabularyByCategory, fetchVocabularyByCategory, postVocabularyByCategory, fetchAllFavoriteVocabulary } from "../../services/vocab_service";
 
-const defaultStateVocabulary : VocabularyState = {
-    items : [],
-    search : '',
-    count : 0,
-    loading : false,
-    error : null
+const defaultStateVocabulary: VocabularyState = {
+    items: [],
+    search: '',
+    count: 0,
+    loading: false,
+    error: null
 
 }
 
 const vocabularySlice = createSlice({
-    name : 'Vocabulary',
-    initialState : defaultStateVocabulary,
-    reducers : {
+    name: 'Vocabulary',
+    initialState: defaultStateVocabulary,
+    reducers: {
         // addVocabularyLocal : (state, action) => {
         //     state.Vocabulary.push(action.payload)
         // },
         // restoreAddVocabularyLocal : (state, action) => {
-            
+
         // }  
-        setSearchVocabulary : (state, action) => {
-            state.search = action.payload ;
-        } ,
-        toogleFavorite : (state, action) => {
+        setSearchVocabulary: (state, action) => {
+            state.search = action.payload;
+        },
+        toogleFavorite: (state, action) => {
             const vocabId = action.payload;
             const item = state.items.find((i) => i.id === vocabId);
-            if(item) {
+            if (item) {
                 item.isFavorite = !item.isFavorite
             }
         },
-        clearVocabularyState : (state) => {
+        clearVocabularyState: (state) => {
             state.items = [];
             state.search = '';
             state.count = 0;
@@ -40,31 +40,31 @@ const vocabularySlice = createSlice({
             state.error = null;
         }
     },
-    extraReducers : (builder) => {
+    extraReducers: (builder) => {
         builder.addCase(postVocabularyByCategory.pending, (state, action) => {
             const tempId = -Date.now();
             state.items.push({
-                id : tempId,
-                word : action.meta.arg.data.word,
-                mean : action.meta.arg.data.mean,
-                example : action.meta.arg.data.example,
-                categoryId : action.meta.arg.id,
-                isLoading : true,
-                requestId : action.meta.requestId,
-                isFavorite : false
+                id: tempId,
+                word: action.meta.arg.data.word,
+                mean: action.meta.arg.data.mean,
+                example: action.meta.arg.data.example,
+                categoryId: action.meta.arg.id,
+                isLoading: true,
+                requestId: action.meta.requestId,
+                isFavorite: false
             }),
-            state.count += 1;
-        }) .addCase(postVocabularyByCategory.fulfilled,(state, action)=> {
-            const {vocabulary, countVocabulary} = action.payload ;
+                state.count += 1;
+        }).addCase(postVocabularyByCategory.fulfilled, (state, action) => {
+            const { vocabulary, countVocabulary } = action.payload;
             const index = state.items.findIndex((i) => i.requestId === action.meta.requestId);
-            if(index !== -1) {
+            if (index !== -1) {
                 state.items[index] = vocabulary,
-                state.count = countVocabulary
+                    state.count = countVocabulary
             }
         }).addCase(postVocabularyByCategory.rejected, (state, action) => {
-           state.items = state.items.filter((i) => i.requestId !== action.meta.requestId);
-           state.count -= 1;
-           state.error = action.error.message ?? null
+            state.items = state.items.filter((i) => i.requestId !== action.meta.requestId);
+            state.count -= 1;
+            state.error = action.error.message ?? null
         }).addCase(fetchVocabularyByCategory.pending, (state) => {
             state.loading = true
         }).addCase(fetchVocabularyByCategory.fulfilled, (state, action) => {
@@ -72,7 +72,7 @@ const vocabularySlice = createSlice({
             state.count = action.payload.length
             state.loading = false
         }).addCase(fetchVocabularyByCategory.rejected, (state, action) => {
-            state.error = action.error.message ??'Có lỗi khi tải từ vựng'
+            state.error = action.error.message ?? 'Có lỗi khi tải từ vựng'
             state.loading = false
         }).addCase(fetchAllFavoriteVocabulary.pending, (state) => {
             state.loading = true
@@ -93,4 +93,4 @@ const vocabularySlice = createSlice({
 })
 
 export const vocabularyReducer = vocabularySlice.reducer;
-export const {setSearchVocabulary, toogleFavorite, clearVocabularyState} = vocabularySlice.actions ;
+export const { setSearchVocabulary, toogleFavorite, clearVocabularyState } = vocabularySlice.actions;

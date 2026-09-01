@@ -1,51 +1,51 @@
 
 
 export interface VocabularyState {
-    items : VocabularyItem[],
-    search : string,
-    count : number,
-    loading : boolean,
-    error : string | null
+  items: VocabularyItem[],
+  search: string,
+  count: number,
+  loading: boolean,
+  error: string | null
 }
 
 
 export interface VocabularyPostToSever {
-    word : string, 
-    mean : string,
-    example? : string,
+  word: string,
+  mean: string,
+  example?: string,
 }
 
 export interface PostVocabularyArg {
-    id : number, 
-    data : VocabularyPostToSever
+  id: number,
+  data: VocabularyPostToSever
 }
 export interface VocabularyResponse {
-    id : number,
-    word : string,
-    mean : string,
-    example? : string,
-    isFavorite : boolean
-    categoryId : number,
-    createdAt? : string ,
-    deletedAt? : string | null 
+  id: number,
+  word: string,
+  mean: string,
+  example?: string,
+  isFavorite: boolean
+  categoryId: number,
+  createdAt?: string,
+  deletedAt?: string | null
 
 }
 
 export interface VocabularyItem extends VocabularyResponse {
-    isLoading? : boolean,
-    requestId? : string
+  isLoading?: boolean,
+  requestId?: string
 }
 
 
 
 export interface VocabularyFromServer {
-    vocabulary : VocabularyResponse[]
+  vocabulary: VocabularyResponse[]
 }
 
 export interface VocabularyFetch {
-    message : string,
-    data : VocabularyFromServer,
-    STATUS_CODES : number
+  message: string,
+  data: VocabularyFromServer,
+  STATUS_CODES: number
 }
 
 
@@ -58,14 +58,14 @@ export interface VocabularyFetch {
 
 export interface Definition {
   definition: string;
-  example?: string; 
+  example?: string;
   synonyms?: string[];
   antonyms?: string[];
 }
 
 
 export interface Meaning {
-  partOfSpeech: string; 
+  partOfSpeech: string;
   definitions: Definition[];
   synonyms?: string[];
   antonyms?: string[];
@@ -74,7 +74,7 @@ export interface Meaning {
 
 export interface Phonetic {
   text?: string;
-  audio?: string; 
+  audio?: string;
 }
 
 

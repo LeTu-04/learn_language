@@ -4,7 +4,6 @@ import * as argon2 from 'argon2'
 import { Token } from '../../../token/token';
 import { GenerateHashService } from '../../../../utils/hash.utils';
 import { RedisService } from '../../../../modules/redis/redis.service';
-import { MailService } from '../../../../modules/mail/mail.service';
 import { ReGainPasswordDto, SignInDto, SignUpDto } from './local.types';
 import { ResendService } from '../../../../modules/resend/resend.service';
 
@@ -18,17 +17,7 @@ export class LocalService {
         private readonly mail : ResendService
     ){}
 
-        // async testScale () {
-        //     const password  = 'nguyenletu';
-        //     const start = Date.now();
-        //     await argon2.hash(password);
-        //     const end = Date.now();
-
-        //     return end-start;
-        // }
     
-
-
 
     async checkAndGenOtpForClient (email : string) : Promise<void>{
         const isExists = await this.prisma.user.findUnique({
