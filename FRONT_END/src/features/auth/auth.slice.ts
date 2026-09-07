@@ -71,8 +71,8 @@ const AuthSlice = createSlice({
             state.loading = false,
             state.token = action.payload.newAccessToken,
             state.user = action.payload.user
-        }).addCase(refresh.pending, (state) => {
-            state.loading = true
+        }).addCase(refresh.pending, (_state) => {
+
         }).addCase(refresh.rejected, (state) => {
             state.loading = false
             state.token = null

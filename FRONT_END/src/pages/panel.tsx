@@ -78,14 +78,22 @@ export default function Panel() {
 
 
     const fetchExamplefromDictionary = async (word: string) => {
-        const response = await apiNoAuth.get<DictionaryEntry[]>(`${word}`);
-        const example = response.data[0].meanings.flatMap((meaning) =>
-            meaning.definitions.filter((df) => df.example).map(
-                (df) => df.example
-            ));
+        const cleanWord = word.trim().toLocaleLowerCase();
+        if (!cleanWord || cleanWord.length < 2) return null;
+        try {
+            const response = await apiNoAuth.get<DictionaryEntry[]>(encodeURIComponent(cleanWord));
+            const example = response.data[0].meanings.flatMap((meaning) =>
+                meaning.definitions.filter((df) => df.example).map(
+                    (df) => df.example
+                ));
 
 
-        return example.length > 0 ? example[0] : null;
+            return example.length > 0 ? example[0] : null;
+
+        } catch (error) {
+            return null;
+        }
+
 
     }
 
@@ -94,7 +102,8 @@ export default function Panel() {
     const { data } = useQuery({
         queryKey: ['example', debouncedValue],
         queryFn: () => fetchExamplefromDictionary(debouncedValue),
-        enabled: !!formData.word,
+        enabled: !!formData.word && debouncedValue.trim().length >= 2,
+        retry: 2
 
     });
 
