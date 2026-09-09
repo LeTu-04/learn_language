@@ -82,7 +82,7 @@ function App() {
   return (
 
     <>
-      <Toaster position="top-right" containerStyle={{ zIndex: 999999 }} />
+      <Toaster position="top-right" toastOptions={{ duration: 2000 }} containerStyle={{ zIndex: 999999 }} />
       <Routes>
 
         <Route path='/' element={<Navigate to="/login" replace />} />

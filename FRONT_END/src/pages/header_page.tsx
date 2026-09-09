@@ -48,12 +48,12 @@ export default function HeaderPage({ showSearch }: ShowSearchProps) {
     }, [isMenuOpen])
 
     const notifications = useMemo(() => {
-        return notificationData?.pages.flatMap((not) => not.data);
+        return notificationData?.pages?.flatMap((not) => not?.data || []) || [];
     }, [notificationData])
 
     const hasUnread = useMemo(() => {
-        return notifications?.some((not) => !not.isRead);
-    }, [notificationData])
+        return notifications?.some((not) => !not?.isRead);
+    }, [notifications])
 
 
 

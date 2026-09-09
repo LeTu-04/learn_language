@@ -17,6 +17,10 @@ const mockTransaction = {
 
 const mockPrisma = {
   user: { findUnique: jest.fn() },
+  refreshToken: {
+    update: jest.fn(),
+    findUnique: jest.fn()
+  },
   $transaction: jest.fn().mockImplementation((cb) => cb(mockTransaction))
 }
 const mockToken = {
@@ -110,12 +114,66 @@ describe('LocalService', () => {
       }
       mockPrisma.user.findUnique.mockResolvedValue(user);
       (argon.verify as jest.Mock).mockResolvedValueOnce(true);
-      mockToken.issueToken({ accessToken: 'acc', refreshToken: 'ref' })
-      await expect(service.SignIn({ email: 'test@gmail.com', password: '123456' })).toEqual(
-        
-      )
+      mockToken.issueToken.mockResolvedValue({ accessToken: 'acc', refreshToken: 'ref' })
+      const result = await service.SignIn({ email: 'test@gmail.com', password: '123456' });
+      expect(result).toEqual(
+        expect.objectContaining({
+          user: expect.objectContaining({ id: 'abc123', email: 'test@gmail.com' }),
+          tokens: {
+            accessToken: 'acc', refreshToken: 'ref'
+          }
+        })
+      );
+      expect(result?.user).not.toHaveProperty('password');
+      expect(result?.tokens).toBeDefined()
     });
-  })
+  });
+
+  describe('Logout API', () => {
+    it('Should throw an error when the refreshToken does not exist', async () => {
+      mockPrisma.user.findUnique.mockResolvedValue(null);
+      await expect(service.logOut('abc-123', 'jti-abc')).rejects.toThrow('Token không hợp lệ');
+      await expect(mockPrisma.refreshToken.update).not.toHaveBeenCalled();
+    });
+
+    it('Should throw  an error when The userId does not match', async () => {
+      mockPrisma.refreshToken.findUnique.mockResolvedValue({
+        jti: 'jti-abc',
+        userId: 'acb-456',
+        revoked: false
+      });
+      await expect(
+        service.logOut('abc-123', 'jti-abc')
+      ).rejects.toThrow('Token không hợp lệ');
+      expect(mockPrisma.refreshToken.update).not.toHaveBeenCalled();
+    });
+
+    it('nên throw khi token đã bị revoked', async () => {
+      mockPrisma.refreshToken.findUnique.mockResolvedValue({
+        jti: 'jti-abc',
+        userId: 'user-123',
+        revoked: true
+      });
+      await expect(
+        service.logOut('user-123', 'jti-abc')
+      ).rejects.toThrow('Token không hợp lệ');
+    });
+
+    it('Shoud update when the token is valid ', async () => {
+      mockPrisma.refreshToken.findUnique.mockResolvedValue({
+        jti: 'jti-abc',
+        userId: 'abc-123',
+        revoked: false
+      });
+      mockPrisma.refreshToken.update.mockResolvedValue({});
+      await service.logOut('abc-123', 'jti-abc');
+      expect(mockPrisma.refreshToken.update).toHaveBeenCalledWith({
+        where: { jti: 'jti-abc', revoked: false },
+        data: { revoked: true }
+      });
+    });
+  });
+
 
   it('should be defined', () => {
     expect(service).toBeDefined();

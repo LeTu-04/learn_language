@@ -104,7 +104,7 @@ export default function Discuss() {
 
 
     const { data, isPending, isError, hasNextPage, isFetchingNextPage, fetchNextPage } = tantackService.usePosts()
-    const activePost = data?.pages.flatMap((page) => page.postData).find((post) => post.id === activePostId);
+    const activePost = data?.pages?.flatMap((page) => page?.postData || []).find((post) => post.id === activePostId);
 
     const { ref, inView } = useInView()
 
@@ -225,7 +225,8 @@ export default function Discuss() {
 
                     {/* Danh sách bài viết */}
                     <div className="discuss-list">
-                        {data?.pages.map((post, index) => {
+                        {data?.pages?.map((post, index) => {
+                            if (!post || !post.postData) return null;
                             return <React.Fragment key={index}>
                                 {post.postData.map((p) => {
                                     return <div key={p.id} id={`post-${p.id}`} className="discuss-post-card">

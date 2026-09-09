@@ -47,22 +47,6 @@ export class NotifiCationService {
 
         );
 
-        // const CommentNotification$ = this.notification$.asObservable().pipe(
-        //     filter((event) => event.userId === userId),
-        //     map((event) => ({
-        //         type : 'newcomment',
-        //         data : {
-        //             id : event.id,
-        //             title : event.title,
-        //             content : event.content,
-        //             isRead : event.isRead,
-        //             createdAt : event.createdAt,
-        //             postId : event.postId,
-        //             extraData : event.extraData
-        //         }
-                
-        //     }as MessageEvent))
-        // )
         const heartbeat$ = interval(25000).pipe(
             map(() => ({
                 type: 'ping',

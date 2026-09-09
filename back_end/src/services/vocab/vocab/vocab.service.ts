@@ -2,7 +2,7 @@ import { PrismaService } from '../../../Prisma/prisma.service';
 import { BadRequestException, Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { BathUpdateFavoriteDto, CreateVocabularyDto, UpdateFavorite } from '../../../types/vocabularies';
 import { Prisma } from '../../../../prisma/client/client';
-import { not } from 'rxjs/internal/util/not';
+
 
 @Injectable()
 export class VocabService {
@@ -127,17 +127,6 @@ export class VocabService {
         )
     }
 
-    // async updateFavoriteWithBeacon (data : BathUpdateFavoriteDto) {
-    //     await this.prisma.$transaction(
-    //         data.changes.map((item) => 
-    //             this.prisma.vocabulary.update({
-    //                 where : {id : item.id},
-    //                 data : {isFavorite : item.isFavorite}
-    //             })
-    //         )
-    //     )
-    // }
-
 
     shuffleArray<T>(array: T[]) {
         const shuffleArray = [...array];
@@ -179,7 +168,6 @@ export class VocabService {
         }
 
         if (!allVocabofCat || !allVocabofCat.vocabulary || allVocabofCat.vocabulary.length === 0) {
-            // throw new BadRequestException('Không tìm thấy danh sách từ vựng trong mục này')
             return []
         }
 

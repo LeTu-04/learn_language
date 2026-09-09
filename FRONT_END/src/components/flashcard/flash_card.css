@@ -15,8 +15,25 @@
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.button_voice:hover {
+    background: rgba(255, 255, 255, 0.35);
+    transform: scale(1.08);
+}
+
+.button_voice:active {
+    transform: scale(0.95);
 }
 
 /* 1. Vùng chứa không gian 3D */
@@ -53,18 +70,46 @@
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    /*  Giấu mặt bị lật úp đi */
+    /* Giấu mặt bị lật úp đi */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 18px;
+    box-shadow: 0 12px 30px -5px rgba(99, 102, 241, 0.3), 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.3s ease;
 }
 
+.flashcard-container:hover .flashcard-front,
+.flashcard-container:hover .flashcard-back {
+    box-shadow: 0 16px 35px -6px rgba(99, 102, 241, 0.4), 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+
 .flashcard-front {
-    background-color: blueviolet;
-    color: #333;
+    background-color: #6366f1;
+    color: #ffffff;
+}
+
+.flashcard-front h2 {
+    color: #ffffff !important;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+
+.flashcard-back {
+    background-color: #2563eb;
+    color: #ffffff;
+    transform: rotateY(180deg);
+}
+
+.flashcard-back h2 {
+    color: #ffffff !important;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .flashcard-front h2,
@@ -73,21 +118,12 @@
     text-align: center;
     margin: 0;
     padding: 10px;
-
-    overflow: break-word;
+    overflow-wrap: break-word;
     word-break: break-word;
     hyphens: auto;
 }
 
-.flashcard-back {
-    background-color: #4a90e2;
-    color: white;
-    transform: rotateY(180deg);
-}
-
-/* ======= Hiệu ứng lướt bài (Swipe) y như thật ======= */
-
-/* Hiệu ứng khi bấm NEXT (Lướt từ bên phải vào) */
+/* Hiệu ứng khi bấm next (Lướt từ bên phải vào) */
 @keyframes slideInRight {
     0% {
         opacity: 0;
@@ -100,7 +136,7 @@
     }
 }
 
-/* Hiệu ứng khi bấm PREV (Lướt từ bên trái vào) */
+/* Hiệu ứng khi bấm prev (Lướt từ bên trái vào) */
 @keyframes slideInLeft {
     0% {
         opacity: 0;
@@ -113,9 +149,7 @@
     }
 }
 
-/* Các class gọi hiệu ứng */
 .flashcard-slide-next {
-    /* cubic-bezier giúp hiệu ứng có độ nảy/trễ cực mượt */
     animation: slideInRight 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
@@ -123,18 +157,16 @@
     animation: slideInLeft 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
-/* Đảm bảo thẻ div bọc ngoài không bị tràn viền (optional) */
+/* Đảm bảo thẻ div bọc ngoài không bị tràn viền */
 .flashcard-animation-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-
 .flashcard-navtab {
     height: 20px;
 }
-
 
 @media (max-width: 768px) {
     .flashcard-container {
@@ -148,7 +180,7 @@
     .flashcard-front h2,
     .flashcard-back h2 {
         font-size: 1.3rem !important;
-        font-weight: 600 !important;
+        font-weight: 700 !important;
         font-family: 'Inter', sans-serif !important;
         color: #ffffff !important;
         max-width: 90% !important;

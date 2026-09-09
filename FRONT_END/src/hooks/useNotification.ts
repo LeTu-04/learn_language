@@ -48,25 +48,25 @@ export function useNotification() {
                     const newNotify: NotifiCationData = JSON.parse(event.data);
                     //setNotifications((prev) => [newNotify, ...prev]);
                     queryClient.setQueryData(['notifications'], (oldData: any) => {
-                        if (!oldData) {
-                            return;
+                        if (!oldData || !oldData.pages || !oldData.pages[0]) {
+                            return oldData;
                         }
                         const firstPage = oldData.pages[0];
-                        const isExists = firstPage?.data?.some((item: any) => item.id === newNotify.id);
+                        const firstPageData = firstPage?.data || [];
+                        const isExists = firstPageData.some((item: any) => item.id === newNotify.id);
                         if (isExists) {
                             return oldData;
                         }
                         const newPages = [...oldData.pages];
                         newPages[0] = {
                             ...newPages[0],
-                            data: [newNotify, ...newPages[0].data]
-                        }
-                        toast.success('Bạn có một thông báo mới')
+                            data: [newNotify, ...firstPageData]
+                        };
+                        toast.success('Bạn có một thông báo mới');
                         return {
                             ...oldData,
                             pages: newPages
-                        }
-
+                        };
                     });
 
                     if (newNotify.extraData) {

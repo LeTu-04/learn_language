@@ -2,6 +2,7 @@ import { Body, Controller, Get, Post, Req, Res, UnauthorizedException, UseGuards
 import { GoogleService } from '../../service/auth/google.service';
 import type { Response } from 'express';
 import type { Request } from "express";
+import { Throttle, SkipThrottle } from '@nestjs/throttler';
 
 import { Public } from '../../decorators/jwt.public';
 import { LocalService } from '../../service/auth/local/local.service';
@@ -17,11 +18,12 @@ export class AuthController {
         private readonly jwt: JwtService
     ) { }
 
+    @SkipThrottle()
     @Public()
     @Get('helth-check')
     helthCheck(): { message: string } {
-        return { 
-            message : 'Server is awake'
+        return {
+            message: 'Server is awake'
         }
     }
 
@@ -46,6 +48,8 @@ export class AuthController {
 
     }
 
+
+    @Throttle({ short: { limit: 3, ttl: 600000 }, medium: { limit: 3, ttl: 600000 } })
     @Public()
     @Post('sendotp')
     async checkAndSendOtp(
@@ -58,6 +62,8 @@ export class AuthController {
         }
     }
 
+
+    @Throttle({ short: { limit: 5, ttl: 600000 }, medium: { limit: 5, ttl: 600000 } })
     @Public()
     @Post('signup')
     async SignUp(
@@ -80,6 +86,7 @@ export class AuthController {
 
 
     }
+    @Throttle({ short: { limit: 5, ttl: 60000 }, medium: { limit: 5, ttl: 60000 } })
     @Public()
     @Post('signin')
     async signIn(
@@ -140,6 +147,8 @@ export class AuthController {
     }
 
 
+
+    @Throttle({ short: { limit: 3, ttl: 600000 }, medium: { limit: 3, ttl: 600000 } })
     @Public()
     @Post('forgot-password-otp')
     async sendOtpInCaseForgotPass(
@@ -151,6 +160,8 @@ export class AuthController {
         }
     }
 
+
+    @Throttle({ short: { limit: 5, ttl: 600000 }, medium: { limit: 5, ttl: 600000 } })
     @Public()
     @Post('forgot-password')
     async forgotPassword(

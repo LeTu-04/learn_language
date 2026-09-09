@@ -1,15 +1,15 @@
-.addwordpanel{
-  grid-area:right;
-      background: #f8f7fb;
+.addwordpanel {
+  grid-area: right;
+  background: #f8f7fb;
   border-radius: 22px;
 
   padding: 28px;
-   box-shadow:
-    0 20px 40px rgba(0,0,0,0.08),
-    0 6px 16px rgba(0,0,0,0.05);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.08),
+    0 6px 16px rgba(0, 0, 0, 0.05);
 
-  border: 1px solid rgba(0,0,0,0.05);
-    margin: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  margin: 20px;
 
   position: relative;
   overflow: hidden;
@@ -18,7 +18,7 @@
 
 }
 
-.addwordpanel::before{
+.addwordpanel::before {
   content: "";
 
   position: absolute;
@@ -28,27 +28,25 @@
   width: 100%;
   height: 6px;
 
-  background: linear-gradient(
-    90deg,
-    #ffb347,
-    #ff6fa1,
-    #6b8cff
-  );
+  background: linear-gradient(90deg,
+      #ffb347,
+      #ff6fa1,
+      #6b8cff);
 }
 
-.formsubmit{
+.formsubmit {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.form-group{
+.form-group {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-.form-group input{
+.form-group input {
   padding: 10px 12px;
 
   border-radius: 8px;
@@ -59,15 +57,15 @@
   transition: 0.2s;
 }
 
-.form-group input:focus{
+.form-group input:focus {
   outline: none;
 
   border-color: #7aa7ff;
 
-  box-shadow: 0 0 0 3px rgba(122,167,255,0.2);
+  box-shadow: 0 0 0 3px rgba(122, 167, 255, 0.2);
 }
 
-.buttonSubmit{
+.buttonSubmit {
   margin-top: 10px;
 
   /* background: linear-gradient(
@@ -90,10 +88,156 @@
   transition: 0.2s;
 }
 
-.buttonSubmit:hover{
+.buttonSubmit:hover {
   transform: translateY(-1px);
 
-   box-shadow: 0 8px 18px rgba(124, 58, 237, 0.3);
+  box-shadow: 0 8px 18px rgba(124, 58, 237, 0.3);
+}
+
+.buttonImportExcelWrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 12px;
+}
+
+
+.buttonImportExcel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
+  padding: 0 10px;
+  background: #107c41;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+.buttonImportExcel span {
+  opacity: 0;
+  max-width: 0;
+  margin-left: 0;
+  transition: opacity 0.2s ease, max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1), margin-left 0.3s ease;
+  overflow: hidden;
+  display: inline-block;
+}
+
+
+.buttonImportExcel:hover {
+  width: 100%;
+  background: #0e6b37;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(16, 124, 65, 0.25);
+}
+
+.buttonImportExcel:hover span {
+  opacity: 1;
+  max-width: 160px;
+  margin-left: 8px;
+}
+
+/* Container bao ngoài để định vị Popup tràn xuống dưới */
+.import-excel-tooltip-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Popup tràn xuống phía dưới khi hover */
+.excel-dropdown-popup {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  width: 240px;
+  padding: 14px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s;
+  z-index: 100;
+  text-align: left;
+}
+
+/* Mũi tên nhỏ chỉ ngược lên nút */
+.excel-dropdown-popup::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent transparent #ffffff transparent;
+}
+
+/* Khi hover vào container nút thì Popup tràn xuống dưới */
+.import-excel-tooltip-container:hover .excel-dropdown-popup {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.popup-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #107c41;
+  margin-bottom: 8px;
+}
+
+.popup-body {
+  font-size: 12px;
+  color: #475569;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  line-height: 1.4;
+}
+
+.popup-body strong {
+  color: #1e293b;
+}
+
+.popup-download-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: #107c41;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.popup-download-btn:hover {
+  background: #0e6b37;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 124, 65, 0.2);
 }
 
 .mobile-add-vocab-fab {
@@ -147,7 +291,8 @@
   }
 
   .addwordpanel {
-    display: none; /* Mặc định ẩn trên Mobile để ưu tiên danh sách từ */
+    display: none;
+    /* Mặc định ẩn trên Mobile để ưu tiên danh sách từ */
   }
 
   .addwordpanel.mobile-open {
@@ -200,6 +345,7 @@
   from {
     transform: translateY(100%);
   }
+
   to {
     transform: translateY(0);
   }
